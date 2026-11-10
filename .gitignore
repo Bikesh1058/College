@@ -1,0 +1,67 @@
+# ==========================================
+# Khwopa College MERN Project - Root .gitignore
+# ==========================================
+
+# Dependencies
+node_modules/
+*/node_modules/
+
+# Environment Variables & Secrets (CRITICAL)
+.env
+.env.*
+!.env.example
+backend/.env
+backend/.env.*
+!backend/.env.example
+frontend/.env
+frontend/.env.*
+!frontend/.env.example
+
+# Production Builds
+dist/
+dist-ssr/
+frontend/dist/
+frontend/dist-ssr/
+build/
+
+# Uploads & User Generated Content (Preserve directory structure with .gitkeep)
+backend/uploads/*
+!backend/uploads/.gitkeep
+
+# Logs & Debugging
+logs/
+*.log
+npm-debug.log*
+yarn-debug.log*
+yarn-error.log*
+pnpm-debug.log*
+lerna-debug.log*
+
+# Runtime data & temp files
+pids/
+*.pid
+*.seed
+*.pid.lock
+.npm/
+
+# Operating System & IDE Artifacts
+.DS_Store
+Thumbs.db
+Desktop.ini
+
+.idea/
+.vscode/*
+!.vscode/extensions.json
+*.suo
+*.ntvs*
+*.njsproj
+*.sln
+*.sw?
+*.sublime-workspace
+*.sublime-project
+
+# Local caches
+.eslintcache
+.cache/
+.vite/
+
