@@ -1,6 +1,7 @@
 import { college } from "../data/college";
 import { Link } from "react-router-dom";
 import { ArrowUpIcon, ExternalLinkIcon } from "./Icons";
+import { useSiteSettings } from "../context/useSiteSettings";
 
 const footerSections = [
   {
@@ -19,9 +20,10 @@ const footerSections = [
     links: [
       { label: "Academic Overview", to: "/academics" },
       { label: "All Programmes", to: "/academics/programmes" },
-      { label: "Faculty of Management", to: "/academics/management" },
       { label: "Faculty of Science", to: "/academics/science" },
-      { label: "Humanities & Social Sciences", to: "/academics/humanities-social-sciences" },
+      { label: "Faculty of Management", to: "/academics/management" },
+      { label: "Humanities & Social Sciences", to: "/academics/humanities" },
+      { label: "+2 Law Curriculum", to: "/academics/law" },
       { label: "Academic Departments", to: "/academics/departments" },
     ],
   },
@@ -50,9 +52,17 @@ const footerSections = [
 ];
 
 export default function Footer() {
+  const dynamicSettings = useSiteSettings();
+
   function scrollToTop() {
     window.scrollTo({ top: 0, behavior: "smooth" });
   }
+
+  const collegeName = dynamicSettings?.collegeName || "KHWOPA COLLEGE";
+  const tagline = dynamicSettings?.tagline || "COMMUNITY EDUCATION | BHAKTAPUR";
+  const address = dynamicSettings?.address || college.location;
+  const phone = dynamicSettings?.phone || college.phone;
+  const email = dynamicSettings?.email || college.email;
 
   return (
     <footer id="contact" className="scroll-mt-24 border-t border-white/10 bg-[#07182b] text-white">
@@ -62,11 +72,11 @@ export default function Footer() {
           {/* Identity & Contact Col */}
           <div className="lg:col-span-2">
             <Link to="/" className="inline-block">
-              <span className="font-serif text-2xl font-bold tracking-wider text-white">
-                KHWOPA COLLEGE
+              <span className="font-serif text-2xl font-bold tracking-wider text-white uppercase">
+                {collegeName}
               </span>
-              <span className="mt-0.5 block text-xs font-bold tracking-[0.18em] text-[#dfbd77]">
-                COMMUNITY EDUCATION | BHAKTAPUR
+              <span className="mt-0.5 block text-xs font-bold tracking-[0.18em] text-[#dfbd77] uppercase">
+                {tagline}
               </span>
             </Link>
 
@@ -75,9 +85,9 @@ export default function Footer() {
             </p>
 
             <div className="mt-5 space-y-1.5 text-sm text-white/75">
-              <p><span className="text-white/45">Location: </span>{college.location}</p>
-              <p><span className="text-white/45">Telephone: </span>{college.phone}</p>
-              <p><span className="text-white/45">Email: </span>{college.email}</p>
+              <p><span className="text-white/45">Location: </span>{address}</p>
+              <p><span className="text-white/45">Telephone: </span>{phone}</p>
+              <p><span className="text-white/45">Email: </span>{email}</p>
             </div>
 
             <div className="mt-5 flex items-center gap-4 text-xs font-semibold text-[#dfbd77]">

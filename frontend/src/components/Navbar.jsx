@@ -16,7 +16,8 @@ const academicLinks = [
   { label: "All +2 Streams", description: "Science, Management, Humanities & Law directory", to: "/academics/programmes" },
   { label: "+2 Science Stream", description: "Biology Group & Computer Science Group", to: "/academics/science" },
   { label: "+2 Management Stream", description: "Computer, Math, Hotel Management & Accounting", to: "/academics/management" },
-  { label: "+2 Humanities & Law", description: "Sociology, Mass Communication, Law & Literature", to: "/academics/humanities-social-sciences" },
+  { label: "+2 Humanities Stream", description: "Sociology, Mass Communication & Literature", to: "/academics/humanities" },
+  { label: "+2 Law Stream", description: "Constitutional Law & Legal Studies", to: "/academics/law" },
   { label: "Faculties & Labs", description: "Academic departments and laboratory infrastructure", to: "/academics/departments" },
 ];
 

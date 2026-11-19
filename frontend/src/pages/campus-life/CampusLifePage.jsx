@@ -1,22 +1,47 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import PageHero from "../../components/common/PageHero";
 import PageContainer from "../../components/common/PageContainer";
 import SectionHeading from "../../components/common/SectionHeading";
 import CTASection from "../../components/common/CTASection";
+import { api } from "../../services/api";
 
 export default function CampusLifePage() {
+  // Dynamic PageBuilder CMS synchronization
+  const { data: pageDoc } = useQuery({
+    queryKey: ['page', 'campus-life'],
+    queryFn: () => api.getPage('campus-life'),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  // Dynamic Clubs count synchronization
+  const { data: clubsRes } = useQuery({
+    queryKey: ['clubs'],
+    queryFn: () => api.getClubs(),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const heroSection = pageDoc?.sections?.find(s => s.type === 'campus_life_hero')?.content;
+  const eyebrow = heroSection?.eyebrow || "Student Experience";
+  const heading = heroSection?.heading || "Campus Life at Khwopa.";
+  const subtext = heroSection?.subtext || "A vibrant community life blending the rich heritage traditions of historic Bhaktapur with energetic student societies, competitive sports, and meaningful social service.";
+  const activeClubsCount = heroSection?.activeClubsCount || `${clubsRes?.data?.length || 8} Active Clubs`;
+  const annualEvents = heroSection?.annualEvents || "15+ Campus Events Annually";
+
   return (
     <main className="bg-[#f7f5f0] min-h-screen">
       <PageHero
-        eyebrow="Student Experience"
-        title="Campus Life at Khwopa."
-        italicTitle="Culture, Community & Growth."
-        description="A vibrant community life blending the rich heritage traditions of historic Bhaktapur with energetic student societies, competitive sports, and meaningful social service."
+        eyebrow={eyebrow}
+        title={heading.includes('.') ? heading.split('.')[0] + '.' : heading}
+        italicTitle={heading.includes('.') ? heading.split('.').slice(1).join('.').trim() : "Culture, Community & Growth."}
+        description={subtext}
         breadcrumbs={[{ label: "Campus Life" }]}
         stats={[
-          { label: "Active Clubs", value: "8+ Chapters" },
+          { label: "Active Clubs", value: activeClubsCount },
           { label: "Annual Gala", value: "Sports Week" },
-          { label: "Field Placements", value: "150+ Hours" }
+          { label: "Campus Events", value: annualEvents }
         ]}
       />
 
@@ -29,111 +54,171 @@ export default function CampusLifePage() {
             description="Discover how students develop leadership, team solidarity, and lifelong passions at Khwopa College."
           />
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-2">
+            {/* 1. Clubs & Societies */}
             <Link
               to="/campus-life/clubs"
-              className="group rounded-2xl border border-[#e5ddce] bg-white p-8 transition hover:border-[#b99754] hover:shadow-lg"
+              className="group overflow-hidden rounded-2xl border border-[#e5ddce] bg-white transition hover:border-[#b99754] hover:shadow-xl flex flex-col"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dfbd77]/20 text-[#92703b]">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M17 20h5v-2a3 3 0 00-5.356-1.857M17 20H7m10 0v-2c0-.656-.126-1.283-.356-1.857M7 20H2v-2a3 3 0 015.356-1.857M7 20v-2c0-.656.126-1.283.356-1.857m0 0a5.002 5.002 0 019.288 0M15 7a3 3 0 11-6 0 3 3 0 016 0zm6 3a2 2 0 11-4 0 2 2 0 014 0zM7 10a2 2 0 11-4 0 2 2 0 014 0z" />
-                </svg>
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+                <img
+                  src="https://wms.edigitalnepal.com/wms/files/ws-media-images/1751355381816-426846d5-93df-4761-989c-21986cfc2034.jpg"
+                  alt="Khwopa Student Clubs & Societies"
+                  className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105 opacity-90"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://wms.edigitalnepal.com/wms/files/ws-post-images/1678958957817_007be5e2-a1dc-4580-9809-4964d79fa1a0.jpg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 rounded-md bg-[#dfbd77] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#091b30] shadow-sm">
+                  8+ Active Chapters
+                </span>
               </div>
-              <h3 className="mt-5 font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
-                Clubs & Societies
-              </h3>
-              <p className="editorial-copy mt-2 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                Join IT, Management, Literature, Youth Red Cross, and Environmental circles run actively by students.
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#12243a] group-hover:text-[#92703b]">
-                Explore Clubs →
-              </span>
+              <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
+                    Clubs & Societies
+                  </h3>
+                  <p className="editorial-copy mt-2.5 text-xs sm:text-sm leading-relaxed text-[#475365]">
+                    Join IT, Management, Literature, Youth Red Cross, and Environmental circles run actively by students.
+                  </p>
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-[#12243a] group-hover:text-[#92703b]">
+                  <span>Explore Clubs</span>
+                  <span aria-hidden="true">→</span>
+                </span>
+              </div>
             </Link>
 
+            {/* 2. Sports & Athletics */}
             <Link
               to="/campus-life/sports"
-              className="group rounded-2xl border border-[#e5ddce] bg-white p-8 transition hover:border-[#b99754] hover:shadow-lg"
+              className="group overflow-hidden rounded-2xl border border-[#e5ddce] bg-white transition hover:border-[#b99754] hover:shadow-xl flex flex-col"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dfbd77]/20 text-[#92703b]">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M14.828 14.828a4 4 0 01-5.656 0M9 10h.01M15 10h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z" />
-                </svg>
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+                <img
+                  src="https://wms.edigitalnepal.com/wms/files/ws-media-images/1751354678034-37421fd3-9033-4750-a31f-0270f477c4d0.jpg"
+                  alt="Khwopa Sports & Athletics"
+                  className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105 opacity-90"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://wms.edigitalnepal.com/wms/files/ws-post-images/1678958957817_007be5e2-a1dc-4580-9809-4964d79fa1a0.jpg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 rounded-md bg-[#dfbd77] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#091b30] shadow-sm">
+                  Annual Sports Week
+                </span>
               </div>
-              <h3 className="mt-5 font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
-                Sports & Athletics
-              </h3>
-              <p className="editorial-copy mt-2 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                Annual sports meet, indoor badminton and table tennis halls, basketball courts and inter-college friendlies.
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#12243a] group-hover:text-[#92703b]">
-                Sports Overview →
-              </span>
+              <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
+                    Sports & Athletics
+                  </h3>
+                  <p className="editorial-copy mt-2.5 text-xs sm:text-sm leading-relaxed text-[#475365]">
+                    Annual sports meet, indoor badminton and table tennis halls, basketball courts and inter-college friendlies.
+                  </p>
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-[#12243a] group-hover:text-[#92703b]">
+                  <span>Sports Overview</span>
+                  <span aria-hidden="true">→</span>
+                </span>
+              </div>
             </Link>
 
+            {/* 3. Student Activities & Fieldwork */}
             <Link
               to="/campus-life/activities"
-              className="group rounded-2xl border border-[#e5ddce] bg-white p-8 transition hover:border-[#b99754] hover:shadow-lg"
+              className="group overflow-hidden rounded-2xl border border-[#e5ddce] bg-white transition hover:border-[#b99754] hover:shadow-xl flex flex-col"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dfbd77]/20 text-[#92703b]">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M19 11H5m14 0a2 2 0 012 2v6a2 2 0 01-2 2H5a2 2 0 01-2-2v-6a2 2 0 012-2m14 0V9a2 2 0 00-2-2M5 11V9a2 2 0 012-2m0 0V5a2 2 0 012-2h6a2 2 0 012 2v2M7 7h10" />
-                </svg>
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+                <img
+                  src="https://wms.edigitalnepal.com/wms/files/ws-media-images/1751354678228-f22745f6-6237-430d-a51e-8e20b95dbfcd.jpg"
+                  alt="Khwopa Student Activities & Community Fieldwork"
+                  className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105 opacity-90"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://wms.edigitalnepal.com/wms/files/ws-post-images/1678958957817_007be5e2-a1dc-4580-9809-4964d79fa1a0.jpg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 rounded-md bg-[#dfbd77] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#091b30] shadow-sm">
+                  Field Placements
+                </span>
               </div>
-              <h3 className="mt-5 font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
-                Student Activities & Fieldwork
-              </h3>
-              <p className="editorial-copy mt-2 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                Student community action camps, scientific innovation exhibitions, and heritage awareness walking trails.
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#12243a] group-hover:text-[#92703b]">
-                View Activities →
-              </span>
+              <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
+                    Student Activities & Fieldwork
+                  </h3>
+                  <p className="editorial-copy mt-2.5 text-xs sm:text-sm leading-relaxed text-[#475365]">
+                    Student community action camps, scientific innovation exhibitions, and heritage awareness walking trails.
+                  </p>
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-[#12243a] group-hover:text-[#92703b]">
+                  <span>View Activities</span>
+                  <span aria-hidden="true">→</span>
+                </span>
+              </div>
             </Link>
 
+            {/* 4. Events & Calendar */}
             <Link
               to="/campus-life/events"
-              className="group rounded-2xl border border-[#e5ddce] bg-white p-8 transition hover:border-[#b99754] hover:shadow-lg"
+              className="group overflow-hidden rounded-2xl border border-[#e5ddce] bg-white transition hover:border-[#b99754] hover:shadow-xl flex flex-col"
             >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dfbd77]/20 text-[#92703b]">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                </svg>
+              <div className="relative h-48 sm:h-52 w-full overflow-hidden bg-slate-900">
+                <img
+                  src="https://wms.edigitalnepal.com/wms/files/ws-post-images/1751512628392_35a0f113-7f94-43bb-9bf6-4a2d56daf8d6.jpg"
+                  alt="Khwopa Campus Events & Assemblies"
+                  className="h-full w-full object-cover object-center transition duration-500 group-hover:scale-105 opacity-90"
+                  onError={(e) => {
+                    e.currentTarget.src = "https://wms.edigitalnepal.com/wms/files/ws-post-images/1678958957817_007be5e2-a1dc-4580-9809-4964d79fa1a0.jpg";
+                  }}
+                />
+                <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent" />
+                <span className="absolute top-4 left-4 rounded-md bg-[#dfbd77] px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#091b30] shadow-sm">
+                  15+ Annual Events
+                </span>
               </div>
-              <h3 className="mt-5 font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
-                Events & Calendar
-              </h3>
-              <p className="editorial-copy mt-2 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                National conferences, blood donation drives, coding hackathons, guest colloquiums, and festivals.
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#12243a] group-hover:text-[#92703b]">
-                Browse Events →
-              </span>
+              <div className="p-7 sm:p-8 flex-1 flex flex-col justify-between">
+                <div>
+                  <h3 className="font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
+                    Events & Calendar
+                  </h3>
+                  <p className="editorial-copy mt-2.5 text-xs sm:text-sm leading-relaxed text-[#475365]">
+                    National conferences, blood donation drives, coding hackathons, guest colloquiums, and festivals.
+                  </p>
+                </div>
+                <span className="mt-5 inline-flex items-center gap-1.5 text-xs font-bold text-[#12243a] group-hover:text-[#92703b]">
+                  <span>Browse Events</span>
+                  <span aria-hidden="true">→</span>
+                </span>
+              </div>
             </Link>
 
+            {/* 5. Photo Gallery Showcase */}
             <Link
               to="/campus-life/gallery"
-              className="group overflow-hidden rounded-2xl border border-[#e5ddce] bg-white transition hover:border-[#b99754] hover:shadow-lg sm:col-span-2 lg:col-span-2"
+              className="group overflow-hidden rounded-2xl border border-[#e5ddce] bg-white transition hover:border-[#b99754] hover:shadow-xl sm:col-span-2 lg:col-span-2"
             >
               <div className="grid grid-cols-1 md:grid-cols-2">
-                <div className="p-8 flex flex-col justify-between">
+                <div className="p-7 sm:p-9 flex flex-col justify-between">
                   <div>
-                    <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dfbd77]/20 text-[#92703b]">
-                      <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                        <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16l4.586-4.586a2 2 0 012.828 0L16 16m-2-2l1.586-1.586a2 2 0 012.828 0L20 14m-6-6h.01M6 20h12a2 2 0 002-2V6a2 2 0 00-2-2H6a2 2 0 00-2 2v12a2 2 0 002 2z" />
-                      </svg>
-                    </div>
-                    <h3 className="mt-5 font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
+                    <span className="inline-block rounded-md bg-[#dfbd77]/20 px-3 py-1 text-[10px] font-bold uppercase tracking-wider text-[#92703b] mb-3">
+                      Visual Archives
+                    </span>
+                    <h3 className="font-serif text-2xl sm:text-3xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
                       Photo Gallery & Albums
                     </h3>
-                    <p className="editorial-copy mt-2 text-xs sm:text-sm leading-relaxed text-[#475365]">
+                    <p className="editorial-copy mt-3 text-xs sm:text-sm leading-relaxed text-[#475365]">
                       Immerse yourself in photographs of our traditional Newar red-brick courtyards, academic labs, cultural galas, and sports celebrations.
                     </p>
                   </div>
-                  <span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#12243a] group-hover:text-[#92703b]">
-                    Open Gallery Lightbox →
+                  <span className="mt-6 inline-flex items-center gap-1.5 text-xs font-bold text-[#12243a] group-hover:text-[#92703b]">
+                    <span>Open Gallery Lightbox</span>
+                    <span aria-hidden="true">→</span>
                   </span>
                 </div>
-                <div className="h-48 md:h-full min-h-[160px] overflow-hidden">
+                <div className="h-56 md:h-full min-h-[200px] overflow-hidden bg-slate-900">
                   <img
                     src="https://www.cijnepal.org/wp-content/uploads/2018/09/11.jpg"
                     alt="Khwopa College Student Community Life"

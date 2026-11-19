@@ -19,7 +19,39 @@ export default function ProgrammeDetailPage() {
   });
 
   const localProg = localProgrammes.find((p) => p.slug === slug);
-  const programme = remoteProgramme || localProg;
+  const programme = remoteProgramme ? {
+    ...localProg,
+    ...remoteProgramme,
+    fullName: remoteProgramme.title || localProg?.fullName,
+    shortName: remoteProgramme.title || localProg?.shortName,
+    faculty: remoteProgramme.facultyStream || localProg?.faculty || "Academic Stream",
+    facultySlug: remoteProgramme.facultyStream === "Science"
+      ? "science"
+      : remoteProgramme.facultyStream === "Management"
+      ? "management"
+      : "humanities-social-sciences",
+    affiliation: remoteProgramme.affiliatedBody || localProg?.affiliation || "National Examinations Board (NEB)",
+    description: remoteProgramme.description || remoteProgramme.overview || localProg?.description,
+    objectives: (Array.isArray(remoteProgramme.objectives) && remoteProgramme.objectives.length > 0)
+      ? remoteProgramme.objectives
+      : (localProg?.objectives || [
+          "Develop critical inquiry and solid foundational discipline.",
+          "Provide hands-on laboratory experimentation and practical workshops.",
+          "Prepare students for competitive higher university entrance examinations."
+        ]),
+    curriculum: (Array.isArray(remoteProgramme.curriculum) && remoteProgramme.curriculum.length > 0)
+      ? remoteProgramme.curriculum
+      : (localProg?.curriculum || (remoteProgramme.subjects?.length ? [
+          { year: "Grade 11 & 12 Curriculum", subjects: remoteProgramme.subjects }
+        ] : [])),
+    careers: (Array.isArray(remoteProgramme.careers) && remoteProgramme.careers.length > 0)
+      ? remoteProgramme.careers
+      : (localProg?.careers || [
+          "Higher University Degree Programmes",
+          "Civil & Municipal Public Services",
+          "Professional & Research Careers"
+        ])
+  } : localProg;
 
   if (!programme && !isLoading) {
     return <Navigate to="/academics" replace />;

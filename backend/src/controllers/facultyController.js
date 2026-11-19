@@ -27,7 +27,7 @@ export const getFacultyList = async (req, res) => {
       ];
     }
 
-    const faculty = await Faculty.find(filter).sort({ order: 1, name: 1 });
+    const faculty = await Faculty.find(filter).sort({ name: 1 });
     res.status(200).json({ success: true, count: faculty.length, data: faculty });
   } catch (error) {
     res.status(500).json({ success: false, message: 'Server error retrieving faculty', error: error.message });

@@ -160,9 +160,8 @@ function ExamNoticeCard({ notice }) {
     <article className="flex h-full flex-col rounded-2xl border border-[#e5ddce] bg-white p-7 shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#b99754] hover:shadow-[0_15px_35px_rgba(16,36,59,0.07)]">
       <div className="flex flex-wrap items-center justify-between gap-3">
         <span
-          className={`rounded-md border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${
-            badgeStyles[notice.category] || "bg-slate-50 text-slate-800 border-slate-200"
-          }`}
+          className={`rounded-md border px-2.5 py-1 text-[10px] font-bold uppercase tracking-wider ${badgeStyles[notice.category] || "bg-slate-50 text-slate-800 border-slate-200"
+            }`}
         >
           {notice.categoryLabel}
         </span>
@@ -212,11 +211,10 @@ function FaqItem({ item, isOpen, onClick }) {
         </span>
 
         <span
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold transition ${
-            isOpen
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-lg text-sm font-bold transition ${isOpen
               ? "rotate-45 bg-[#0b2038] text-[#dfbd77]"
               : "bg-[#f5f0e5] text-[#8c6d37]"
-          }`}
+            }`}
         >
           +
         </span>
@@ -238,10 +236,33 @@ export default function ExaminationPage() {
   const [search, setSearch] = useState("");
   const [openFaq, setOpenFaq] = useState(0);
 
+  // Dynamic PageBuilder CMS synchronization for examination hub
+  const { data: pageDoc } = useQuery({
+    queryKey: ['page', 'examinations'],
+    queryFn: () => api.getPage('examinations'),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const examInfo = pageDoc?.sections?.find(s => s.type === 'exam_info')?.content;
+  const eyebrow = examInfo?.eyebrow || "Academic Examination Centre | Khwopa College";
+  const heading = examInfo?.heading || "NEB Board Examinations, Mock Terminals & Routines";
+  const description = examInfo?.description || "Comprehensive examination management hub for Khwopa College students. Access verified board schedules, registration forms, hall seating distributions, and university result records.";
+  const centerCode = examInfo?.centerCode || "104 Khwopa";
+  const helpline = examInfo?.helpline || "+977-1-6610932";
+
   // Fetch dynamic notices categorized under 'Examination'
   const { data: noticesData } = useQuery({
     queryKey: ['notices'],
     queryFn: () => api.getNotices(),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  // Fetch live examination routines and forms from backend
+  const { data: examData } = useQuery({
+    queryKey: ['examinations'],
+    queryFn: () => api.getExaminations(),
     staleTime: 60000,
     retry: 1
   });
@@ -259,8 +280,20 @@ export default function ExaminationPage() {
         description: n.content,
         url: "/notices"
       }));
-    return [...liveNotices, ...EXAM_NOTICES];
-  }, [noticesData]);
+
+    const liveExams = (examData?.data || []).map(e => ({
+      id: e._id,
+      title: e.title,
+      category: e.category === 'routine' ? 'schedule' : (e.category === 'form' ? 'forms' : 'results'),
+      categoryLabel: e.category === 'routine' ? 'Board Routine' : (e.category === 'form' ? 'Exam Form' : 'Result Notice'),
+      date: e.date || new Date(e.createdAt).toLocaleDateString("en-US", { year: "numeric", month: "short", day: "numeric" }),
+      dateISO: e.createdAt,
+      description: e.description || `${e.stream} - ${e.grade || 'Grades 11 & 12'}`,
+      url: e.fileUrl || "/examinations/routines"
+    }));
+
+    return [...liveExams, ...liveNotices, ...EXAM_NOTICES];
+  }, [noticesData, examData]);
 
   const filteredNotices = useMemo(() => {
     return combinedNotices.filter((notice) => {
@@ -282,18 +315,18 @@ export default function ExaminationPage() {
     <main className="min-h-screen bg-[#f7f5f0] text-[#17283c]">
       {/* HERO SECTION MATCHING ABOUT PAGE HERO EXACTLY */}
       <PageHero
-        eyebrow="Academic Examination Centre | Khwopa College"
-        title="Stay Prepared."
-        italicTitle="Stay Informed."
-        description="Comprehensive examination management hub for Khwopa College students. Access verified board schedules, registration forms, hall seating distributions, and university result records."
+        eyebrow={eyebrow}
+        title={heading.includes('.') ? heading.split('.')[0] + '.' : heading}
+        italicTitle={heading.includes('.') ? heading.split('.').slice(1).join('.').trim() : "Board Center 104."}
+        description={description}
         breadcrumbs={[
           { label: "Academics", to: "/academics" },
           { label: "Examination Centre" },
         ]}
         stats={[
-          { label: "Centre Code", value: "104 Khwopa" },
+          { label: "Centre Code", value: centerCode },
           { label: "Governing Board", value: "NEB Sanothimi" },
-          { label: "Examination Halls", value: "Blocks B & C" },
+          { label: "Exam Helpline", value: helpline },
         ]}
       />
 
@@ -312,7 +345,7 @@ export default function ExaminationPage() {
                 Always verify the latest revised examination announcements.
               </h2>
               <p className="editorial-copy mt-2 max-w-4xl text-sm leading-7 text-[#475365]">
-                Khwopa Secondary School higher secondary programmes are officially affiliated with the National Examinations Board (NEB). 
+                Khwopa Secondary School higher secondary programmes are officially affiliated with the National Examinations Board (NEB).
                 Dates, paper codes, and centres are subject to board notifications. Always verify whether a routine applies to regular, partial, or supplementary candidates before reporting to the examination venue.
               </p>
             </div>
@@ -408,11 +441,10 @@ export default function ExaminationPage() {
                     key={cat.value}
                     type="button"
                     onClick={() => setActiveCategory(cat.value)}
-                    className={`rounded-lg px-4 py-2 text-xs font-semibold transition ${
-                      isSelected
+                    className={`rounded-lg px-4 py-2 text-xs font-semibold transition ${isSelected
                         ? "bg-[#0b2038] text-white"
                         : "border border-[#e5ddce] bg-white text-[#475365] hover:border-[#b99754] hover:text-[#12243a]"
-                    }`}
+                      }`}
                   >
                     {cat.label}
                   </button>

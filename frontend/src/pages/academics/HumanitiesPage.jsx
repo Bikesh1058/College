@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import PageHero from "../../components/common/PageHero";
 import PageContainer from "../../components/common/PageContainer";
 import SectionHeading from "../../components/common/SectionHeading";
 import CTASection from "../../components/common/CTASection";
 import { faculties, programmes } from "../../data/programmes";
+import { api } from "../../services/api";
 
 const HUMANITIES_LAW_LABS = [
   {
@@ -48,8 +50,40 @@ const HUMANITIES_LAW_ACTIVITIES = [
 ];
 
 export default function HumanitiesPage() {
-  const data = faculties.find((f) => f.slug === "humanities-social-sciences");
-  const humProgrammes = programmes.filter((p) => p.facultySlug === "humanities-social-sciences");
+  const localData = faculties.find((f) => f.slug === "humanities-social-sciences") || {};
+  const localHumProgs = programmes.filter((p) => p.facultySlug === "humanities-social-sciences");
+
+  // Dynamic Programme synchronization from MongoDB Atlas
+  const { data: dbProgsRes } = useQuery({
+    queryKey: ['programmes'],
+    queryFn: () => api.getProgrammes(),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const allDbProgs = dbProgsRes?.data || [];
+  const dbHumProg = allDbProgs.find(p => p.slug === 'plus-two-humanities' || p.facultyStream === 'Humanities');
+  const dbLawProg = allDbProgs.find(p => p.slug === 'plus-two-law' || p.facultyStream === 'Law');
+
+  const displayProgs = localHumProgs.map(local => {
+    const isLaw = local.slug.includes('law');
+    const dbMatch = isLaw ? dbLawProg : dbHumProg;
+    const fallbackSubjects = local.curriculum?.flatMap(c => c.subjects) || (isLaw
+      ? ["Constitutional Law", "Nepalese Legal System", "General Principles of Law", "Procedural Law", "English", "Nepali"]
+      : ["Sociology", "Mass Communication", "Political Science", "Major English", "Major Nepali", "English", "Nepali"]);
+
+    return {
+      slug: local.slug,
+      code: dbMatch?.code || local.code,
+      duration: dbMatch?.duration || local.duration,
+      fullName: dbMatch?.title || local.fullName,
+      description: dbMatch?.description || local.description,
+      objectives: (dbMatch?.subjects && dbMatch.subjects.length > 0)
+        ? dbMatch.subjects
+        : (local.objectives && local.objectives.length > 0 ? local.objectives : fallbackSubjects),
+      eligibility: dbMatch?.eligibility || local.eligibility
+    };
+  });
 
   return (
     <main className="bg-[#f7f5f0] min-h-screen">
@@ -78,7 +112,7 @@ export default function HumanitiesPage() {
                 eyebrow="Social Transformation"
                 title="Critical Thought & Ethics"
                 italicTitle="for Community Upliftment."
-                description={data.description}
+                description={localData.description || "Fostering social consciousness, literature, mass media, and constitutional legal studies."}
               />
 
               <p className="editorial-copy text-[15px] leading-7 text-[#475365]">
@@ -90,7 +124,7 @@ export default function HumanitiesPage() {
                   Experiential Fieldwork & Research
                 </h4>
                 <ul className="mt-4 space-y-3 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                  {data.learningApproach.map((item, index) => (
+                  {(localData.learningApproach || []).map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <span className="mt-1 flex h-2 w-2 shrink-0 rounded-full bg-[#dfbd77]" />
                       <span>{item}</span>
@@ -102,7 +136,7 @@ export default function HumanitiesPage() {
 
             <div className="lg:col-span-7">
               <div className="space-y-6">
-                {humProgrammes.map((prog) => (
+                {displayProgs.map((prog) => (
                   <div
                     key={prog.slug}
                     className="rounded-2xl border border-[#e5ddce] bg-white p-7 sm:p-8 shadow-sm transition hover:border-[#b99754]"

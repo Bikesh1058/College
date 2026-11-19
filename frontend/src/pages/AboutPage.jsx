@@ -65,7 +65,7 @@ const relatedPages = [
     title: "Leadership",
     description:
       "Meet the college leadership and understand its institutional responsibilities.",
-    href: "/about/leadership",
+    href: "/about/governance",
   },
   {
     number: "02",

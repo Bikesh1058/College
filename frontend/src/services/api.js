@@ -166,6 +166,18 @@ export const api = {
     return res.data;
   },
 
+  // Examinations
+  getExaminations: async (params = {}) => {
+    const res = await apiClient.get('/content/examinations', { params });
+    return res.data;
+  },
+
+  // Site Settings
+  getSettings: async () => {
+    const res = await apiClient.get('/settings');
+    return res.data;
+  },
+
   // Newsletter Subscription
   subscribeNewsletter: async (email) => {
     const res = await apiClient.post('/content/newsletter/subscribe', { email });
@@ -173,6 +185,28 @@ export const api = {
   },
   getSubscribers: async () => {
     const res = await apiClient.get('/content/newsletter/subscribers');
+    return res.data;
+  },
+
+  // Contact & Inquiries Desk
+  submitContact: async (payload) => {
+    const res = await apiClient.post('/contact', payload);
+    return res.data;
+  },
+  getContactMessages: async (params = {}) => {
+    const res = await apiClient.get('/contact', { params });
+    return res.data;
+  },
+  updateContactStatus: async (id, payload) => {
+    const res = await apiClient.put(`/contact/${id}/status`, payload);
+    return res.data;
+  },
+  replyContactMessage: async (id, payload) => {
+    const res = await apiClient.post(`/contact/${id}/reply`, payload);
+    return res.data;
+  },
+  deleteContactMessage: async (id) => {
+    const res = await apiClient.delete(`/contact/${id}`);
     return res.data;
   }
 };

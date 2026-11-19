@@ -148,7 +148,7 @@ function NoticeCard({ notice, isExpanded, onToggleExpand }) {
 
   return (
     <article
-      className={`group flex h-full flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#b99754] hover:shadow-lg ${
+      className={`group flex flex-col justify-between overflow-hidden rounded-2xl border bg-white shadow-sm transition duration-300 hover:-translate-y-1 hover:border-[#b99754] hover:shadow-lg ${
         notice.featured
           ? "border-2 border-[#c5a15d]"
           : "border-[#e5ddce]"
@@ -746,15 +746,16 @@ function NoticePage() {
               </div>
             )}
 
-            {/* Remaining Notice Cards Grid */}
-            <div className="grid grid-cols-1 gap-8 md:grid-cols-2 lg:grid-cols-3">
+            {/* Remaining Notice Cards Grid (Professional CSS Columns / Masonry) */}
+            <div className="columns-1 gap-8 md:columns-2 lg:columns-3 [column-fill:_balance]">
               {visibleNotices.map((notice) => (
-                <NoticeCard
-                  key={notice.id}
-                  notice={notice}
-                  isExpanded={Boolean(expandedCards[notice.id])}
-                  onToggleExpand={() => toggleCardExpand(notice.id)}
-                />
+                <div key={notice.id} className="mb-8 break-inside-avoid">
+                  <NoticeCard
+                    notice={notice}
+                    isExpanded={Boolean(expandedCards[notice.id])}
+                    onToggleExpand={() => toggleCardExpand(notice.id)}
+                  />
+                </div>
               ))}
             </div>
 

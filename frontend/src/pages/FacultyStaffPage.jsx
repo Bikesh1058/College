@@ -229,7 +229,7 @@ function FacultyDirectory() {
   const facultyList = apiResponse?.data?.length ? apiResponse.data : localFaculty;
 
   const filteredMembers = useMemo(() => {
-    return facultyList.filter((member) => {
+    const list = facultyList.filter((member) => {
       // 1. Stream filter
       const matchesStream =
         activeStream === "All Streams" || member.facultyStream === activeStream;
@@ -253,6 +253,9 @@ function FacultyDirectory() {
 
       return matchesStream && matchesRole && matchesSubject && matchesSearch;
     });
+
+    // Alphabetical sort by teacher name A -> Z
+    return [...list].sort((a, b) => (a.name || "").localeCompare(b.name || "", undefined, { sensitivity: "base" }));
   }, [facultyList, activeStream, activeRole, activeSubject, search]);
 
   const handleResetFilters = () => {

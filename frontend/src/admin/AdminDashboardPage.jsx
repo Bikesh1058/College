@@ -19,6 +19,7 @@ import FacultyView from './views/FacultyView';
 import SettingsView from './views/SettingsView';
 import PageBuilderView from './views/PageBuilderView';
 import AdmissionsView from './views/AdmissionsView';
+import ContactInquiriesView from './views/ContactInquiriesView';
 
 function AdminDashboardContent() {
   const [activeTab, setActiveTab] = useState('overview');
@@ -497,6 +498,11 @@ function AdminDashboardContent() {
           {/* Admissions View */}
           {activeTab === 'admissions' && (
             <AdmissionsView />
+          )}
+
+          {/* Contact Inquiries View */}
+          {activeTab === 'inquiries' && (
+            <ContactInquiriesView />
           )}
 
           {/* Examinations View */}

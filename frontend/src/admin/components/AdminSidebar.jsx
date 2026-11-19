@@ -24,6 +24,7 @@ export default function AdminSidebar({
         { id: 'pagebuilder', label: 'Visual Page Builder', badge: 'Canvas' },
         { id: 'academics', label: 'Academic Streams', badge: badges.academics || (programmes.length ? `${programmes.length}` : '4') },
         { id: 'admissions', label: 'Admissions & Intakes', badge: '2083' },
+        { id: 'inquiries', label: 'Contact Inquiries', badge: 'Inbox' },
         { id: 'examinations', label: 'Examinations (NEB)', badge: badges.examinations || 'Code 104' },
         { id: 'faculty', label: 'Teachers & Faculty', badge: badges.faculty || (faculty.length ? `${faculty.length}` : '116') },
         { id: 'campuslife', label: 'Student Clubs & Life', badge: badges.campuslife || `${clubs?.length || 8}` },

@@ -26,6 +26,7 @@ export default function OverviewView({ setActiveTab, user }) {
     { title: 'Teaching Faculty', count: faculty.length || '116', sub: 'Active Educators', trend: 'Atlas Live', tab: 'faculty' },
     { title: 'Public Notices', count: notices.length || '0', sub: 'Live Announcements', trend: 'Realtime', tab: 'notices' },
     { title: 'Admissions 2083', count: 'Open', sub: 'Online Intakes', trend: 'PDF + Gmail', tab: 'admissions' },
+    { title: 'Contact Inquiries', count: 'Helpdesk', sub: 'Student Inquiries', trend: 'Live Registry', tab: 'inquiries' },
     { title: 'Student Chapters', count: clubs?.length || '8', sub: 'Campus Life', trend: 'Active', tab: 'campuslife' },
     { title: 'Syllabi & Papers', count: (documents?.length || 0) + (research?.length || 0), sub: 'Resources & RMC', trend: 'Indexed', tab: 'resources' },
   ];

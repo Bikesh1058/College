@@ -148,6 +148,7 @@ export default function App() {
                 <Route path="/history" element={<HistoryPage />} />
                 <Route path="/about/history" element={<HistoryPage />} />
                 <Route path="/about/vision-mission" element={<VisionMission />} />
+                <Route path="/about/leadership" element={<GovernancePage />} />
                 <Route path="/about/governance" element={<GovernancePage />} />
                 <Route path="/about/faculty" element={<FacultyStaffPage />} />
                 <Route path="/about/facilities" element={<FacilitiesPage />} />
@@ -158,7 +159,13 @@ export default function App() {
                 <Route path="/academics/programmes/:slug" element={<ProgrammeDetailPage />} />
                 <Route path="/academics/management" element={<ManagementPage />} />
                 <Route path="/academics/science" element={<SciencePage />} />
+                <Route path="/academics/humanities" element={<HumanitiesPage />} />
                 <Route path="/academics/humanities-social-sciences" element={<HumanitiesPage />} />
+                <Route path="/academics/law" element={<HumanitiesPage />} />
+                <Route path="/science" element={<SciencePage />} />
+                <Route path="/management" element={<ManagementPage />} />
+                <Route path="/humanities" element={<HumanitiesPage />} />
+                <Route path="/law" element={<HumanitiesPage />} />
                 <Route path="/academics/departments" element={<DepartmentsPage />} />
                 <Route path="/departments" element={<DepartmentsPage />} />
                 <Route path="/department" element={<DepartmentsPage />} />

@@ -1,9 +1,11 @@
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import PageHero from "../../components/common/PageHero";
 import PageContainer from "../../components/common/PageContainer";
 import SectionHeading from "../../components/common/SectionHeading";
 import CTASection from "../../components/common/CTASection";
 import { faculties, programmes } from "../../data/programmes";
+import { api } from "../../services/api";
 
 const MANAGEMENT_LABS = [
   {
@@ -48,8 +50,23 @@ const MANAGEMENT_ACTIVITIES = [
 ];
 
 export default function ManagementPage() {
-  const data = faculties.find((f) => f.slug === "management");
-  const mgmtProgrammes = programmes.filter((p) => p.facultySlug === "management");
+  const localData = faculties.find((f) => f.slug === "management");
+  const localMgmtProg = programmes.find((p) => p.facultySlug === "management");
+
+  // Dynamic Programme synchronization from MongoDB Atlas
+  const { data: dbProg } = useQuery({
+    queryKey: ['programme', 'plus-two-management'],
+    queryFn: () => api.getProgramme('plus-two-management'),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const progTitle = dbProg?.title || localMgmtProg?.fullName || "+2 Management";
+  const progDesc = dbProg?.description || localMgmtProg?.description || localData?.description;
+  const progEligibility = dbProg?.eligibility || localMgmtProg?.eligibility;
+  const progSubjects = (dbProg?.subjects && dbProg.subjects.length > 0)
+    ? dbProg.subjects
+    : (localMgmtProg?.curriculum?.flatMap(c => c.subjects) || ["Accounting", "Economics", "Business Studies", "Hotel Management", "Computer Science", "Business Mathematics", "English", "Nepali"]);
 
   return (
     <main className="bg-[#f7f5f0] min-h-screen">
@@ -78,7 +95,7 @@ export default function ManagementPage() {
                 eyebrow="Commercial Foundations"
                 title="Business Education"
                 italicTitle="with Ethical Leadership."
-                description={data.description}
+                description={progDesc}
               />
 
               <p className="editorial-copy text-[15px] leading-7 text-[#475365]">
@@ -90,7 +107,7 @@ export default function ManagementPage() {
                   Pedagogical Methodology
                 </h4>
                 <ul className="mt-4 space-y-3 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                  {data.learningApproach.map((item, index) => (
+                  {(localData?.learningApproach || []).map((item, index) => (
                     <li key={index} className="flex items-start gap-3">
                       <span className="mt-1 flex h-2 w-2 shrink-0 rounded-full bg-[#dfbd77]" />
                       <span>{item}</span>
@@ -101,60 +118,62 @@ export default function ManagementPage() {
             </div>
 
             <div className="lg:col-span-6">
-              {mgmtProgrammes.map((prog) => (
-                <div
-                  key={prog.slug}
-                  className="rounded-2xl border border-[#e5ddce] bg-white p-8 shadow-sm transition hover:border-[#b99754]"
-                >
-                  <div className="flex items-center justify-between">
-                    <span className="rounded-md bg-[#dfbd77]/20 px-2.5 py-0.5 text-xs font-bold text-[#92703b]">
-                      {prog.code}
-                    </span>
-                    <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
-                      {prog.duration}
-                    </span>
-                  </div>
+              <div
+                className="rounded-2xl border border-[#e5ddce] bg-white p-8 shadow-sm transition hover:border-[#b99754]"
+              >
+                <div className="flex items-center justify-between">
+                  <span className="rounded-md bg-[#dfbd77]/20 px-2.5 py-0.5 text-xs font-bold text-[#92703b]">
+                    {dbProg?.code || localMgmtProg?.code || "MGMT-NEB"}
+                  </span>
+                  <span className="text-xs font-semibold uppercase tracking-wider text-slate-500">
+                    {dbProg?.duration || localMgmtProg?.duration || "2 Years (Grades 11 & 12)"}
+                  </span>
+                </div>
 
-                  <h3 className="mt-4 font-serif text-3xl font-bold text-[#12243a]">
-                    {prog.fullName}
-                  </h3>
+                <h3 className="mt-4 font-serif text-3xl font-bold text-[#12243a]">
+                  {progTitle}
+                </h3>
 
-                  <p className="editorial-copy mt-3 text-sm leading-relaxed text-[#475365]">
-                    {prog.description}
-                  </p>
+                <p className="editorial-copy mt-3 text-sm leading-relaxed text-[#475365]">
+                  {progDesc}
+                </p>
 
-                  <div className="mt-6 border-t border-[#eee9df] pt-5">
-                    <h5 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#92703b]">
-                      Available Elective Combinations:
-                    </h5>
-                    <div className="mt-3 grid gap-3 sm:grid-cols-2 text-xs">
-                      <div className="rounded-xl border border-[#e5ddce] bg-[#fbfaf7] p-3.5">
-                        <p className="font-bold text-[#12243a]">Computer & Math Group</p>
-                        <p className="mt-1 text-slate-500">Business Mathematics, Computer Science & Economics</p>
-                      </div>
-                      <div className="rounded-xl border border-[#e5ddce] bg-[#fbfaf7] p-3.5">
-                        <p className="font-bold text-[#12243a]">Hotel Management Group</p>
-                        <p className="mt-1 text-slate-500">Culinary practice, Hotel Operations & Business Studies</p>
-                      </div>
-                    </div>
-                  </div>
-
-                  <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#eee9df] pt-5">
-                    <div className="text-xs text-slate-500">
-                      <span className="font-semibold text-slate-700">SEE Criteria: </span>
-                      Min. 2.00 GPA in SEE
-                    </div>
-
-                    <Link
-                      to="/admissions/apply"
-                      className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b2038] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#17334c]"
-                    >
-                      <span>Apply for Management</span>
-                      <span aria-hidden="true">→</span>
-                    </Link>
+                <div className="mt-6 border-t border-[#eee9df] pt-5">
+                  <h5 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#92703b]">
+                    Curriculum Subjects:
+                  </h5>
+                  <div className="mt-3 flex flex-wrap gap-2">
+                    {(Array.isArray(progSubjects) ? progSubjects : []).map((sub) => (
+                      <span key={sub} className="px-2.5 py-1 rounded-lg bg-slate-100 text-slate-700 text-xs font-medium">
+                        {sub}
+                      </span>
+                    ))}
                   </div>
                 </div>
-              ))}
+
+                <div className="mt-6 border-t border-[#eee9df] pt-5">
+                  <h5 className="text-[10px] font-bold uppercase tracking-[0.18em] text-[#92703b]">
+                    Admission Eligibility:
+                  </h5>
+                  <p className="mt-1.5 text-xs text-[#475365] font-medium leading-relaxed">
+                    {progEligibility}
+                  </p>
+                </div>
+
+                <div className="mt-6 flex flex-wrap items-center justify-between gap-4 border-t border-[#eee9df] pt-5">
+                  <div className="text-xs text-slate-500">
+                    Affiliation: <strong className="text-[#12243a]">{dbProg?.affiliatedBody || "National Examinations Board (NEB)"}</strong>
+                  </div>
+
+                  <Link
+                    to="/admissions/apply"
+                    className="inline-flex items-center gap-1.5 rounded-xl bg-[#0b2038] px-5 py-2.5 text-xs font-bold uppercase tracking-[0.14em] text-white transition hover:bg-[#17334c]"
+                  >
+                    <span>Apply for Management</span>
+                    <span aria-hidden="true">→</span>
+                  </Link>
+                </div>
+              </div>
             </div>
           </div>
         </PageContainer>

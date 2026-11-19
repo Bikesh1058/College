@@ -16,6 +16,7 @@ import dashboardRoutes from './routes/dashboardRoutes.js';
 import contentRoutes from './routes/contentRoutes.js';
 import settingRoutes from './routes/settingRoutes.js';
 import admissionRoutes from './routes/admissionRoutes.js';
+import contactRoutes from './routes/contactRoutes.js';
 
 dotenv.config();
 
@@ -101,6 +102,7 @@ app.use('/api/v1/admin/dashboard', dashboardRoutes);
 app.use('/api/v1/content', contentRoutes);
 app.use('/api/v1/settings', settingRoutes);
 app.use('/api/v1/admissions', admissionRoutes);
+app.use('/api/v1/contact', contactRoutes);
 
 // 404 Handler
 app.use((req, res) => {

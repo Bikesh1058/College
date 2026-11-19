@@ -1,5 +1,7 @@
 import { useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
+import { api } from "../services/api";
 
 const COLLEGE_WEBSITE = "https://khwopacollege.edu.np";
 const ADMISSION_PORTAL =
@@ -240,11 +242,10 @@ function FaqItem({ item, isOpen, onClick }) {
         </span>
 
         <span
-          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition ${
-            isOpen
+          className={`flex h-8 w-8 shrink-0 items-center justify-center rounded-md transition ${isOpen
               ? "rotate-45 bg-[#10243b] text-[#dfbd77]"
               : "bg-[#f1ede5] text-[#8c6d37]"
-          }`}
+            }`}
         >
           +
         </span>
@@ -263,6 +264,24 @@ function FaqItem({ item, isOpen, onClick }) {
 
 function AdmissionsPage() {
   const [openFaq, setOpenFaq] = useState(0);
+
+  // Dynamic PageBuilder CMS synchronization
+  const { data: pageDoc } = useQuery({
+    queryKey: ['page', 'admissions'],
+    queryFn: () => api.getPage('admissions'),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const heroSection = pageDoc?.sections?.find(s => s.type === 'admissions_hero')?.content;
+  const quotasSection = pageDoc?.sections?.find(s => s.type === 'eligibility_quotas')?.content;
+
+  const eyebrow = heroSection?.eyebrow || "Begin your journey | Khwopa College";
+  const heading = heroSection?.heading || "Your next chapter starts with a choice.";
+  const subtext = heroSection?.subtext || "Find admission information, explore the application process and prepare for your academic journey at Khwopa College.";
+  const appDeadline = heroSection?.applicationDeadline || "Baisakh 30, 2083";
+  const examDate = heroSection?.entranceExamDate || "Jestha 05, 2083";
+  const formFee = heroSection?.formFee || "NPR 125";
 
   return (
     <main className="min-h-screen bg-[#f7f5f0] text-[#17283c]">
@@ -301,20 +320,25 @@ function AdmissionsPage() {
             <div className="mb-5 flex items-center gap-3">
               <span className="h-px w-9 bg-[#b99754]" />
               <p className="text-[10px] font-bold uppercase tracking-[0.22em] text-[#a17c3d]">
-              Begin your journey | Khwopa College
+                {eyebrow}
               </p>
             </div>
 
             <h1 className="font-serif text-5xl leading-[1.05] tracking-tight text-white sm:text-6xl lg:text-[78px]">
-              Your next chapter
-              <span className="block italic text-[#dfbd77]">
-                starts with a choice.
-              </span>
+              {heading.includes('.') ? (
+                <>
+                  {heading.split('.')[0]}.
+                  <span className="block italic text-[#dfbd77]">
+                    {heading.split('.').slice(1).join('.').trim()}
+                  </span>
+                </>
+              ) : (
+                heading
+              )}
             </h1>
 
             <p className="editorial-copy mt-7 max-w-2xl text-[15px] leading-7 text-white/70 sm:text-base">
-              Find admission information, explore the application process
-              and prepare for your academic journey at Khwopa College.
+              {subtext}
             </p>
           </div>
 
@@ -520,16 +544,15 @@ function AdmissionsPage() {
           <div className="grid gap-5 md:grid-cols-3">
             <div className="rounded-lg border border-[#e3dccf] bg-white p-7">
               <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#a98545]">
-                Application fee
+                Application Form Fee
               </p>
 
               <p className="mt-5 font-serif text-4xl font-semibold text-[#10243b]">
-                Rs. 500
+                {formFee}
               </p>
 
               <p className="mt-3 text-sm leading-7 text-slate-500">
-                The published 2083 instructions stated that this included
-                the entrance examination and result publication.
+                Official intake processing fee under Bhaktapur Municipality subsidized education directive.
               </p>
             </div>
 
@@ -539,27 +562,25 @@ function AdmissionsPage() {
               </p>
 
               <p className="mt-5 font-serif text-3xl font-semibold text-[#10243b]">
-                2083-04-11
+                {examDate}
               </p>
 
               <p className="mt-3 text-sm leading-7 text-slate-500">
-                Monday, 8:00 AM to 9:30 AM, according to the published
-                portal instructions.
+                Official session exam scheduled at Dekocha Exam Hall Center 104.
               </p>
             </div>
 
             <div className="rounded-lg border border-[#e3dccf] bg-white p-7">
               <p className="text-xs font-bold uppercase tracking-[0.15em] text-[#a98545]">
-                Result publication
+                Application Deadline
               </p>
 
               <p className="mt-5 font-serif text-3xl font-semibold text-[#10243b]">
-                2083-04-11
+                {appDeadline}
               </p>
 
               <p className="mt-3 text-sm leading-7 text-slate-500">
-                The portal listed results from 2:00 PM onwards on the
-                same date.
+                Final date for online admission form submission and verified SEE marksheet upload.
               </p>
             </div>
           </div>
@@ -603,27 +624,26 @@ function AdmissionsPage() {
 
           <div className="rounded-lg border border-[#e8e2d6] bg-white p-7 md:p-9">
             <h3 className="font-serif text-2xl font-semibold text-[#10243b]">
-              Check these details before applying.
+              Class 11 Intake Eligibility & Quotas
             </h3>
 
-            <div className="mt-7 space-y-5">
-              {[
-                "Minimum academic qualification",
-                "Required subjects and grades",
-                "Entrance examination requirements",
-                "Stream-specific selection process",
-                "Required certificates and documents",
-              ].map((item, index) => (
-                <div key={item} className="flex items-center gap-4">
-                  <span className="flex h-8 w-8 shrink-0 items-center justify-center rounded-md bg-[#f5f0e5] text-xs font-bold text-[#a98545]">
-                    {String(index + 1).padStart(2, "0")}
-                  </span>
-
-                  <p className="text-sm font-medium text-[#425268]">
-                    {item}
-                  </p>
-                </div>
-              ))}
+            <div className="mt-7 space-y-4">
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-[#e8e2d6]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#10243b]">+2 Science Eligibility</span>
+                <span className="font-mono text-xs font-bold text-[#8c6d37]">{quotasSection?.scienceGPA || "2.80 GPA (C+ in Sci & Math)"}</span>
+              </div>
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-[#e8e2d6]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#10243b]">+2 Management Eligibility</span>
+                <span className="font-mono text-xs font-bold text-[#8c6d37]">{quotasSection?.mgmtGPA || "2.00 GPA (D+ in Math & Eng)"}</span>
+              </div>
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-slate-50 border border-[#e8e2d6]">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#10243b]">+2 Humanities & Law</span>
+                <span className="font-mono text-xs font-bold text-[#8c6d37]">{quotasSection?.humanitiesGPA || "1.60 GPA (D+ in Eng & Soc)"}</span>
+              </div>
+              <div className="flex items-center justify-between p-3.5 rounded-xl bg-[#FAF8F5] border border-[#d2b577]/40">
+                <span className="text-xs font-bold uppercase tracking-wider text-[#8c6d37]">Municipal Quota Seats</span>
+                <span className="font-mono text-xs font-bold text-[#10243b]">{quotasSection?.municipalQuotaSeats || "145 Quota Seats"}</span>
+              </div>
             </div>
           </div>
         </div>

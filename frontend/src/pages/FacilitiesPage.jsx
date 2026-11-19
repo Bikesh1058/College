@@ -1,7 +1,9 @@
 
 import { useMemo, useState } from "react";
 import { Link } from "react-router-dom";
+import { useQuery } from "@tanstack/react-query";
 import { ArrowLeftIcon, ArrowRightIcon } from "../components/Icons";
+import { api } from "../services/api";
 
 const images = {
   campus:
@@ -398,6 +400,18 @@ function FacilityIcon({ type }) {
 /* ---------------- HERO ---------------- */
 
 function FacilitiesHero() {
+  const { data: pageDoc } = useQuery({
+    queryKey: ['page', 'facilities'],
+    queryFn: () => api.getPage('facilities'),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const hero = pageDoc?.sections?.find(s => s.type === 'facilities_hero')?.content;
+  const eyebrow = hero?.eyebrow || "Explore our campus";
+  const heading = hero?.heading || "Spaces to learn. Places to grow.";
+  const subtext = hero?.subtext || "Discover the learning resources, campus spaces and facilities documented at Khwopa College, situated in Dekocha, Bhaktapur.";
+
   return (
     <section className="relative isolate overflow-hidden bg-[#091b30] text-white">
       <div className="absolute inset-0 -z-10">
@@ -429,19 +443,23 @@ function FacilitiesHero() {
         </div>
 
         <div className="mt-12 max-w-4xl">
-          <Eyebrow light>Explore our campus</Eyebrow>
+          <Eyebrow light>{eyebrow}</Eyebrow>
 
           <h1 className="font-serif text-5xl leading-[1.05] sm:text-6xl lg:text-[78px]">
-            Spaces to learn.
-            <span className="block italic text-[#dfbd77]">
-              Places to grow.
-            </span>
+            {heading.includes('.') ? (
+              <>
+                {heading.split('.')[0]}.
+                <span className="block italic text-[#dfbd77]">
+                  {heading.split('.').slice(1).join('.').trim()}
+                </span>
+              </>
+            ) : (
+              heading
+            )}
           </h1>
 
           <p className="editorial-copy mt-7 max-w-2xl text-[15px] leading-7 text-white/70 sm:text-base">
-            Discover the learning resources, campus spaces and
-            facilities documented at Khwopa College, situated in
-            Dekocha, Bhaktapur.
+            {subtext}
           </p>
 
         </div>
@@ -688,10 +706,30 @@ function FacilitiesDirectory() {
   const [activeFilter, setActiveFilter] = useState("All");
   const [search, setSearch] = useState("");
 
+  // Live facilities synchronization from backend
+  const { data: dbFacilitiesRes } = useQuery({
+    queryKey: ['facilities'],
+    queryFn: () => api.getFacilities(),
+    staleTime: 60000,
+    retry: 1
+  });
+
+  const combinedFacilities = useMemo(() => {
+    const liveList = (dbFacilitiesRes?.data || []).map(f => ({
+      category: f.category || "Academic",
+      title: f.title,
+      description: f.description,
+      detail: f.badge || "Verified College Infrastructure",
+      icon: f.icon || "flask",
+      image: f.image || images.building
+    }));
+    return [...liveList, ...facilities];
+  }, [dbFacilitiesRes]);
+
   const filteredFacilities = useMemo(() => {
     const query = search.trim().toLowerCase();
 
-    return facilities.filter((facility) => {
+    return combinedFacilities.filter((facility) => {
       const categoryMatch =
         activeFilter === "All" ||
         facility.category === activeFilter;
@@ -704,7 +742,7 @@ function FacilitiesDirectory() {
 
       return categoryMatch && searchMatch;
     });
-  }, [activeFilter, search]);
+  }, [combinedFacilities, activeFilter, search]);
 
   return (
     <section
