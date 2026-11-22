@@ -165,13 +165,13 @@ export default function AcademicCalendarPage() {
                   </button>
                 </div>
 
-                <a
-                  href="/resources/downloads"
+                <Link
+                  to="/resources"
                   className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl border border-[#e5ddce] bg-white text-xs font-bold text-[#0b2038] hover:bg-[#FAF8F5] transition"
                 >
-                  <span>Download PDF Calendar</span>
-                  <span aria-hidden="true">↓</span>
-                </a>
+                  <span>Resources Directory</span>
+                  <span aria-hidden="true">→</span>
+                </Link>
               </div>
             </div>
 
@@ -528,7 +528,7 @@ export default function AcademicCalendarPage() {
         title="Looking for Examination Timetables?"
         description="Check upcoming board examination schedules, NEB room allocations, and form deadlines."
         primaryAction={{ label: "Exam Routines Hub", to: "/examinations/routines" }}
-        secondaryAction={{ label: "Student Downloads & Forms", to: "/resources/downloads" }}
+        secondaryAction={{ label: "Academic Resources", to: "/resources" }}
       />
     </main>
   );

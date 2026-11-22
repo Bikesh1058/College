@@ -278,9 +278,9 @@ export default function LibraryPage() {
       )}
 
       <CTASection
-        title="Need to Download Student Forms or Syllabus?"
-        description="Access downloadable syllabi and academic request forms."
-        primaryAction={{ label: "Downloads & Forms", to: "/resources/downloads" }}
+        title="Need Academic & Research Support?"
+        description="Access institutional resources, research publications, and college help desk."
+        primaryAction={{ label: "Resources Directory", to: "/resources" }}
         secondaryAction={{ label: "Contact Us", to: "/contact" }}
       />
     </main>

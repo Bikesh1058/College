@@ -6,7 +6,6 @@ import {
   Research,
   Facility,
   Club,
-  DownloadDocument,
   Examination
 } from '../models/ExtendedModels.js';
 import { Programme } from '../models/Programme.js';
@@ -354,19 +353,6 @@ const seedAllContent = async () => {
     ];
     await Research.insertMany(realResearch);
     console.log(`[Seed Content] Inserted ${realResearch.length} research publications`);
-
-    // 8. Seed Downloadable Documents & Syllabi
-    await DownloadDocument.deleteMany({});
-    const realDocuments = (resourcesData.downloads || []).map((d) => ({
-      title: d.title,
-      category: d.category || 'Syllabus',
-      fileSize: `${d.fileSize} ${d.fileType || 'PDF'}`,
-      fileUrl: 'https://neb.gov.np',
-      academicYear: d.date || '2082/2083',
-      description: d.description
-    }));
-    await DownloadDocument.insertMany(realDocuments);
-    console.log(`[Seed Content] Inserted ${realDocuments.length} downloadable documents & syllabi`);
 
     // 9. Seed Campus Media & Library Facilities
     await Facility.deleteMany({});

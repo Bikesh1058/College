@@ -62,16 +62,6 @@ const clubSchema = new mongoose.Schema({
   activities: { type: String, default: '' }
 }, { timestamps: true });
 
-// Downloadable Documents / Syllabi
-const documentSchema = new mongoose.Schema({
-  title: { type: String, required: true },
-  category: { type: String, default: 'Syllabus' },
-  fileSize: { type: String, default: '1.2 MB PDF' },
-  fileUrl: { type: String, default: '#' },
-  academicYear: { type: String, default: '2082/2083' },
-  description: { type: String, default: '' }
-}, { timestamps: true });
-
 // Examinations & NEB Schedules
 const examinationSchema = new mongoose.Schema({
   title: { type: String, required: true },
@@ -108,7 +98,6 @@ export const Event = mongoose.model('Event', eventSchema);
 export const Research = mongoose.model('Research', researchSchema);
 export const Facility = mongoose.model('Facility', facilitySchema);
 export const Club = mongoose.model('Club', clubSchema);
-export const DownloadDocument = mongoose.model('DownloadDocument', documentSchema);
 export const Examination = mongoose.model('Examination', examinationSchema);
 export const Subscriber = mongoose.model('Subscriber', subscriberSchema);
 

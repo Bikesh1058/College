@@ -75,7 +75,6 @@ import NoticeDetailPage from "./pages/news/NoticeDetailPage";
 
 // Resources Pages
 import ResourcesPage from "./pages/resources/ResourcesPage";
-import DownloadsPage from "./pages/resources/DownloadsPage";
 import AcademicCalendarPage from "./pages/resources/AcademicCalendarPage";
 import LibraryPage from "./pages/resources/LibraryPage";
 import OnlineServicesPage from "./pages/resources/OnlineServicesPage";
@@ -215,7 +214,6 @@ export default function App() {
 
                 {/* Student Resources */}
                 <Route path="/resources" element={<ResourcesPage />} />
-                <Route path="/resources/downloads" element={<DownloadsPage />} />
                 <Route path="/resources/academic-calendar" element={<AcademicCalendarPage />} />
                 <Route path="/resources/library" element={<LibraryPage />} />
                 <Route path="/resources/online-services" element={<OnlineServicesPage />} />

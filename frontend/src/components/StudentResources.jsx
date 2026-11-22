@@ -24,20 +24,13 @@ const resources = [
   },
   {
     number: "04",
-    title: "Downloads",
-    description: "Forms, documents and useful academic materials.",
-    href: "/downloads",
-    label: "Documents",
-  },
-  {
-    number: "05",
     title: "Fee Information",
     description: "Find information about fees and payment procedures.",
     href: "/student-resources/fees",
     label: "Administration",
   },
   {
-    number: "06",
+    number: "05",
     title: "Scholarships",
     description: "Scholarship information, criteria and announcements.",
     href: "/student-resources/scholarships",

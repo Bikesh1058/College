@@ -5,7 +5,6 @@ import {
   getResearch, createResearch, updateResearch, deleteResearch,
   getFacilities, createFacility, updateFacility, deleteFacility,
   getClubs, createClub, updateClub, deleteClub,
-  getDocuments, createDocument, updateDocument, deleteDocument,
   getExaminations, createExamination, updateExamination, deleteExamination,
   getUsers, createUser, deleteUser,
   subscribeNewsletter, getSubscribers
@@ -40,12 +39,6 @@ router.get('/clubs', getClubs);
 router.post('/clubs', protect, authorize('Super Admin'), createClub);
 router.put('/clubs/:id', protect, authorize('Super Admin'), updateClub);
 router.delete('/clubs/:id', protect, authorize('Super Admin'), deleteClub);
-
-// Documents
-router.get('/documents', getDocuments);
-router.post('/documents', protect, authorize('Super Admin'), createDocument);
-router.put('/documents/:id', protect, authorize('Super Admin'), updateDocument);
-router.delete('/documents/:id', protect, authorize('Super Admin'), deleteDocument);
 
 // Examinations
 router.get('/examinations', getExaminations);

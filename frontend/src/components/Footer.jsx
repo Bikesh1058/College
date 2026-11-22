@@ -135,9 +135,6 @@ export default function Footer() {
           </p>
 
           <div className="flex items-center gap-6">
-            <Link to="/resources/downloads" className="hover:text-white transition">
-              Downloads
-            </Link>
             <Link to="/contact/enquiry" className="hover:text-white transition">
               Help Desk
             </Link>

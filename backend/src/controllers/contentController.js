@@ -1,4 +1,4 @@
-import { NewsArticle, Event, Research, Facility, Club, DownloadDocument, Examination, Subscriber } from '../models/ExtendedModels.js';
+import { NewsArticle, Event, Research, Facility, Club, Examination, Subscriber } from '../models/ExtendedModels.js';
 import { User } from '../models/User.js';
 import { sendAdmissionEmail } from '../utils/emailService.js';
 
@@ -166,45 +166,6 @@ export const deleteClub = async (req, res) => {
     const club = await Club.findByIdAndDelete(req.params.id);
     if (!club) return res.status(404).json({ success: false, message: 'Club not found' });
     res.status(200).json({ success: true, message: 'Club deleted' });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-// Downloads / Documents Controller
-export const getDocuments = async (req, res) => {
-  try {
-    const docs = await DownloadDocument.find().sort({ createdAt: -1 });
-    res.status(200).json({ success: true, count: docs.length, data: docs });
-  } catch (err) {
-    res.status(500).json({ success: false, message: err.message });
-  }
-};
-
-export const createDocument = async (req, res) => {
-  try {
-    const doc = await DownloadDocument.create(req.body);
-    res.status(201).json({ success: true, data: doc });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
-  }
-};
-
-export const updateDocument = async (req, res) => {
-  try {
-    const doc = await DownloadDocument.findByIdAndUpdate(req.params.id, req.body, { new: true, runValidators: true });
-    if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
-    res.status(200).json({ success: true, data: doc });
-  } catch (err) {
-    res.status(400).json({ success: false, message: err.message });
-  }
-};
-
-export const deleteDocument = async (req, res) => {
-  try {
-    const doc = await DownloadDocument.findByIdAndDelete(req.params.id);
-    if (!doc) return res.status(404).json({ success: false, message: 'Document not found' });
-    res.status(200).json({ success: true, message: 'Document deleted' });
   } catch (err) {
     res.status(500).json({ success: false, message: err.message });
   }

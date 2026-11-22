@@ -58,7 +58,6 @@ const examLinks = [
 
 const resourceLinks = [
   { label: "Resources Directory", description: "Quick access to academic support", to: "/resources" },
-  { label: "Downloads & Forms", description: "Syllabi, leave forms and manuals", to: "/resources/downloads" },
   { label: "Academic Calendar", description: "Session timeline and holiday dates", to: "/resources/academic-calendar" },
   { label: "Library & OPAC", description: "Book search, reading halls and book bank", to: "/resources/library" },
   { label: "Online Student Portals", description: "NEB, Sanothimi, and exam gateways", to: "/resources/online-services" },
@@ -189,9 +188,6 @@ export default function Navbar() {
             <span className="hidden text-white/40 md:inline">{dynamicSettings?.address || college.location}</span>
           </div>
           <div className="flex items-center gap-4 font-medium">
-            <Link to="/resources/downloads" onClick={scrollToTop} className="hover:text-[#dfbd77] transition">
-              Downloads
-            </Link>
             <Link to="/results" onClick={scrollToTop} className="hover:text-[#dfbd77] transition">
               NEB Results
             </Link>

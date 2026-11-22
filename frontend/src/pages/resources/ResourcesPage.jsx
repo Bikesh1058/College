@@ -11,11 +11,11 @@ export default function ResourcesPage() {
         eyebrow="Student Support"
         title="Resources & Services."
         italicTitle="Academic Assistance Directory."
-        description="Centralized academic downloads, institutional calendar, library repository, and external university digital gateways."
+        description="Institutional academic calendar, library repository, and external university digital gateways."
         breadcrumbs={[{ label: "Student Resources" }]}
         stats={[
           { label: "Volumes", value: "45,000+ Books" },
-          { label: "Document Archive", value: "Downloadable" },
+          { label: "Digital Catalog", value: "Integrated" },
           { label: "Online OPAC", value: "Available" }
         ]}
       />
@@ -26,29 +26,10 @@ export default function ResourcesPage() {
             eyebrow="Quick Navigation"
             title="Explore Academic Resources"
             italicTitle="& Campus Facilities."
-            description="Access official forms, calendars, library databases, and online student portals."
+            description="Access calendars, library databases, and online student portals."
           />
 
-          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-4">
-            <Link
-              to="/resources/downloads"
-              className="group rounded-2xl border border-[#e5ddce] bg-white p-8 shadow-sm transition hover:border-[#b99754] hover:shadow-md"
-            >
-              <div className="flex h-12 w-12 items-center justify-center rounded-xl bg-[#dfbd77]/20 text-[#92703b]">
-                <svg className="h-6 w-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-                  <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={1.8} d="M4 16v1a3 3 0 003 3h10a3 3 0 003-3v-1m-4-4l-4 4m0 0l-4-4m4 4V4" />
-                </svg>
-              </div>
-              <h3 className="mt-5 font-serif text-2xl font-bold text-[#12243a] group-hover:text-[#92703b] transition">
-                Downloads & Forms
-              </h3>
-              <p className="editorial-copy mt-2 text-xs sm:text-sm leading-relaxed text-[#475365]">
-                Course syllabus, leave applications, practical lab manuals, and recommendation forms.
-              </p>
-              <span className="mt-5 inline-flex items-center gap-1 text-xs font-semibold text-[#12243a] group-hover:text-[#92703b]">
-                Browse Files →
-              </span>
-            </Link>
+          <div className="grid grid-cols-1 gap-6 sm:grid-cols-2 lg:grid-cols-3">
 
             <Link
               to="/resources/academic-calendar"
@@ -117,7 +98,7 @@ export default function ResourcesPage() {
         title="Need Specific Academic Assistance?"
         description="The student help desk is available in the administrative building, Dekocha."
         primaryAction={{ label: "Contact College Desk", to: "/contact" }}
-        secondaryAction={{ label: "Download Forms", to: "/resources/downloads" }}
+        secondaryAction={{ label: "Online Portals", to: "/resources/online-services" }}
       />
     </main>
   );
