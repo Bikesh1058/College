@@ -1,13 +1,58 @@
 export const campusLifeData = {
   clubs: [
     {
-      id: "khwopa-it-club",
-      name: "Khwopa IT & Coding Club",
-      category: "Technology",
+      id: "youth-red-cross-circle",
+      name: "Junior/Youth Red Cross Circle (J/YRCC) Khwopa",
+      category: "Humanitarian & Social Service",
+      lead: "Coordinator: Bikash Shrestha",
+      description: "Carries forward community health drives, voluntary blood donation camps, disaster risk management training, and emergency first-aid response across Bhaktapur Municipality.",
+      activities: ["Quarterly Voluntary Blood Donation Camps", "Earthquake Preparedness & Disaster Drills", "Community Health & Eye Checkup Camps", "Red Cross Youth Leadership Orientations"],
+      membersCount: "250+ Volunteers"
+    },
+    {
+      id: "khwopa-student-quality-circle",
+      name: "Student Quality Circle (SQC)",
+      category: "Leadership & Academic Governance",
+      lead: "Coordinator: Class Representative Council",
+      description: "Apex student body facilitating institutional quality enhancement, student-administration dialogue, academic problem solving, and leadership conventions.",
+      activities: ["Case Study & Kaizen Problem Solving", "National Student Quality Convention", "Inter-Department Quiz & Brainstorming", "Student Advocacy & Mentorship"],
+      membersCount: "140+ Class Representatives"
+    },
+    {
+      id: "khwopa-eco-circle",
+      name: "Khwopa Environment & Eco Circle",
+      category: "Environment & Heritage",
+      lead: "President: Prakash Duwal",
+      description: "Fosters environmental stewardship, historic pond & traditional stone spout (Dhunge Dhara) cleanups, waste segregation, and green plantation across Bhaktapur.",
+      activities: ["Heritage Water Conduit & Pond Cleanups", "Tree Plantation at Changunarayan & Nagarkot", "Zero-Plastic Campus Campaign", "Environmental Awareness Seminars"],
+      membersCount: "110+ Stewards"
+    },
+    {
+      id: "khwopa-sports-circle",
+      name: "Khwopa Sports Circle & Athletic Board",
+      category: "Sports & Physical Recreation",
+      lead: "Sports Coordinator: Sunil Prajapati",
+      description: "Coordinates annual inter-class athletic championships, football, volleyball, basketball, table tennis, and chess tournaments with Bhaktapur Municipality stadiums.",
+      activities: ["Annual Khwopa Winter Sports Week", "Inter-College Mayor's Cup Friendlies", "Intra-College Table Tennis & Chess Tournaments", "Daily Morning Fitness & Basketball Training"],
+      membersCount: "160+ Student Athletes"
+    },
+    {
+      id: "khwopa-literature-arts",
+      name: "Literature & Cultural Circle (Sahitya Charcha)",
+      category: "Culture & Arts",
+      lead: "Coordinator: Sushma Joshi",
+      description: "Preserves Nepal Bhasa, Nepali and English creative literature, staging Kavya Sandhya (poetry evenings), Biska Jatra cultural documentation, and oratory contests.",
+      activities: ["Kavya Sandhya (Poetry Evenings)", "Inter-College Debate & Oratory Tournaments", "Biska Jatra Cultural Heritage Exhibitions", "Creative Writing & Script Workshops"],
+      membersCount: "90+ Enthusiasts"
+    },
+    {
+      id: "khwopa-it-circle",
+      name: "Khwopa IT & Coding Circle",
+      category: "Technology & Computing",
       lead: "President: Aayush Prajapati",
-      description: "Dedicated to organizing hackathons, open-source workshops, algorithmic problem-solving bootcamps, and web development challenges.",
-      activities: ["Annual Intra-College Hackathon", "Linux & Git Hands-on Sessions", "Competitive Programming League", "Cybersecurity Awareness Talks"],
-      membersCount: "120+ Active Members"
+      description: "Dedicated to organizing code hackathons, Linux & open-source workshops, algorithmic problem-solving bootcamps, and cybersecurity awareness sessions.",
+      activities: ["Hack the Circle Hackathon", "Linux, Git & GitHub Hands-on Bootcamps", "Competitive Programming Contests", "TechTalk & Cybersecurity Workshops"],
+      membersCount: "130+ Tech Enthusiasts"
     },
     {
       id: "khwopa-management-society",
@@ -17,33 +62,6 @@ export const campusLifeData = {
       description: "Empowers commerce and management students through stock market simulations, budget analyses, entrepreneurship talks, and business quizzes.",
       activities: ["Khwopa Management Fest", "Live Stock Trading Simulation", "Youth Entrepreneurship Pitch", "National Budget Round-table"],
       membersCount: "180+ Active Members"
-    },
-    {
-      id: "youth-red-cross-circle",
-      name: "Youth Red Cross Circle (YRCC) Khwopa",
-      category: "Humanitarian & Social Service",
-      lead: "Coordinator: Bikash Shrestha",
-      description: "Carries forward community health drives, voluntary blood donation camps, disaster risk management training, and first-aid response.",
-      activities: ["Quarterly Blood Donation Camp", "Earthquake Preparedness Drills", "Health Checkup Camps in Rural Outskirts", "Relief Fund Drives"],
-      membersCount: "250+ Volunteers"
-    },
-    {
-      id: "khwopa-literature-arts",
-      name: "Literature & Cultural Forum",
-      category: "Culture & Arts",
-      lead: "Coordinator: Sushma Joshi",
-      description: "Celebrates Nepal Bhasa, Nepali and English poetry, traditional Newari music, theater productions, and debate championships.",
-      activities: ["Kavya Sandhya (Poetry Evenings)", "Inter-College Debate Tournaments", "Biska Jatra Cultural Documentation", "Creative Writing Workshops"],
-      membersCount: "90+ Enthusiasts"
-    },
-    {
-      id: "khwopa-eco-circle",
-      name: "Khwopa Environment & Eco Circle",
-      category: "Environment",
-      lead: "President: Prakash Duwal",
-      description: "Fosters environmental stewardship, waste segregation campaigns, heritage water-spout cleanup, and tree plantation drives across Bhaktapur.",
-      activities: ["Heritage Pond & Well Cleanups", "Tree Plantation at Changunarayan", "Zero Plastic Campus Drive", "Climate Action Seminars"],
-      membersCount: "110+ Stewards"
     }
   ],
   sports: [

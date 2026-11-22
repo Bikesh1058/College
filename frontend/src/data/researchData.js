@@ -82,31 +82,33 @@ export const researchData = {
   ],
   journal: {
     name: "Khwopa Journal (Peer-Reviewed Multi-Disciplinary)",
-    issn: "ISSN: 2091-0371 (Print) / 2738-9847 (Online)",
-    indexing: "Indexed in NepJOL (Nepal Journals Online)",
+    issn: "ISSN: 2392-4845 (Print / Online)",
+    indexing: "Indexed in NepJOL (Nepal Journals Online - Tribhuvan University Central Library)",
     editorInChief: "Prof. Dr. Chandra Bahadur Shrestha",
     issuesPerYear: "Bi-annual (June & December)",
+    nepjolLink: "https://www.nepjol.info/index.php/kjour",
+    portalLink: "https://khwopajournals.com/",
     volumes: [
       {
-        vol: "Volume 8, Issue 1 (June 2026)",
-        articlesCount: "9 Articles",
+        vol: "Volume 8, Issue 1 (2026)",
+        articlesCount: "11 Articles",
         date: "June 2026",
-        nepjolUrl: "https://www.nepjol.info",
-        downloadUrl: "#"
+        nepjolUrl: "https://www.nepjol.info/index.php/kjour",
+        downloadUrl: "https://www.nepjol.info/index.php/kjour"
       },
       {
-        vol: "Volume 7, Issue 2 (December 2025)",
-        articlesCount: "8 Articles",
+        vol: "Volume 7, Issue 2 (2025)",
+        articlesCount: "9 Articles",
         date: "December 2025",
-        nepjolUrl: "https://www.nepjol.info",
-        downloadUrl: "#"
+        nepjolUrl: "https://www.nepjol.info/index.php/kjour",
+        downloadUrl: "https://www.nepjol.info/index.php/kjour"
       },
       {
-        vol: "Volume 7, Issue 1 (June 2025)",
+        vol: "Volume 7, Issue 1 (2025)",
         articlesCount: "10 Articles",
         date: "June 2025",
-        nepjolUrl: "https://www.nepjol.info",
-        downloadUrl: "#"
+        nepjolUrl: "https://www.nepjol.info/index.php/kjour",
+        downloadUrl: "https://www.nepjol.info/index.php/kjour"
       }
     ],
     guidelines: [
