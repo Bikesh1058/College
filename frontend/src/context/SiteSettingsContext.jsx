@@ -4,7 +4,12 @@ import { useQueryClient } from '@tanstack/react-query';
 import { SiteSettingsContext } from './settingsContextDef';
 import { socket } from '../services/socket';
 
-const API_BASE = import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1';
+const rawApiUrl = (import.meta.env.VITE_API_URL || 'http://localhost:5000/api/v1').replace(/\/+$/, '');
+const API_BASE = rawApiUrl.endsWith('/api/v1')
+  ? rawApiUrl
+  : rawApiUrl.endsWith('/api')
+  ? `${rawApiUrl}/v1`
+  : `${rawApiUrl}/api/v1`;
 
 export function SiteSettingsProvider({ children }) {
   const queryClient = useQueryClient();

@@ -103,27 +103,33 @@ app.use((req, res, next) => {
   next();
 });
 
-// Health Check
-app.get('/api/health', (req, res) => {
+// Health & Root Status
+app.get(['/', '/api', '/api/health', '/health'], (req, res) => {
   res.status(200).json({
     status: 'healthy',
-    timestamp: new Date().toISOString(),
     service: 'Khwopa College MERN CMS Backend',
-    version: '1.0.0'
+    version: '1.0.0',
+    timestamp: new Date().toISOString()
   });
 });
 
-// API Routes
-app.use('/api/v1/auth', authRoutes);
-app.use('/api/v1/pages', pageRoutes);
-app.use('/api/v1/faculty', facultyRoutes);
-app.use('/api/v1/programmes', programmeRoutes);
-app.use('/api/v1/notices', noticeRoutes);
-app.use('/api/v1/admin/dashboard', dashboardRoutes);
-app.use('/api/v1/content', contentRoutes);
-app.use('/api/v1/settings', settingRoutes);
-app.use('/api/v1/admissions', admissionRoutes);
-app.use('/api/v1/contact', contactRoutes);
+// API Routes mounted on /api/v1, /api, and root prefix for complete frontend compatibility
+const mountApiRoutes = (prefix = '') => {
+  app.use(`${prefix}/auth`, authRoutes);
+  app.use(`${prefix}/pages`, pageRoutes);
+  app.use(`${prefix}/faculty`, facultyRoutes);
+  app.use(`${prefix}/programmes`, programmeRoutes);
+  app.use(`${prefix}/notices`, noticeRoutes);
+  app.use(`${prefix}/admin/dashboard`, dashboardRoutes);
+  app.use(`${prefix}/content`, contentRoutes);
+  app.use(`${prefix}/settings`, settingRoutes);
+  app.use(`${prefix}/admissions`, admissionRoutes);
+  app.use(`${prefix}/contact`, contactRoutes);
+};
+
+mountApiRoutes('/api/v1');
+mountApiRoutes('/api');
+mountApiRoutes('');
 
 // 404 Handler
 app.use((req, res) => {
