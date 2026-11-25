@@ -30,7 +30,6 @@ export default function AdminSidebar({
         { id: 'campuslife', label: 'Student Clubs & Life', badge: badges.campuslife || `${clubs?.length || 8}` },
         { id: 'research', label: 'Research Cell (RMC)', badge: badges.research || 'NepJOL' },
         { id: 'notices', label: 'Notices & News', badge: notices.length ? `${notices.length}` : 'Active' },
-        { id: 'resources', label: 'Downloads & Syllabi', badge: badges.resources || `${documents?.length || 6}` },
       ]
     },
     {
@@ -60,27 +59,19 @@ export default function AdminSidebar({
       )}
 
       <aside
-        className={`fixed top-0 bottom-0 left-0 z-50 flex w-72 flex-col justify-between border-r border-[#1B293E] bg-[#101B2D] text-slate-300 transition-transform duration-300 lg:static lg:translate-x-0 ${
-          isMobileOpen ? 'translate-x-0' : '-translate-x-full'
-        }`}
+        className={`fixed top-0 bottom-0 left-0 z-50 flex w-72 flex-col justify-between border-r border-[#1B293E] bg-[#101B2D] text-slate-300 transition-transform duration-300 lg:static lg:translate-x-0 ${isMobileOpen ? 'translate-x-0' : '-translate-x-full'
+          }`}
       >
         <div className="flex flex-col h-full overflow-hidden">
           {/* Institutional Crest & Brand */}
           <div className="p-5 border-b border-[#1B293E] flex items-center justify-between bg-[#0C1523]">
-            <div className="flex items-center gap-3">
-              <div className="h-10 w-10 rounded-xl bg-gradient-to-br from-[#C5A15B] to-[#997B3C] p-0.5 shadow-md flex items-center justify-center shrink-0">
-                <div className="h-full w-full bg-[#101B2D] rounded-[9px] flex items-center justify-center">
-                  <span className="font-serif font-black text-base text-[#C5A15B] tracking-wider">KC</span>
-                </div>
-              </div>
-              <div>
-                <h2 className="font-serif font-bold text-white text-base tracking-wide leading-tight">
-                  KHWOPA
-                </h2>
-                <p className="text-[11px] font-semibold tracking-[0.18em] text-[#C5A15B] uppercase mt-0.5">
-                  College Administration
-                </p>
-              </div>
+            <div>
+              <h2 className="font-serif font-bold text-white text-base tracking-wide leading-tight">
+                KHWOPA
+              </h2>
+              <p className="text-[11px] font-semibold tracking-[0.18em] text-[#C5A15B] uppercase mt-0.5">
+                College Administration
+              </p>
             </div>
 
             {/* Mobile Close Button */}
@@ -106,22 +97,12 @@ export default function AdminSidebar({
                       <button
                         key={item.id}
                         onClick={() => handleNavClick(item.id)}
-                        className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition group ${
-                          isActive
+                        className={`w-full flex items-center justify-between px-3.5 py-2.5 rounded-xl text-sm font-semibold transition group ${isActive
                             ? 'bg-gradient-to-r from-[#C5A15B] to-[#B38F48] text-[#101B2D] font-bold shadow-md shadow-[#C5A15B]/20'
                             : 'text-slate-300 hover:bg-[#1A283C] hover:text-white'
-                        }`}
+                          }`}
                       >
                         <span className="truncate">{item.label}</span>
-                        {item.badge !== undefined && (
-                          <span className={`text-[11px] px-2.5 py-0.5 rounded-full font-bold shrink-0 ml-2 ${
-                            isActive
-                              ? 'bg-[#101B2D] text-[#C5A15B]'
-                              : 'bg-[#1E2E44] text-slate-300'
-                          }`}>
-                            {item.badge}
-                          </span>
-                        )}
                       </button>
                     );
                   })}

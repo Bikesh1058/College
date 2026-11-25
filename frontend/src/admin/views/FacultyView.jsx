@@ -12,7 +12,6 @@ export default function FacultyView() {
   const [facultySearch, setFacultySearch] = useState('');
   const [showAddModal, setShowAddModal] = useState(false);
   const [editingTeacher, setEditingTeacher] = useState(null);
-  const [editingBadge, setEditingBadge] = useState(false);
   const [isSubmitting, setIsSubmitting] = useState(false);
 
   const [newFaculty, setNewFaculty] = useState({
@@ -90,43 +89,11 @@ export default function FacultyView() {
     <div className="space-y-6">
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#A68238] mb-1">
-            Faculty & Staff Registry
-          </p>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
             Teaching Staff & Faculty Directory ({settings?.moduleBadges?.faculty || faculty.length || '116'} Members)
           </h3>
-          <p className="text-sm text-slate-600 mt-1">Every teacher, department head, and institutional leader is listed here</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
-          {editingBadge ? (
-            <form
-              onSubmit={async (e) => {
-                e.preventDefault();
-                const val = e.target.badgeVal.value.trim();
-                await updateSettings({ ...settings, moduleBadges: { ...(settings?.moduleBadges || {}), faculty: val } });
-                setEditingBadge(false);
-              }}
-              className="flex items-center gap-1.5"
-            >
-              <input
-                name="badgeVal"
-                defaultValue={settings?.moduleBadges?.faculty || `${faculty.length || 116}`}
-                className="w-24 px-2.5 py-1.5 rounded-lg border border-[#C5A15B] text-xs font-bold text-[#101B2D]"
-              />
-              <button type="submit" className="px-2.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold">Save</button>
-              <button type="button" onClick={() => setEditingBadge(false)} className="text-xs text-slate-500 font-bold px-1">✕</button>
-            </form>
-          ) : (
-            <button
-              type="button"
-              onClick={() => setEditingBadge(true)}
-              title="Click to edit sidebar badge count/label"
-              className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-2 rounded-xl hover:bg-[#C5A15B]/25 transition"
-            >
-              Badge: {settings?.moduleBadges?.faculty || faculty.length || '116'} ✎
-            </button>
-          )}
           <button
             onClick={() => setShowAddModal(true)}
             className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md"

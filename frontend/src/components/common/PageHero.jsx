@@ -60,18 +60,18 @@ export default function PageHero({
         {/* Hero Title & Editorial Copy */}
         <div className="mt-10 max-w-4xl">
           {eyebrow && (
-            <div className="mb-4 flex items-center gap-3">
-              <span className="h-px w-9 bg-[#dfbd77]" />
-              <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#dfbd77]">
+            <div className="mb-3.5 flex items-center gap-2.5">
+              <span className="h-0.5 w-6 bg-[#dfbd77]" />
+              <span className="text-xs font-semibold tracking-wider uppercase text-[#dfbd77]">
                 {eyebrow}
               </span>
             </div>
           )}
 
-          <h1 className="font-serif text-3xl sm:text-5xl lg:text-6xl font-bold leading-[1.1] tracking-tight text-white">
+          <h1 className="font-serif text-3xl sm:text-4xl lg:text-5xl font-bold leading-tight tracking-normal text-white">
             {title}
             {italicTitle && (
-              <span className="block italic text-[#dfbd77] mt-1">
+              <span className="block font-sans font-medium text-lg sm:text-2xl text-[#f3e5c5] mt-2 not-italic">
                 {italicTitle}
               </span>
             )}

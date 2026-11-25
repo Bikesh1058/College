@@ -54,8 +54,6 @@ function AdminDashboardContent() {
   const [showAddUser, setShowAddUser] = useState(false);
   const [newUser, setNewUser] = useState({ name: '', email: '', password: '', role: 'News Editor', department: 'Administration', avatar: '' });
 
-  // Editable Sidebar Badges State (persisted in settings)
-  const [editingBadges, setEditingBadges] = useState(false);
   const { alert } = useAlert();
 
   const {
@@ -221,7 +219,7 @@ function AdminDashboardContent() {
                       { label: 'Visual Page Builder', tab: 'pagebuilder' },
                       { label: 'Admissions & Intakes', tab: 'admissions' },
                       { label: 'Examinations (NEB)', tab: 'examinations' },
-                      { label: 'Downloads & Syllabi', tab: 'resources' }
+                      { label: 'Notices & News', tab: 'notices' }
                     ].map(item => (
                       <button
                         key={item.tab}
@@ -259,37 +257,8 @@ function AdminDashboardContent() {
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">+2 Academic Streams</h3>
-                  <p className="text-sm text-slate-600 mt-1">Grades 11 and 12 curricula under National Examinations Board (NEB)</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  {editingBadges === 'academics' ? (
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        const val = e.target.badgeVal.value.trim();
-                        await updateSettings({ ...settings, moduleBadges: { ...(settings?.moduleBadges || {}), academics: val } });
-                        setEditingBadges(false);
-                      }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <input
-                        name="badgeVal"
-                        defaultValue={settings?.moduleBadges?.academics || `${programmes.length || 3}`}
-                        className="w-24 px-2.5 py-1.5 rounded-lg border border-[#C5A15B] text-xs font-bold text-[#101B2D]"
-                      />
-                      <button type="submit" className="px-2.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold">Save</button>
-                      <button type="button" onClick={() => setEditingBadges(false)} className="text-xs text-slate-500 font-bold px-1">✕</button>
-                    </form>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setEditingBadges('academics')}
-                      title="Click to edit badge label"
-                      className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full hover:bg-[#C5A15B]/25 transition"
-                    >
-                      {settings?.moduleBadges?.academics || `${programmes.length || 3} Active Streams`} ✎
-                    </button>
-                  )}
                   <button
                     onClick={() => setShowAddStream(!showAddStream)}
                     className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
@@ -511,37 +480,8 @@ function AdminDashboardContent() {
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Examinations & NEB Board Hub</h3>
-                  <p className="text-sm text-slate-600 mt-1">Class 11 & 12 board routines, room seat plans, and examination circulars (Center 104)</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  {editingBadges === 'examinations' ? (
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        const val = e.target.badgeVal.value.trim();
-                        await updateSettings({ ...settings, moduleBadges: { ...(settings?.moduleBadges || {}), examinations: val } });
-                        setEditingBadges(false);
-                      }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <input
-                        name="badgeVal"
-                        defaultValue={settings?.moduleBadges?.examinations || 'Code 104'}
-                        className="w-28 px-2.5 py-1.5 rounded-lg border border-[#C5A15B] text-xs font-bold text-[#101B2D]"
-                      />
-                      <button type="submit" className="px-2.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold">Save</button>
-                      <button type="button" onClick={() => setEditingBadges(false)} className="text-xs text-slate-500 font-bold px-1">✕</button>
-                    </form>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setEditingBadges('examinations')}
-                      title="Click to edit badge label"
-                      className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full hover:bg-[#C5A15B]/25 transition"
-                    >
-                      {settings?.moduleBadges?.examinations || 'Exam Center Code: 104'} ✎
-                    </button>
-                  )}
                   <button
                     onClick={() => setShowAddExam(!showAddExam)}
                     className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
@@ -745,37 +685,8 @@ function AdminDashboardContent() {
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Campus Life, Clubs & Sports</h3>
-                  <p className="text-sm text-slate-600 mt-1">Student societies, annual sports tournaments, and photo galleries</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  {editingBadges === 'campuslife' ? (
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        const val = e.target.badgeVal.value.trim();
-                        await updateSettings({ ...settings, moduleBadges: { ...(settings?.moduleBadges || {}), campuslife: val } });
-                        setEditingBadges(false);
-                      }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <input
-                        name="badgeVal"
-                        defaultValue={settings?.moduleBadges?.campuslife || `${clubs.length || 8}`}
-                        className="w-24 px-2.5 py-1.5 rounded-lg border border-[#C5A15B] text-xs font-bold text-[#101B2D]"
-                      />
-                      <button type="submit" className="px-2.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold">Save</button>
-                      <button type="button" onClick={() => setEditingBadges(false)} className="text-xs text-slate-500 font-bold px-1">✕</button>
-                    </form>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setEditingBadges('campuslife')}
-                      title="Click to edit badge label"
-                      className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full hover:bg-[#C5A15B]/25 transition"
-                    >
-                      {settings?.moduleBadges?.campuslife || `${clubs.length || 8} Active Chapters`} ✎
-                    </button>
-                  )}
                   <button
                     onClick={() => setShowAddClub(!showAddClub)}
                     className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
@@ -990,37 +901,8 @@ function AdminDashboardContent() {
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
                   <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Research Management Cell (RMC)</h3>
-                  <p className="text-sm text-slate-600 mt-1">Peer-reviewed publications, faculty grant allocations, and Khwopa Journal indexed on NepJOL</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  {editingBadges === 'research' ? (
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        const val = e.target.badgeVal.value.trim();
-                        await updateSettings({ ...settings, moduleBadges: { ...(settings?.moduleBadges || {}), research: val } });
-                        setEditingBadges(false);
-                      }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <input
-                        name="badgeVal"
-                        defaultValue={settings?.moduleBadges?.research || 'NepJOL'}
-                        className="w-24 px-2.5 py-1.5 rounded-lg border border-[#C5A15B] text-xs font-bold text-[#101B2D]"
-                      />
-                      <button type="submit" className="px-2.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold">Save</button>
-                      <button type="button" onClick={() => setEditingBadges(false)} className="text-xs text-slate-500 font-bold px-1">✕</button>
-                    </form>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setEditingBadges('research')}
-                      title="Click to edit badge label"
-                      className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full hover:bg-[#C5A15B]/25 transition"
-                    >
-                      {settings?.moduleBadges?.research || 'Indexed on NepJOL'} ✎
-                    </button>
-                  )}
                   <button
                     onClick={() => setShowAddResearch(!showAddResearch)}
                     className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
@@ -1222,245 +1104,7 @@ function AdminDashboardContent() {
             </div>
           )}
 
-          {/* Resources View */}
-          {activeTab === 'resources' && (
-            <div className="space-y-6">
-              <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
-                <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Resources, Library & Student Downloads</h3>
-                  <p className="text-sm text-slate-600 mt-1">Official syllabi, leave request forms, scholarship guidelines, and digital library catalogue</p>
-                </div>
-                <div className="flex items-center gap-3">
-                  {editingBadges === 'resources' ? (
-                    <form
-                      onSubmit={async (e) => {
-                        e.preventDefault();
-                        const val = e.target.badgeVal.value.trim();
-                        await updateSettings({ ...settings, moduleBadges: { ...(settings?.moduleBadges || {}), resources: val } });
-                        setEditingBadges(false);
-                      }}
-                      className="flex items-center gap-1.5"
-                    >
-                      <input
-                        name="badgeVal"
-                        defaultValue={settings?.moduleBadges?.resources || `${documents.length + 4}`}
-                        className="w-28 px-2.5 py-1.5 rounded-lg border border-[#C5A15B] text-xs font-bold text-[#101B2D]"
-                      />
-                      <button type="submit" className="px-2.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold">Save</button>
-                      <button type="button" onClick={() => setEditingBadges(false)} className="text-xs text-slate-500 font-bold px-1">✕</button>
-                    </form>
-                  ) : (
-                    <button
-                      type="button"
-                      onClick={() => setEditingBadges('resources')}
-                      title="Click to edit badge label"
-                      className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full hover:bg-[#C5A15B]/25 transition"
-                    >
-                      {settings?.moduleBadges?.resources || 'OPAC Digital Server Online'} ✎
-                    </button>
-                  )}
-                  <button
-                    onClick={() => setShowAddDoc(!showAddDoc)}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
-                  >
-                    {showAddDoc ? 'Close Form' : '+ Upload Syllabus / Form'}
-                  </button>
-                </div>
-              </div>
 
-              {showAddDoc && (
-                <form
-                  onSubmit={async (e) => {
-                    e.preventDefault();
-                    if (!newDoc.title) return;
-                    await createDocument(newDoc);
-                    setNewDoc({ title: '', category: 'Syllabus', fileSize: '1.2 MB PDF', fileUrl: '/resources/downloads', academicYear: '2082/2083', description: '' });
-                    setShowAddDoc(false);
-                  }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
-                >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Add Downloadable Syllabus or Student Form</h4>
-                  <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                    <div className="sm:col-span-2">
-                      <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Document Title</label>
-                      <input
-                        type="text"
-                        required
-                        placeholder="e.g. NEB Grade 11 Physics Lab Manual 2083"
-                        value={newDoc.title}
-                        onChange={(e) => setNewDoc({ ...newDoc, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Category</label>
-                      <select
-                        value={newDoc.category}
-                        onChange={(e) => setNewDoc({ ...newDoc, category: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
-                      >
-                        <option value="Syllabus">Syllabus</option>
-                        <option value="Forms">Student Form</option>
-                        <option value="Model Papers">Model Question Papers</option>
-                        <option value="Academic">Academic Regulation</option>
-                      </select>
-                    </div>
-                  </div>
-                  <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                    <div>
-                      <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">File Size / Format Label</label>
-                      <input
-                        type="text"
-                        value={newDoc.fileSize}
-                        onChange={(e) => setNewDoc({ ...newDoc, fileSize: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
-                      />
-                    </div>
-                    <div>
-                      <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Document URL / File Link (Upload or URL)</label>
-                      <ImageUploadInput
-                        value={newDoc.fileUrl}
-                        onChange={(val) => setNewDoc({ ...newDoc, fileUrl: val })}
-                        accept="image/*,.pdf"
-                        placeholder="https://... or click Upload on the left"
-                      />
-                    </div>
-                  </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Publish Document
-                  </button>
-                </form>
-              )}
-
-              <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs space-y-4">
-                <h4 className="font-serif font-bold text-lg text-[#101B2D]">Official Downloadable Documents Directory</h4>
-
-                {editingDoc && (
-                  <form
-                    onSubmit={async (e) => {
-                      e.preventDefault();
-                      if (editingDoc._id) {
-                        await updateDocument(editingDoc._id, {
-                          title: editingDoc.title,
-                          category: editingDoc.category,
-                          fileSize: editingDoc.fileSize,
-                          fileUrl: editingDoc.fileUrl,
-                          description: editingDoc.description
-                        });
-                      } else {
-                        await createDocument({
-                          title: editingDoc.title,
-                          category: editingDoc.category,
-                          fileSize: editingDoc.fileSize,
-                          fileUrl: editingDoc.fileUrl || '/resources/downloads',
-                          description: editingDoc.description || ''
-                        });
-                      }
-                      setEditingDoc(null);
-                    }}
-                    className="rounded-xl border border-[#C5A15B] bg-[#FAF8F5] p-5 space-y-4 text-sm"
-                  >
-                    <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
-                      <span className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Edit Document Contents</span>
-                      <button
-                        type="button"
-                        onClick={() => setEditingDoc(null)}
-                        className="text-xs text-slate-600 hover:text-[#101B2D] font-bold"
-                      >
-                        Cancel ✕
-                      </button>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-                      <div className="sm:col-span-2">
-                        <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Document Title</label>
-                        <input
-                          type="text"
-                          required
-                          value={editingDoc.title}
-                          onChange={(e) => setEditingDoc({ ...editingDoc, title: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Category</label>
-                        <input
-                          type="text"
-                          value={editingDoc.category}
-                          onChange={(e) => setEditingDoc({ ...editingDoc, category: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
-                        />
-                      </div>
-                    </div>
-                    <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-                      <div>
-                        <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">File Size / Format Label</label>
-                        <input
-                          type="text"
-                          value={editingDoc.fileSize}
-                          onChange={(e) => setEditingDoc({ ...editingDoc, fileSize: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
-                        />
-                      </div>
-                      <div>
-                        <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Document URL / File Link (Upload or URL)</label>
-                        <ImageUploadInput
-                          value={editingDoc.fileUrl || '/resources/downloads'}
-                          onChange={(val) => setEditingDoc({ ...editingDoc, fileUrl: val })}
-                          accept="image/*,.pdf"
-                          placeholder="https://... or click Upload on the left"
-                        />
-                      </div>
-                    </div>
-                    <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                      Save Document Changes
-                    </button>
-                  </form>
-                )}
-
-                <div className="divide-y divide-[#EFECE3] text-sm">
-                  {documents.map(d => ({
-                    _id: d._id,
-                    title: d.title,
-                    fileSize: d.fileSize,
-                    category: d.category,
-                    fileUrl: d.fileUrl,
-                    description: d.description
-                  })).map((doc, idx) => (
-                    <div key={doc._id || idx} className="py-3.5 flex flex-wrap items-center justify-between gap-4">
-                      <div>
-                        <p className="font-bold text-[#101B2D]">{doc.title}</p>
-                        <p className="text-slate-500 text-xs mt-0.5">{doc.fileSize} — {doc.category}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => setEditingDoc(doc)}
-                          className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                        >
-                          Edit
-                        </button>
-                        <a
-                          href={doc.fileUrl || "/resources/downloads"}
-                          target="_blank"
-                          rel="noreferrer"
-                          className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3 py-1.5 rounded-lg hover:underline"
-                        >
-                          View ↗
-                        </a>
-                        {doc._id && (
-                          <button
-                            onClick={() => deleteDocument(doc._id)}
-                            className="text-xs text-rose-600 font-bold hover:underline"
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </div>
-                    </div>
-                  ))}
-                </div>
-              </div>
-            </div>
-          )}
 
           {/* Media & Documents Library */}
           {activeTab === 'medialibrary' && (
@@ -1917,7 +1561,7 @@ function AdminDashboardContent() {
                   { label: 'Admissions', to: '/admissions', sub: 'Online Application Form, Eligibility, Scholarships, Fee Structure' },
                   { label: 'Examinations', to: '/examinations', sub: 'NEB Board Routines, Results Verification, Exam Code of Conduct' },
                   { label: 'Campus Life', to: '/campus-life', sub: 'Student Clubs, Sports, Labs & Facilities, Events, Photo Gallery' },
-                  { label: 'Resources & Library', to: '/resources/library', sub: 'Central Library & OPAC, Downloads & Syllabi, Online Services' },
+                  { label: 'Resources & Library', to: '/resources/library', sub: 'Central Library & OPAC, Academic Calendar, Online Services' },
                   { label: 'Research (RMC)', to: '/research', sub: 'Research Management Cell, Khwopa Journal (NepJOL), Grants' }
                 ].map((nav) => (
                   <div key={nav.to} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs flex items-center justify-between gap-4">

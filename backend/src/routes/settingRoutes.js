@@ -40,6 +40,13 @@ router.put('/', protect, authorize('Super Admin', 'Principal / Approver'), async
     } else {
       settings = await SiteSettings.findByIdAndUpdate(settings._id, req.body, { new: true, runValidators: true });
     }
+    
+    // Broadcast live update to all connected clients
+    const io = req.app.get('io');
+    if (io) {
+      io.emit('settings-updated', settings);
+    }
+    
     res.status(200).json({ success: true, data: settings });
   } catch (err) {
     res.status(400).json({ success: false, message: err.message });

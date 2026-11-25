@@ -8,6 +8,9 @@ export default function NoticesView() {
   const { notices, news, createNotice, deleteNotice, createNews, deleteNews } = useAdminData();
   const { alert, confirm } = useAlert();
 
+  const [showAddNotice, setShowAddNotice] = useState(false);
+  const [showAddNews, setShowAddNews] = useState(false);
+
   const [newNotice, setNewNotice] = useState({
     title: '',
     category: 'General',
@@ -39,6 +42,7 @@ export default function NoticesView() {
           : undefined
       });
       setNewNotice({ title: '', category: 'General', content: '', attachmentUrl: '', isPinned: false });
+      setShowAddNotice(false);
     } catch (err) {
       alert({
         title: 'Publish Notice Failed',
@@ -57,6 +61,7 @@ export default function NoticesView() {
     try {
       await createNews(newArticle);
       setNewArticle({ title: '', category: 'Institutional', excerpt: '', image: '', content: '' });
+      setShowAddNews(false);
     } catch (err) {
       alert({
         title: 'Publish Story Failed',
@@ -116,87 +121,93 @@ export default function NoticesView() {
     <div className="space-y-6">
       {/* Notice Publisher Card */}
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-xs">
-        <div className="border-b border-[#EFECE3] pb-4 mb-5">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#A68238] mb-1">
-            Official Announcements & Circulars
-          </p>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Post an Official Notice</h3>
-          <p className="text-sm text-slate-600 mt-1">Notices you publish here will appear immediately for students, teachers, and parents on the public website</p>
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EFECE3] pb-4 mb-5">
+          <div>
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Official Notices & Circulars</h3>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowAddNotice(!showAddNotice)}
+            className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md"
+          >
+            {showAddNotice ? 'Close Form' : '+ Create New Notice'}
+          </button>
         </div>
 
-        <form onSubmit={handleNoticeSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
-            <div className="sm:col-span-2">
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Title</label>
-              <input
-                type="text"
-                value={newNotice.title}
-                onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
+        {showAddNotice && (
+          <form onSubmit={handleNoticeSubmit} className="space-y-4 mb-6 p-5 rounded-2xl border border-[#C5A15B] bg-[#FAF8F5]">
+            <h4 className="font-serif font-bold text-lg text-[#101B2D] mb-1">Draft New Notice</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
+              <div className="sm:col-span-2">
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Title</label>
+                <input
+                  type="text"
+                  value={newNotice.title}
+                  onChange={(e) => setNewNotice({ ...newNotice, title: e.target.value })}
+                  required
+                  placeholder="e.g. Grade 11 Annual Examination Schedule Released"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Audience / Category</label>
+                <select
+                  value={newNotice.category}
+                  onChange={(e) => setNewNotice({ ...newNotice, category: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
+                >
+                  <option value="General">General Notice</option>
+                  <option value="Academic">Academic</option>
+                  <option value="Examination">Examinations & Routines</option>
+                  <option value="Admission">Admissions</option>
+                  <option value="Event">Campus Event</option>
+                </select>
+              </div>
+            </div>
+
+            <div>
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Details & Body</label>
+              <textarea
+                rows={4}
+                value={newNotice.content}
+                onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
                 required
-                placeholder="e.g. Grade 11 Annual Examination Schedule Released"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
+                placeholder="Write your announcement details here. Mention dates, timings, required documents, or instructions..."
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed outline-none focus:border-[#C5A15B]"
               />
             </div>
+
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Audience / Category</label>
-              <select
-                value={newNotice.category}
-                onChange={(e) => setNewNotice({ ...newNotice, category: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Image / Circular Attachment (Upload or URL)</label>
+              <ImageUploadInput
+                value={newNotice.attachmentUrl}
+                onChange={(val) => setNewNotice({ ...newNotice, attachmentUrl: val })}
+                accept="image/*,.pdf"
+                placeholder="https://... or click Upload on the left to attach notice image/PDF"
+              />
+            </div>
+
+            <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
+              <p className="text-xs text-slate-500">Notice will be timestamped automatically and synchronized across devices.</p>
+              <button
+                type="submit"
+                disabled={isSubmittingNotice}
+                className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
               >
-                <option value="General">General Notice</option>
-                <option value="Academic">Academic</option>
-                <option value="Examination">Examinations & Routines</option>
-                <option value="Admission">Admissions</option>
-                <option value="Event">Campus Event</option>
-              </select>
+                {isSubmittingNotice ? 'Publishing...' : 'Publish Notice Now'}
+              </button>
+            </div>
+          </form>
+        )}
+
+        {/* Published Notices Table */}
+        <div className="overflow-x-auto">
+          <div className="flex items-center justify-between mb-4">
+            <div>
+              <h4 className="font-serif text-base sm:text-lg font-bold text-[#101B2D]">Currently Published Notices ({notices.length})</h4>
+              <p className="text-sm text-slate-600 mt-0.5">Click any notice to view, or delete outdated announcements</p>
             </div>
           </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Details & Body</label>
-            <textarea
-              rows={4}
-              value={newNotice.content}
-              onChange={(e) => setNewNotice({ ...newNotice, content: e.target.value })}
-              required
-              placeholder="Write your announcement details here. Mention dates, timings, required documents, or instructions..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed outline-none focus:border-[#C5A15B] focus:bg-white"
-            />
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Image / Circular Attachment (Upload or URL)</label>
-            <ImageUploadInput
-              value={newNotice.attachmentUrl}
-              onChange={(val) => setNewNotice({ ...newNotice, attachmentUrl: val })}
-              accept="image/*,.pdf"
-              placeholder="https://... or click Upload on the left to attach notice image/PDF"
-            />
-          </div>
-
-          <div className="flex flex-wrap items-center justify-between gap-3 pt-2">
-            <p className="text-xs text-slate-500">Notice will be timestamped automatically and synchronized across devices.</p>
-            <button
-              type="submit"
-              disabled={isSubmittingNotice}
-              className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
-            >
-              {isSubmittingNotice ? 'Publishing...' : 'Publish Notice Now'}
-            </button>
-          </div>
-        </form>
-      </div>
-
-      {/* Published Notices Table */}
-      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs">
-        <div className="flex items-center justify-between mb-4">
-          <div>
-            <h4 className="font-serif text-base sm:text-lg font-bold text-[#101B2D]">Currently Published Notices ({notices.length})</h4>
-            <p className="text-sm text-slate-600 mt-0.5">Click any notice to view, or delete outdated announcements</p>
-          </div>
-        </div>
-        <div className="overflow-x-auto">
           <table className="w-full text-left text-sm">
             <thead className="border-b border-[#EFECE3] text-xs font-bold uppercase tracking-wider text-slate-500">
               <tr>
@@ -211,7 +222,7 @@ export default function NoticesView() {
               {notices.length === 0 ? (
                 <tr>
                   <td colSpan={5} className="py-8 text-center text-slate-400 text-sm">
-                    No notices found. You can write and publish your first notice using the form above!
+                    No notices found. You can click "+ Create New Notice" above to write your first announcement!
                   </td>
                 </tr>
               ) : (
@@ -250,87 +261,95 @@ export default function NoticesView() {
 
       {/* News Articles Section */}
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-xs space-y-5">
-        <div className="border-b border-[#EFECE3] pb-4">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#A68238] mb-1">
-            Editorial & Campus Stories
-          </p>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Share a College Story or Achievement</h3>
-          <p className="text-sm text-slate-600 mt-1">Articles published here appear in the College News and Highlights section</p>
+        <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EFECE3] pb-4">
+          <div>
+            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">College News & Highlights</h3>
+          </div>
+          <button
+            type="button"
+            onClick={() => setShowAddNews(!showAddNews)}
+            className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md"
+          >
+            {showAddNews ? 'Close Form' : '+ Write News Article'}
+          </button>
         </div>
 
-        <form onSubmit={handleNewsSubmit} className="space-y-4">
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+        {showAddNews && (
+          <form onSubmit={handleNewsSubmit} className="space-y-4 p-5 rounded-2xl border border-[#C5A15B] bg-[#FAF8F5]">
+            <h4 className="font-serif font-bold text-lg text-[#101B2D] mb-1">Compose News Article</h4>
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Headline</label>
+                <input
+                  type="text"
+                  value={newArticle.title}
+                  onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
+                  required
+                  placeholder="e.g. Khwopa +2 Science Students Win National Robotics Expo"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Topic</label>
+                <select
+                  value={newArticle.category}
+                  onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                >
+                  <option value="Institutional">Campus Milestone</option>
+                  <option value="Achievement">Student Achievement</option>
+                  <option value="Research">Research & Science</option>
+                  <option value="Academic">Academics</option>
+                </select>
+              </div>
+            </div>
+
+            <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Short Summary</label>
+                <input
+                  type="text"
+                  value={newArticle.excerpt}
+                  onChange={(e) => setNewArticle({ ...newArticle, excerpt: e.target.value })}
+                  required
+                  placeholder="One or two sentences summarizing the story for the homepage highlight..."
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                />
+              </div>
+              <div>
+                <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Cover Image (Upload or URL)</label>
+                <ImageUploadInput
+                  value={newArticle.image}
+                  onChange={(val) => setNewArticle({ ...newArticle, image: val })}
+                  placeholder="https://... or click Upload on the left"
+                />
+              </div>
+            </div>
+
             <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Headline</label>
-              <input
-                type="text"
-                value={newArticle.title}
-                onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
+              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Story Body</label>
+              <textarea
+                rows={3}
+                value={newArticle.content}
+                onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
                 required
-                placeholder="e.g. Khwopa +2 Science Students Win National Robotics Expo"
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                placeholder="Write the full story details..."
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed"
               />
             </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Topic</label>
-              <select
-                value={newArticle.category}
-                onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
-              >
-                <option value="Institutional">Campus Milestone</option>
-                <option value="Achievement">Student Achievement</option>
-                <option value="Research">Research & Science</option>
-                <option value="Academic">Academics</option>
-              </select>
-            </div>
-          </div>
 
-          <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Short Summary</label>
-              <input
-                type="text"
-                value={newArticle.excerpt}
-                onChange={(e) => setNewArticle({ ...newArticle, excerpt: e.target.value })}
-                required
-                placeholder="One or two sentences summarizing the story for the homepage highlight..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
-              />
-            </div>
-            <div>
-              <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Cover Image (Upload or URL)</label>
-              <ImageUploadInput
-                value={newArticle.image}
-                onChange={(val) => setNewArticle({ ...newArticle, image: val })}
-                placeholder="https://... or click Upload on the left"
-              />
-            </div>
-          </div>
-
-          <div>
-            <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Story Body</label>
-            <textarea
-              rows={3}
-              value={newArticle.content}
-              onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
-              required
-              placeholder="Write the full story details..."
-              className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed"
-            />
-          </div>
-
-          <button
-            type="submit"
-            disabled={isSubmittingNews}
-            className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
-          >
-            {isSubmittingNews ? 'Publishing...' : 'Publish Story'}
-          </button>
-        </form>
+            <button
+              type="submit"
+              disabled={isSubmittingNews}
+              className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
+            >
+              {isSubmittingNews ? 'Publishing...' : 'Publish Story'}
+            </button>
+          </form>
+        )}
 
         {/* Published News Table */}
-        <div className="pt-5 border-t border-[#EFECE3]">
+        <div className="pt-2">
           <h4 className="font-serif font-bold text-base sm:text-lg text-[#101B2D] mb-3">Published Articles ({news.length})</h4>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">

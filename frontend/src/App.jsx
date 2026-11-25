@@ -1,4 +1,4 @@
-import { BrowserRouter, Route, Routes } from "react-router-dom";
+import { BrowserRouter, Route, Routes, Navigate } from "react-router-dom";
 
 // Layout & Core
 import Navbar from "./components/Navbar";
@@ -144,36 +144,36 @@ export default function App() {
 
                 {/* About / Institutional */}
                 <Route path="/about" element={<AboutPage />} />
-                <Route path="/history" element={<HistoryPage />} />
+                <Route path="/history" element={<Navigate to="/about/history" replace />} />
                 <Route path="/about/history" element={<HistoryPage />} />
                 <Route path="/about/vision-mission" element={<VisionMission />} />
-                <Route path="/about/leadership" element={<GovernancePage />} />
+                <Route path="/about/leadership" element={<Navigate to="/about/governance" replace />} />
                 <Route path="/about/governance" element={<GovernancePage />} />
                 <Route path="/about/faculty" element={<FacultyStaffPage />} />
                 <Route path="/about/facilities" element={<FacilitiesPage />} />
 
                 {/* Academics */}
-                <Route path="/academics" element={<AcademicProgramsPage />} />
+                <Route path="/academics" element={<Navigate to="/academics/programmes" replace />} />
                 <Route path="/academics/programmes" element={<ProgrammesPage />} />
                 <Route path="/academics/programmes/:slug" element={<ProgrammeDetailPage />} />
                 <Route path="/academics/management" element={<ManagementPage />} />
                 <Route path="/academics/science" element={<SciencePage />} />
                 <Route path="/academics/humanities" element={<HumanitiesPage />} />
-                <Route path="/academics/humanities-social-sciences" element={<HumanitiesPage />} />
-                <Route path="/academics/law" element={<HumanitiesPage />} />
-                <Route path="/science" element={<SciencePage />} />
-                <Route path="/management" element={<ManagementPage />} />
-                <Route path="/humanities" element={<HumanitiesPage />} />
-                <Route path="/law" element={<HumanitiesPage />} />
+                <Route path="/academics/humanities-social-sciences" element={<Navigate to="/academics/humanities" replace />} />
+                <Route path="/academics/law" element={<Navigate to="/academics/programmes/plus-two-law" replace />} />
+                <Route path="/science" element={<Navigate to="/academics/science" replace />} />
+                <Route path="/management" element={<Navigate to="/academics/management" replace />} />
+                <Route path="/humanities" element={<Navigate to="/academics/humanities" replace />} />
+                <Route path="/law" element={<Navigate to="/academics/programmes/plus-two-law" replace />} />
                 <Route path="/academics/departments" element={<DepartmentsPage />} />
-                <Route path="/departments" element={<DepartmentsPage />} />
-                <Route path="/department" element={<DepartmentsPage />} />
+                <Route path="/departments" element={<Navigate to="/academics/departments" replace />} />
+                <Route path="/department" element={<Navigate to="/academics/departments" replace />} />
 
                 {/* Admissions */}
                 <Route path="/admissions" element={<AdmissionsPage />} />
-                <Route path="/admission" element={<AdmissionsPage />} />
+                <Route path="/admission" element={<Navigate to="/admissions" replace />} />
                 <Route path="/admissions/apply" element={<ApplyOnlinePage />} />
-                <Route path="/apply" element={<ApplyOnlinePage />} />
+                <Route path="/apply" element={<Navigate to="/admissions/apply" replace />} />
                 <Route path="/admissions/requirements" element={<RequirementsPage />} />
                 <Route path="/admissions/how-to-apply" element={<HowToApplyPage />} />
                 <Route path="/admissions/fees-scholarships" element={<FeesScholarshipsPage />} />
@@ -208,7 +208,7 @@ export default function App() {
                 <Route path="/news" element={<NewsPage />} />
                 <Route path="/news/:slug" element={<NewsDetailPage />} />
                 <Route path="/notices" element={<NoticePage />} />
-                <Route path="/notice" element={<NoticePage />} />
+                <Route path="/notice" element={<Navigate to="/notices" replace />} />
                 <Route path="/notices/:category" element={<NoticePage />} />
                 <Route path="/notice/:slug" element={<NoticeDetailPage />} />
 

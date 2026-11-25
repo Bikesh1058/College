@@ -118,7 +118,7 @@ app.use((err, req, res, next) => {
   });
 });
 
-httpServer.listen(PORT, () => {
+httpServer.listen(PORT, "0.0.0.0", () => {
   console.log(`[Khwopa MERN + Socket.IO Server running on port ${PORT}]`);
 });
 

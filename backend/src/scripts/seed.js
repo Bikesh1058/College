@@ -13,7 +13,7 @@ const uri = process.env.MONGODB_URI || 'mongodb://localhost:27017/khwopa_db';
 const seedDatabase = async () => {
   try {
     await mongoose.connect(uri);
-    console.log('[Seed] Connected to MongoDB:', uri);
+    console.log('[Seed] Connected to MongoDB successfully.');
 
     // 1. Create Default Super Admin & Principal CMS accounts
     await User.deleteMany({});

@@ -138,13 +138,7 @@ export default function AdmissionsView() {
       {/* Header & Counter */}
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#A68238] mb-1">
-            Online Intake & Candidate Verification
-          </p>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Class 11 (+2) Admission Applications</h3>
-          <p className="text-sm text-slate-600 mt-1">
-            Real-time candidate registrations, instant PDF form inspection without download, and direct applicant Gmail correspondence
-          </p>
         </div>
         <div className="flex items-center gap-2.5">
           <span className="text-xs sm:text-sm font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-2 rounded-xl">

@@ -16,22 +16,22 @@ export default function SectionHeading({
     >
       {eyebrow && (
         <div
-          className={`mb-3.5 flex items-center gap-3 ${
+          className={`mb-3 flex items-center gap-2.5 ${
             isCentered ? "justify-center" : ""
           }`}
         >
-          <span className="h-px w-9 bg-[#b99754]" />
-          <span className="text-xs font-bold uppercase tracking-[0.2em] text-[#92703b]">
+          <span className="h-0.5 w-6 bg-[#b99754]" />
+          <span className="text-xs font-semibold tracking-wider uppercase text-[#92703b]">
             {eyebrow}
           </span>
-          {isCentered && <span className="h-px w-9 bg-[#b99754]" />}
+          {isCentered && <span className="h-0.5 w-6 bg-[#b99754]" />}
         </div>
       )}
 
-      <h2 className="font-serif text-2xl sm:text-4xl lg:text-[42px] font-bold leading-[1.15] tracking-tight text-[#12243a]">
+      <h2 className="font-serif text-2xl sm:text-3xl lg:text-4xl font-bold leading-tight tracking-normal text-[#12243a]">
         {title}
         {italicTitle && (
-          <span className="block italic text-[#a17c3d] mt-1">
+          <span className="block font-sans font-medium text-lg sm:text-xl text-[#755725] mt-1.5 not-italic">
             {italicTitle}
           </span>
         )}

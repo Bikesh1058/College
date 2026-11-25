@@ -3,6 +3,7 @@ import mongoose from 'mongoose';
 const siteSettingsSchema = new mongoose.Schema({
   collegeName: { type: String, default: 'Khwopa Secondary School (+2)' },
   tagline: { type: String, default: 'Dedicated to Country and People' },
+  logoUrl: { type: String, default: '' },
   establishedYearBS: { type: String, default: '2058 BS' },
   establishedYearAD: { type: String, default: '2001 AD' },
   address: { type: String, default: 'Dekocha, Bhaktapur, Nepal' },

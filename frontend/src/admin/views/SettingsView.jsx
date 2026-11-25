@@ -47,11 +47,7 @@ export default function SettingsView() {
     <div className="space-y-6">
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-7 shadow-xs">
         <div className="border-b border-[#EFECE3] pb-5 mb-6">
-          <p className="text-[11px] font-bold uppercase tracking-[0.16em] text-[#A68238] mb-1">
-            Institutional Configuration
-          </p>
           <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">College Information & Header Banner</h3>
-          <p className="text-sm text-slate-600 mt-1">Update contact details, official telephone numbers, and broadcast urgent notices at the very top of the website</p>
         </div>
 
         <form onSubmit={handleSubmit} className="space-y-5 text-sm">
@@ -111,7 +107,7 @@ export default function SettingsView() {
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">College Crest / Banner Image (Upload or URL)</label>
+              <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">College Logo</label>
               <ImageUploadInput
                 value={formData.logoUrl || ''}
                 onChange={(val) => setFormData({ ...formData, logoUrl: val })}

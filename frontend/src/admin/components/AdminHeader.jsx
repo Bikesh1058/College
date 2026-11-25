@@ -43,14 +43,6 @@ export default function AdminHeader({
         >
           <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin text-[#A68238]' : 'text-slate-500'}`} />
         </button>
-
-        <button
-          onClick={onQuickAction}
-          className="inline-flex items-center gap-1.5 px-4 py-2 rounded-xl bg-[#101B2D] text-[#F5F2EA] text-xs sm:text-sm font-bold hover:bg-[#1F3147] transition shadow-xs"
-        >
-          <Plus className="h-4 w-4 text-[#C5A15B]" />
-          <span>Post Notice</span>
-        </button>
       </div>
     </header>
   );

@@ -204,7 +204,7 @@ export default function Navbar() {
         <Link to="/" onClick={scrollToTop} className="flex shrink-0 items-center gap-3" aria-label="Khwopa College Home">
           <span className="grid h-10 w-10 shrink-0 place-items-center overflow-hidden rounded-md bg-white p-1">
             <img
-              src="https://wms.edigitalnepal.com/wms/files/ws-profile/1678949042195_fc474132-1571-4dec-92f9-25c027f34feb.png"
+              src={dynamicSettings?.logoUrl || "https://wms.edigitalnepal.com/wms/files/ws-profile/1678949042195_fc474132-1571-4dec-92f9-25c027f34feb.png"}
               alt="Khwopa College Emblem"
               className="h-full w-full object-contain"
             />
@@ -302,7 +302,7 @@ export default function Navbar() {
             <button
               type="button"
               onClick={() => toggleDropdown("campusLife")}
-              className={`inline-flex items-center gap-1.5 rounded-lg px-3 py-2 text-[13px] font-semibold transition ${
+              className={`inline-flex items-center gap-1.5 whitespace-nowrap rounded-lg px-3 py-2 text-[13px] font-semibold transition ${
                 openDropdown === "campusLife" || location.pathname.startsWith("/campus-life")
                   ? "text-[#dfbd77]"
                   : "text-white/85 hover:text-white"
@@ -387,7 +387,7 @@ export default function Navbar() {
           <Link
             to="/admissions/apply"
             onClick={scrollToTop}
-            className="inline-flex items-center gap-1.5 rounded-xl bg-[#dfbd77] px-4 py-2 text-xs font-bold text-[#14283F] shadow-sm transition hover:bg-[#c9a65d]"
+            className="inline-flex items-center gap-1.5 whitespace-nowrap rounded-xl bg-[#dfbd77] px-4 py-2 text-xs font-bold text-[#14283F] shadow-sm transition hover:bg-[#c9a65d]"
           >
             <span>Apply Now</span>
             <svg className="h-3.5 w-3.5" fill="none" stroke="currentColor" viewBox="0 0 24 24">

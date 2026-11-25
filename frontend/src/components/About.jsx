@@ -33,15 +33,15 @@ export default function About() {
     <section id="about" className="bg-[#f7f5f0] px-5 py-24 sm:px-8 lg:py-32">
       <div className="mx-auto grid max-w-7xl items-center gap-14 lg:grid-cols-[0.95fr_1.05fr] lg:gap-20">
         <div>
-          <p className="mb-5 text-xs font-semibold uppercase tracking-[0.28em] text-[#a17c3d]">
+          <p className="mb-4 text-xs font-semibold uppercase tracking-wider text-[#92703b]">
             {eyebrow}
           </p>
 
-          <h2 className="max-w-xl font-serif text-4xl leading-[1.12] text-[#12243a] sm:text-5xl lg:text-6xl">
+          <h2 className="max-w-xl font-serif text-3xl leading-snug text-[#12243a] sm:text-4xl lg:text-5xl font-bold">
             {heading.includes('.') ? (
               <>
-                {heading.split('.')[0]}.
-                <span className="block italic text-[#a17c3d]">
+                <span>{heading.split('.')[0]}. </span>
+                <span className="font-sans font-medium text-xl sm:text-2xl text-[#755725] block mt-1 not-italic">
                   {heading.split('.').slice(1).join('.').trim()}
                 </span>
               </>

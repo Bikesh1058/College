@@ -143,18 +143,9 @@ export default function ContactInquiriesView() {
       {/* Top Banner Header */}
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <div className="flex items-center gap-2">
-            <span className="flex h-2.5 w-2.5 rounded-full bg-emerald-500 ring-4 ring-emerald-500/20" />
-            <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#92703b]">
-              Communications & Inquiries Registry
-            </span>
-          </div>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight mt-1">
+          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
             Student & Public Inquiries
           </h3>
-          <p className="text-xs sm:text-sm text-slate-600 mt-0.5">
-            Real-time contact messages, admissions inquiries, and official email reply desk
-          </p>
         </div>
 
         <div className="flex items-center gap-3">

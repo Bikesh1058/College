@@ -55,28 +55,28 @@ export default function OverviewView({ setActiveTab, user }) {
         </div>
       </div>
 
-      {/* 6 Metric KPI Cards - Clean, Typographic & Clickable */}
-      <div className="grid grid-cols-2 md:grid-cols-3 xl:grid-cols-6 gap-4">
+      {/* Metric KPI Cards - Clean, Typographic & Clickable */}
+      <div className="grid grid-cols-2 sm:grid-cols-3 lg:grid-cols-4 2xl:grid-cols-7 gap-3">
         {kpis.map((kpi) => {
           return (
             <div
               key={kpi.title}
               onClick={() => setActiveTab(kpi.tab)}
-              className="group cursor-pointer rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs hover:border-[#C5A15B] hover:shadow-md transition duration-200 flex flex-col justify-between"
+              className="group cursor-pointer rounded-2xl border border-[#E3DCCB] bg-white p-3.5 sm:p-4 shadow-xs hover:border-[#C5A15B] hover:shadow-md transition duration-200 flex flex-col justify-between"
             >
               <div>
-                <p className="text-[11px] font-bold uppercase tracking-[0.12em] text-[#A68238] truncate">
+                <p className="text-[10px] 2xl:text-[11px] font-bold uppercase tracking-wider text-[#A68238] truncate" title={kpi.sub}>
                   {kpi.sub}
                 </p>
-                <p className="mt-3 font-serif text-3xl font-bold text-[#101B2D] leading-none">
+                <p className="mt-2.5 font-serif text-2xl xl:text-3xl font-bold text-[#101B2D] leading-none truncate">
                   {kpi.count}
                 </p>
               </div>
-              <div className="mt-4 pt-3 border-t border-[#EFECE3] flex items-center justify-between gap-1">
-                <span className="text-xs sm:text-sm font-semibold text-[#101B2D] truncate">
+              <div className="mt-3.5 pt-2.5 border-t border-[#EFECE3] flex items-center justify-between gap-1">
+                <span className="text-[11px] 2xl:text-xs font-semibold text-[#101B2D] truncate" title={kpi.title}>
                   {kpi.title}
                 </span>
-                <ChevronRight className="h-4 w-4 text-slate-400 group-hover:text-[#A68238] group-hover:translate-x-0.5 transition shrink-0" />
+                <ChevronRight className="h-3.5 w-3.5 text-slate-400 group-hover:text-[#A68238] group-hover:translate-x-0.5 transition shrink-0" />
               </div>
             </div>
           );
