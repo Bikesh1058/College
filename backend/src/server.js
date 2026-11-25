@@ -28,17 +28,31 @@ const server = http.createServer(app);
 // Allowed frontend origins
 const allowedOrigins = [
   process.env.CLIENT_URL?.replace(/\/+$/, ""),
+  "https://college-omega-roan.vercel.app",
   "http://localhost:5173"
 ].filter(Boolean);
 
-// Express CORS configuration
+// Allow preview deployments belonging to your Vercel project
+const vercelPreviewOrigin =
+  /^https:\/\/college-[a-z0-9-]+-bikesh1058s-projects\.vercel\.app$/i;
+
 const corsOptions = {
-  origin: allowedOrigins,
+  origin: (origin, callback) => {
+    if (
+      !origin ||
+      allowedOrigins.includes(origin) ||
+      vercelPreviewOrigin.test(origin)
+    ) {
+      return callback(null, true);
+    }
+
+    return callback(new Error(`CORS blocked origin: ${origin}`));
+  },
   methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
   credentials: true
 };
 
-// Apply CORS before API routes
+// Express CORS
 app.use(cors(corsOptions));
 
 app.use(express.json({ limit: '10mb' }));
@@ -47,11 +61,7 @@ app.use('/uploads', express.static('uploads'));
 
 // Initialize Socket.IO Server
 const io = new Server(server, {
-  cors: {
-    origin: allowedOrigins,
-    methods: ["GET", "POST"],
-    credentials: true
-  }
+  cors: corsOptions
 });
 
 app.set('io', io);
