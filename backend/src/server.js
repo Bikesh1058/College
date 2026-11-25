@@ -1,4 +1,4 @@
-import { createServer } from 'http';
+import http from 'http';
 import { Server } from 'socket.io';
 import express from 'express';
 import cors from 'cors';
@@ -21,15 +21,35 @@ import contactRoutes from './routes/contactRoutes.js';
 dotenv.config();
 
 const app = express();
-const httpServer = createServer(app);
-const PORT = process.env.PORT || 5000;
-const CLIENT_ORIGIN = process.env.CLIENT_URL || 'http://localhost:5173';
+
+// Create HTTP server
+const server = http.createServer(app);
+
+// Allowed frontend origins
+const allowedOrigins = [
+  process.env.CLIENT_URL?.replace(/\/+$/, ""),
+  "http://localhost:5173"
+].filter(Boolean);
+
+// Express CORS configuration
+const corsOptions = {
+  origin: allowedOrigins,
+  methods: ["GET", "POST", "PUT", "PATCH", "DELETE", "OPTIONS"],
+  credentials: true
+};
+
+// Apply CORS before API routes
+app.use(cors(corsOptions));
+
+app.use(express.json({ limit: '10mb' }));
+app.use(express.urlencoded({ extended: true, limit: '10mb' }));
+app.use('/uploads', express.static('uploads'));
 
 // Initialize Socket.IO Server
-const io = new Server(httpServer, {
+const io = new Server(server, {
   cors: {
-    origin: CLIENT_ORIGIN,
-    methods: ['GET', 'POST', 'PUT', 'PATCH', 'DELETE'],
+    origin: allowedOrigins,
+    methods: ["GET", "POST"],
     credentials: true
   }
 });
@@ -50,15 +70,6 @@ io.on('connection', (socket) => {
 
 // Connect to MongoDB
 connectDB();
-
-// Middleware
-app.use(cors({
-  origin: CLIENT_ORIGIN,
-  credentials: true
-}));
-app.use(express.json({ limit: '10mb' }));
-app.use(express.urlencoded({ extended: true, limit: '10mb' }));
-app.use('/uploads', express.static('uploads'));
 
 if (process.env.NODE_ENV === 'development') {
   app.use(morgan('dev'));
@@ -118,7 +129,8 @@ app.use((err, req, res, next) => {
   });
 });
 
-httpServer.listen(PORT, "0.0.0.0", () => {
-  console.log(`[Khwopa MERN + Socket.IO Server running on port ${PORT}]`);
-});
+const PORT = process.env.PORT || 5000;
 
+server.listen(PORT, "0.0.0.0", () => {
+  console.log(`Khwopa MERN + Socket.IO Server running on port ${PORT}`);
+});
