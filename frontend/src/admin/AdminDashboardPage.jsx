@@ -152,7 +152,7 @@ function AdminDashboardContent() {
                   <span className="text-xs font-bold uppercase tracking-wider text-[#A68238]">
                     Global Institutional Search
                   </span>
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D] mt-0.5">
+                  <h4 className="font-sans font-bold text-lg text-[#101B2D] mt-0.5">
                     Results for "{globalSearch}"
                   </h4>
                 </div>
@@ -256,14 +256,15 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">+2 Academic Streams</h3>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">+2 Academic Streams</h3>
+                  <p className="text-xs text-slate-500 mt-1">Configure higher secondary curricula, subject combinations, and laboratory profiles</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowAddStream(!showAddStream)}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
+                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                   >
-                    {showAddStream ? 'Close Form' : '+ Add Academic Stream'}
+                    {showAddStream ? 'Close Form ✕' : '+ Add Academic Stream'}
                   </button>
                 </div>
               </div>
@@ -277,9 +278,20 @@ function AdminDashboardContent() {
                     setNewStream({ title: '', code: '', facultyStream: 'Science', overview: '' });
                     setShowAddStream(false);
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Create New +2 Stream / Programme</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Create New +2 Stream</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddStream(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Stream Title</label>
@@ -289,7 +301,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. +2 Science (Computer Group)"
                         value={newStream.title}
                         onChange={(e) => setNewStream({ ...newStream, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -300,7 +312,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. SCI-COMP"
                         value={newStream.code}
                         onChange={(e) => setNewStream({ ...newStream, code: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] font-mono focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -308,7 +320,7 @@ function AdminDashboardContent() {
                       <select
                         value={newStream.facultyStream}
                         onChange={(e) => setNewStream({ ...newStream, facultyStream: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       >
                         <option value="Science">Science</option>
                         <option value="Management">Management</option>
@@ -324,7 +336,7 @@ function AdminDashboardContent() {
                       placeholder="Describe subjects, laboratory work, and eligibility..."
                       value={newStream.overview}
                       onChange={(e) => setNewStream({ ...newStream, overview: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
                   <div>
@@ -335,9 +347,21 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Academic Stream
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddStream(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Academic Stream
+                    </button>
+                  </div>
                 </form>
               )}
 
@@ -363,11 +387,19 @@ function AdminDashboardContent() {
                     }
                     setEditingStream(null);
                   }}
-                  className="rounded-2xl border-2 border-[#C5A15B] bg-white p-6 shadow-lg space-y-4 text-sm"
+                  className="rounded-2xl border-2 border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-lg space-y-4 text-sm"
                 >
-                  <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3">
-                    <span className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Edit Academic Stream: {editingStream.title}</span>
-                    <button type="button" onClick={() => setEditingStream(null)} className="text-xs text-slate-600 font-bold">Cancel ✕</button>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Edit Academic Stream: {editingStream.title}</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setEditingStream(null)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
@@ -377,7 +409,7 @@ function AdminDashboardContent() {
                         required
                         value={editingStream.title || ''}
                         onChange={(e) => setEditingStream({ ...editingStream, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -387,7 +419,7 @@ function AdminDashboardContent() {
                         required
                         value={editingStream.code || ''}
                         onChange={(e) => setEditingStream({ ...editingStream, code: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] font-mono focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -395,7 +427,7 @@ function AdminDashboardContent() {
                       <select
                         value={editingStream.facultyStream || 'Science'}
                         onChange={(e) => setEditingStream({ ...editingStream, facultyStream: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       >
                         <option value="Science">Science</option>
                         <option value="Management">Management</option>
@@ -410,57 +442,74 @@ function AdminDashboardContent() {
                       required
                       value={editingStream.overview || ''}
                       onChange={(e) => setEditingStream({ ...editingStream, overview: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Stream Changes
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setEditingStream(null)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Stream Changes
+                    </button>
+                  </div>
                 </form>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
-                {(programmes.length > 0 ? programmes : [
-                  { _id: 'sci', title: '+2 Science', code: 'SCI-NEB', facultyStream: 'Science', overview: 'Comprehensive secondary science curriculum with Physics, Chemistry, Biology and Math.' },
-                  { _id: 'mgt', title: '+2 Management', code: 'MGT-NEB', facultyStream: 'Management', overview: 'Business studies, Accountancy, Economics, Hotel Management and Computer Science.' },
-                  { _id: 'hum', title: '+2 Humanities & Law', code: 'HUM-NEB', facultyStream: 'Humanities & Law', overview: 'Sociology, Mass Communication, Jurisprudence, and General Literature.' }
-                ]).map((prog) => (
-                  <div key={prog._id} className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-col justify-between">
-                    <div>
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md">
-                          {prog.facultyStream}
-                        </span>
-                        <span className="text-xs font-mono font-bold text-slate-500">{prog.code}</span>
+              {programmes.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[#E3DCCB] bg-[#FAF8F5] p-10 text-center">
+                  <p className="font-semibold text-sm text-[#101B2D]">No academic streams registered</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Click "+ Add Academic Stream" above to configure your higher secondary curricula.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {programmes.map((prog) => (
+                    <div key={prog._id} className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between">
+                      <div>
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold uppercase tracking-wider text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md">
+                            {prog.facultyStream}
+                          </span>
+                          <span className="text-xs font-mono font-bold text-slate-600 bg-[#FAF8F5] border border-[#E3DCCB] px-2 py-0.5 rounded">
+                            {prog.code}
+                          </span>
+                        </div>
+                        <h4 className="mt-3 font-sans font-bold text-lg text-[#101B2D] leading-snug">{prog.title}</h4>
+                        <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">{prog.overview}</p>
                       </div>
-                      <h4 className="mt-3 font-serif font-bold text-lg text-[#101B2D] leading-snug">{prog.title}</h4>
-                      <p className="mt-2 text-sm text-slate-600 leading-relaxed line-clamp-3">{prog.overview}</p>
-                    </div>
 
-                    <div className="mt-5 pt-3.5 border-t border-[#EFECE3] flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-2.5">
-                        <button
-                          onClick={() => setEditingStream({ ...prog })}
-                          className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                        >
-                          Edit
-                        </button>
-                        <a href="/academics/programmes" target="_blank" rel="noreferrer" className="text-[#A68238] font-bold hover:underline">
-                          Public View ↗
-                        </a>
+                      <div className="mt-5 pt-3.5 border-t border-[#EFECE3] flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-2.5">
+                          <button
+                            onClick={() => setEditingStream({ ...prog })}
+                            className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                          <a href="/academics/programmes" target="_blank" rel="noreferrer" className="text-[#A68238] font-bold hover:underline">
+                            Public View ↗
+                          </a>
+                        </div>
+                        {prog._id && prog._id.length > 5 && (
+                          <button
+                            onClick={() => deleteProgramme(prog._id)}
+                            className="text-rose-600 hover:underline font-semibold cursor-pointer"
+                          >
+                            Remove
+                          </button>
+                        )}
                       </div>
-                      {prog._id && prog._id.length > 5 && (
-                        <button
-                          onClick={() => deleteProgramme(prog._id)}
-                          className="text-rose-600 hover:underline font-semibold"
-                        >
-                          Remove
-                        </button>
-                      )}
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -479,14 +528,15 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Examinations & NEB Board Hub</h3>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Examinations & Board Schedules</h3>
+                  <p className="text-xs text-slate-500 mt-1">Publish terminal routines, NEB board schedules, admit card updates, and examination hall seat allocations</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowAddExam(!showAddExam)}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
+                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                   >
-                    {showAddExam ? 'Close Form' : '+ Schedule Exam Routine'}
+                    {showAddExam ? 'Close Form ✕' : '+ Schedule Exam Routine'}
                   </button>
                 </div>
               </div>
@@ -500,9 +550,20 @@ function AdminDashboardContent() {
                     setNewExam({ title: '', examDate: '', status: 'Routine Published', center: 'Center 104 (Khwopa)', gradeLevel: 'Grade 12' });
                     setShowAddExam(false);
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Publish New Examination Schedule</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Publish New Examination Schedule</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddExam(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Exam Title</label>
@@ -512,7 +573,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Grade 12 Second Terminal Exam"
                         value={newExam.title}
                         onChange={(e) => setNewExam({ ...newExam, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -523,7 +584,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Starts Mangsir 15, 2083"
                         value={newExam.examDate}
                         onChange={(e) => setNewExam({ ...newExam, examDate: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -531,7 +592,7 @@ function AdminDashboardContent() {
                       <select
                         value={newExam.status}
                         onChange={(e) => setNewExam({ ...newExam, status: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       >
                         <option value="Routine Published">Routine Published</option>
                         <option value="Admit Cards Ready">Admit Cards Ready</option>
@@ -546,7 +607,7 @@ function AdminDashboardContent() {
                         required
                         value={newExam.center}
                         onChange={(e) => setNewExam({ ...newExam, center: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
@@ -559,9 +620,21 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Publish Exam Schedule
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddExam(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Publish Exam Schedule
+                    </button>
+                  </div>
                 </form>
               )}
 
@@ -587,11 +660,19 @@ function AdminDashboardContent() {
                     }
                     setEditingExam(null);
                   }}
-                  className="rounded-2xl border-2 border-[#C5A15B] bg-white p-6 shadow-lg space-y-4 text-sm"
+                  className="rounded-2xl border-2 border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-lg space-y-4 text-sm"
                 >
-                  <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3">
-                    <span className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Edit Examination Schedule: {editingExam.title}</span>
-                    <button type="button" onClick={() => setEditingExam(null)} className="text-xs text-slate-600 font-bold">Cancel ✕</button>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Edit Examination Schedule: {editingExam.title}</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setEditingExam(null)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
@@ -601,7 +682,7 @@ function AdminDashboardContent() {
                         required
                         value={editingExam.title || ''}
                         onChange={(e) => setEditingExam({ ...editingExam, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -611,7 +692,7 @@ function AdminDashboardContent() {
                         required
                         value={editingExam.date || editingExam.examDate || ''}
                         onChange={(e) => setEditingExam({ ...editingExam, date: e.target.value, examDate: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -620,7 +701,7 @@ function AdminDashboardContent() {
                         type="text"
                         value={editingExam.status || ''}
                         onChange={(e) => setEditingExam({ ...editingExam, status: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -629,48 +710,81 @@ function AdminDashboardContent() {
                         type="text"
                         value={editingExam.center || ''}
                         onChange={(e) => setEditingExam({ ...editingExam, center: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Examination Changes
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setEditingExam(null)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Examination Changes
+                    </button>
+                  </div>
                 </form>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {examinations.map((e) => ({ _id: e._id, title: e.title, date: e.examDate, status: e.status, center: e.center, routineImage: e.routineImage })).map((ex, idx) => (
-                  <div key={ex._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase">
-                          {ex.status}
-                        </span>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setEditingExam({ ...ex })}
-                            className="px-2.5 py-1 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                          >
-                            Edit
-                          </button>
-                          {ex._id && (
+              {examinations.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[#E3DCCB] bg-[#FAF8F5] p-10 text-center">
+                  <p className="font-semibold text-sm text-[#101B2D]">No examination routines published</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Click "+ Schedule Exam Routine" above to publish NEB board schedules or terminal routines.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {examinations.map((e) => ({ _id: e._id, title: e.title, date: e.examDate, status: e.status, center: e.center, routineImage: e.routineImage })).map((ex, idx) => (
+                    <div key={ex._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-4">
+                      <div className="space-y-3">
+                        <div className="flex items-center justify-between">
+                          <span className={`text-[11px] font-bold px-2.5 py-0.5 rounded-md uppercase tracking-wider ${
+                            ex.status === 'Results Published'
+                              ? 'bg-emerald-50 text-emerald-800 border border-emerald-200'
+                              : ex.status === 'Admit Cards Ready'
+                              ? 'bg-blue-50 text-blue-800 border border-blue-200'
+                              : 'bg-[#C5A15B]/15 text-[#A68238] border border-[#C5A15B]/30'
+                          }`}>
+                            {ex.status}
+                          </span>
+                          <div className="flex items-center gap-2">
                             <button
-                              onClick={() => deleteExamination(ex._id)}
-                              className="text-xs text-rose-600 font-bold hover:underline"
+                              onClick={() => setEditingExam({ ...ex })}
+                              className="px-2.5 py-1 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
                             >
-                              Remove
+                              Edit
                             </button>
-                          )}
+                            {ex._id && (
+                              <button
+                                onClick={() => deleteExamination(ex._id)}
+                                className="text-xs text-rose-600 font-bold hover:underline cursor-pointer"
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <h4 className="font-sans font-bold text-base sm:text-lg text-[#101B2D] leading-snug">{ex.title}</h4>
+                        <div className="space-y-1.5 pt-1 text-sm text-slate-600">
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider w-16">Date:</span>
+                            <span className="font-medium text-[#101B2D]">{ex.date}</span>
+                          </div>
+                          <div className="flex items-center gap-2">
+                            <span className="text-xs font-bold text-slate-400 uppercase tracking-wider w-16">Venue:</span>
+                            <span className="font-medium text-[#101B2D]">{ex.center}</span>
+                          </div>
                         </div>
                       </div>
-                      <h4 className="font-serif font-bold text-base sm:text-lg text-[#101B2D] leading-snug">{ex.title}</h4>
-                      <p className="text-sm text-slate-600"><span className="font-semibold text-[#101B2D]">Schedule:</span> {ex.date}</p>
-                      <p className="text-sm text-slate-600"><span className="font-semibold text-[#101B2D]">Venue:</span> {ex.center}</p>
                     </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -684,14 +798,15 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Campus Life, Clubs & Sports</h3>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Campus Life, Clubs & Societies</h3>
+                  <p className="text-xs text-slate-500 mt-1">Student athletic societies, scientific clubs, and community engagement bodies</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowAddClub(!showAddClub)}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
+                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                   >
-                    {showAddClub ? 'Close Form' : '+ Register New Club'}
+                    {showAddClub ? 'Close Form ✕' : '+ Register New Club'}
                   </button>
                 </div>
               </div>
@@ -705,9 +820,20 @@ function AdminDashboardContent() {
                     setNewClub({ name: '', lead: '', members: '50 Members', description: '', category: 'Student Society' });
                     setShowAddClub(false);
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Register Student Club or Society</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Register Student Club or Society</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddClub(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Club Name</label>
@@ -717,7 +843,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Khwopa Astronomy & Space Club"
                         value={newClub.name}
                         onChange={(e) => setNewClub({ ...newClub, name: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -728,7 +854,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Suman Bekoju (Grade 12)"
                         value={newClub.lead}
                         onChange={(e) => setNewClub({ ...newClub, lead: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -739,7 +865,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. 65 Members"
                         value={newClub.members}
                         onChange={(e) => setNewClub({ ...newClub, members: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
@@ -751,7 +877,7 @@ function AdminDashboardContent() {
                       placeholder="Brief description of club events and workshops..."
                       value={newClub.description}
                       onChange={(e) => setNewClub({ ...newClub, description: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
                   <div>
@@ -762,9 +888,21 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Student Club
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddClub(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Student Club
+                    </button>
+                  </div>
                 </form>
               )}
 
@@ -792,11 +930,19 @@ function AdminDashboardContent() {
                     }
                     setEditingClub(null);
                   }}
-                  className="rounded-2xl border-2 border-[#C5A15B] bg-white p-6 shadow-lg space-y-4 text-sm"
+                  className="rounded-2xl border-2 border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-lg space-y-4 text-sm"
                 >
-                  <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3">
-                    <span className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Edit Student Club: {editingClub.name}</span>
-                    <button type="button" onClick={() => setEditingClub(null)} className="text-xs text-slate-600 font-bold">Cancel ✕</button>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Edit Student Club: {editingClub.name}</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setEditingClub(null)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
@@ -806,7 +952,7 @@ function AdminDashboardContent() {
                         required
                         value={editingClub.name || ''}
                         onChange={(e) => setEditingClub({ ...editingClub, name: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -816,7 +962,7 @@ function AdminDashboardContent() {
                         required
                         value={editingClub.lead || ''}
                         onChange={(e) => setEditingClub({ ...editingClub, lead: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -826,7 +972,7 @@ function AdminDashboardContent() {
                         required
                         value={editingClub.members || ''}
                         onChange={(e) => setEditingClub({ ...editingClub, members: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
@@ -837,7 +983,7 @@ function AdminDashboardContent() {
                       required
                       value={editingClub.desc || editingClub.description || ''}
                       onChange={(e) => setEditingClub({ ...editingClub, desc: e.target.value, description: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
                   <div>
@@ -848,50 +994,69 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Club Changes
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setEditingClub(null)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Club Changes
+                    </button>
+                  </div>
                 </form>
               )}
 
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
-                {clubs.map(c => ({ _id: c._id, name: c.name, lead: c.lead, members: c.members, desc: c.description, image: c.image })).map((club, idx) => (
-                  <div key={club._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs flex flex-col justify-between space-y-3">
-                    <div className="space-y-2.5">
-                      {club.image && (
-                        <div className="h-36 w-full rounded-xl overflow-hidden bg-slate-100 border border-[#EFECE3]">
-                          <img src={club.image} alt={club.name} className="h-full w-full object-cover" />
-                        </div>
-                      )}
-                      <div className="flex items-center justify-between">
-                        <span className="text-[11px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase">Student Chapter</span>
-                        <div className="flex items-center gap-2">
-                          <button
-                            onClick={() => setEditingClub({ ...club })}
-                            className="px-2.5 py-1 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                          >
-                            Edit
-                          </button>
-                          {club._id && (
+              {clubs.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[#E3DCCB] bg-[#FAF8F5] p-10 text-center">
+                  <p className="font-semibold text-sm text-[#101B2D]">No student clubs or societies registered</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Click "+ Register New Club" above to register student chapters and athletic teams.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {clubs.map(c => ({ _id: c._id, name: c.name, lead: c.lead, members: c.members, desc: c.description, image: c.image })).map((club, idx) => (
+                    <div key={club._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-3">
+                      <div className="space-y-2.5">
+                        {club.image && (
+                          <div className="h-36 w-full rounded-xl overflow-hidden bg-slate-100 border border-[#EFECE3]">
+                            <img src={club.image} alt={club.name} className="h-full w-full object-cover" />
+                          </div>
+                        )}
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase tracking-wider">Student Chapter</span>
+                          <div className="flex items-center gap-2">
                             <button
-                              onClick={() => deleteClub(club._id)}
-                              className="text-xs text-rose-600 font-bold hover:underline"
+                              onClick={() => setEditingClub({ ...club })}
+                              className="px-2.5 py-1 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
                             >
-                              Remove
+                              Edit
                             </button>
-                          )}
+                            {club._id && (
+                              <button
+                                onClick={() => deleteClub(club._id)}
+                                className="text-xs text-rose-600 font-bold hover:underline cursor-pointer"
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
                         </div>
+                        <h4 className="font-sans font-bold text-base text-[#101B2D] leading-snug">{club.name}</h4>
+                        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3">{club.desc}</p>
                       </div>
-                      <h4 className="font-serif font-bold text-base text-[#101B2D] leading-snug">{club.name}</h4>
-                      <p className="text-sm text-slate-600 leading-relaxed">{club.desc}</p>
+                      <div className="pt-2.5 border-t border-[#EFECE3] text-xs text-slate-600 space-y-1">
+                        <p><span className="font-semibold text-[#101B2D]">Coordinator:</span> {club.lead}</p>
+                        <p><span className="font-semibold text-[#101B2D]">Registered:</span> {club.members}</p>
+                      </div>
                     </div>
-                    <div className="pt-2.5 border-t border-[#EFECE3] text-xs text-slate-600 space-y-1">
-                      <p><span className="font-semibold text-[#101B2D]">Coordinator:</span> {club.lead}</p>
-                      <p><span className="font-semibold text-[#101B2D]">Registered:</span> {club.members}</p>
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
 
@@ -900,14 +1065,15 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Research Management Cell (RMC)</h3>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Research Management Cell (RMC)</h3>
+                  <p className="text-xs text-slate-500 mt-1">Faculty research papers, academic monographs, conference proceedings, and municipal grant papers</p>
                 </div>
                 <div className="flex items-center gap-3">
                   <button
                     onClick={() => setShowAddResearch(!showAddResearch)}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
+                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                   >
-                    {showAddResearch ? 'Close Form' : '+ Add Research Paper'}
+                    {showAddResearch ? 'Close Form ✕' : '+ Add Research Paper'}
                   </button>
                 </div>
               </div>
@@ -921,9 +1087,20 @@ function AdminDashboardContent() {
                     setNewResearch({ title: '', author: '', year: '2082/2083', category: 'Peer Reviewed', abstract: '', pdfUrl: '' });
                     setShowAddResearch(false);
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Publish Research Paper / RMC Grant</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Publish Research Paper</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddResearch(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Publication Title</label>
@@ -933,7 +1110,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Traditional Water Conduits (Hiti) of Bhaktapur"
                         value={newResearch.title}
                         onChange={(e) => setNewResearch({ ...newResearch, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -944,7 +1121,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Dr. Rajesh Shrestha"
                         value={newResearch.author}
                         onChange={(e) => setNewResearch({ ...newResearch, author: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -954,7 +1131,7 @@ function AdminDashboardContent() {
                         required
                         value={newResearch.year}
                         onChange={(e) => setNewResearch({ ...newResearch, year: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
@@ -963,10 +1140,10 @@ function AdminDashboardContent() {
                     <textarea
                       rows={2}
                       required
-                      placeholder="Summarize the research methodology and findings..."
+                      placeholder="Summarize the research methodology, findings, and civic significance..."
                       value={newResearch.abstract}
                       onChange={(e) => setNewResearch({ ...newResearch, abstract: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
                   <div>
@@ -978,9 +1155,21 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Publish to RMC Archive
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddResearch(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Publish to RMC Archive
+                    </button>
+                  </div>
                 </form>
               )}
 
@@ -1010,11 +1199,19 @@ function AdminDashboardContent() {
                     }
                     setEditingResearch(null);
                   }}
-                  className="rounded-2xl border-2 border-[#C5A15B] bg-white p-6 shadow-lg space-y-4 text-sm"
+                  className="rounded-2xl border-2 border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-lg space-y-4 text-sm"
                 >
-                  <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3">
-                    <span className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Edit Research / RMC Publication: {editingResearch.title}</span>
-                    <button type="button" onClick={() => setEditingResearch(null)} className="text-xs text-slate-600 font-bold">Cancel ✕</button>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Edit Research Publication: {editingResearch.title}</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setEditingResearch(null)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
                   </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
@@ -1024,7 +1221,7 @@ function AdminDashboardContent() {
                         required
                         value={editingResearch.title || ''}
                         onChange={(e) => setEditingResearch({ ...editingResearch, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1034,7 +1231,7 @@ function AdminDashboardContent() {
                         required
                         value={editingResearch.year || ''}
                         onChange={(e) => setEditingResearch({ ...editingResearch, year: e.target.value, author: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1044,7 +1241,7 @@ function AdminDashboardContent() {
                         required
                         value={editingResearch.status || ''}
                         onChange={(e) => setEditingResearch({ ...editingResearch, status: e.target.value, category: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
@@ -1055,7 +1252,7 @@ function AdminDashboardContent() {
                       required
                       value={editingResearch.focus || ''}
                       onChange={(e) => setEditingResearch({ ...editingResearch, focus: e.target.value, abstract: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
                   <div>
@@ -1067,52 +1264,85 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Research Changes
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setEditingResearch(null)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Research Changes
+                    </button>
+                  </div>
                 </form>
               )}
 
-              <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
-                {research.map(r => ({ _id: r._id, title: r.title, author: r.author, yearIssue: r.year, year: `${r.author} (${r.year})`, status: r.category, focus: r.abstract, pdfUrl: r.pdfUrl })).map((rmc, idx) => (
-                  <div key={rmc._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs space-y-2.5">
-                    <div className="flex items-center justify-between">
-                      <span className="text-[11px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase">{rmc.status}</span>
-                      <div className="flex items-center gap-2">
-                        <button
-                          onClick={() => setEditingResearch({ ...rmc })}
-                          className="px-2.5 py-1 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                        >
-                          Edit
-                        </button>
-                        {rmc._id && (
-                          <button
-                            onClick={() => deleteResearch(rmc._id)}
-                            className="text-xs text-rose-600 font-bold hover:underline"
+              {research.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[#E3DCCB] bg-[#FAF8F5] p-10 text-center">
+                  <p className="font-semibold text-sm text-[#101B2D]">No research publications on record</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Click "+ Add Research Paper" above to publish faculty papers or RMC monographs.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-5">
+                  {research.map(r => ({ _id: r._id, title: r.title, author: r.author, yearIssue: r.year, year: `${r.author} (${r.year})`, status: r.category, focus: r.abstract, pdfUrl: r.pdfUrl })).map((rmc, idx) => (
+                    <div key={rmc._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between space-y-3">
+                      <div className="space-y-2.5">
+                        <div className="flex items-center justify-between">
+                          <span className="text-[11px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                            {rmc.status}
+                          </span>
+                          <div className="flex items-center gap-2">
+                            <button
+                              onClick={() => setEditingResearch({ ...rmc })}
+                              className="px-2.5 py-1 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
+                            >
+                              Edit
+                            </button>
+                            {rmc._id && (
+                              <button
+                                onClick={() => deleteResearch(rmc._id)}
+                                className="text-xs text-rose-600 font-bold hover:underline cursor-pointer"
+                              >
+                                Remove
+                              </button>
+                            )}
+                          </div>
+                        </div>
+                        <h4 className="font-sans font-bold text-base sm:text-lg text-[#101B2D] leading-snug">{rmc.title}</h4>
+                        <p className="text-sm text-slate-600 leading-relaxed line-clamp-3">{rmc.focus}</p>
+                      </div>
+                      <div className="pt-2 border-t border-[#EFECE3] flex items-center justify-between">
+                        <p className="text-xs font-semibold text-[#A68238] font-mono">{rmc.year}</p>
+                        {rmc.pdfUrl && (
+                          <a
+                            href={rmc.pdfUrl}
+                            target="_blank"
+                            rel="noreferrer"
+                            className="text-xs font-bold text-[#101B2D] hover:text-[#A68238] hover:underline"
                           >
-                            Remove
-                          </button>
+                            View PDF ↗
+                          </a>
                         )}
                       </div>
                     </div>
-                    <h4 className="font-serif font-bold text-base sm:text-lg text-[#101B2D] leading-snug">{rmc.title}</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">{rmc.focus}</p>
-                    <p className="text-xs font-semibold text-[#A68238] pt-1">{rmc.year}</p>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
             </div>
           )}
-
-
 
           {/* Media & Documents Library */}
           {activeTab === 'medialibrary' && (
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Media & Document Assets</h3>
-                  <p className="text-sm text-slate-600 mt-1">Edit, add, and manage campus photography, library images, and downloadable documents</p>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Media & Document Assets</h3>
+                  <p className="text-xs text-slate-500 mt-1">Campus photography, laboratory facilities, downloadable syllabi, and official forms</p>
                 </div>
                 <div className="flex items-center gap-2.5">
                   <button
@@ -1120,18 +1350,18 @@ function AdminDashboardContent() {
                       setShowAddMedia(!showAddMedia);
                       setEditingMedia(null);
                     }}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
+                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                   >
-                    {showAddMedia ? 'Close Media Form' : '+ Register Media Asset'}
+                    {showAddMedia ? 'Close Media Form ✕' : '+ Register Media Asset'}
                   </button>
                   <button
                     onClick={() => {
                       setShowAddDoc(!showAddDoc);
                       setEditingDoc(null);
                     }}
-                    className="px-4 py-2.5 rounded-xl border border-[#101B2D] bg-white text-[#101B2D] text-xs sm:text-sm font-bold hover:bg-[#FAF8F5] transition"
+                    className="px-4 py-2.5 rounded-xl border border-[#101B2D] bg-white text-[#101B2D] text-xs sm:text-sm font-bold hover:bg-[#FAF8F5] transition shadow-xs cursor-pointer"
                   >
-                    {showAddDoc ? 'Close Document Form' : '+ Add Document'}
+                    {showAddDoc ? 'Close Document Form ✕' : '+ Add Document'}
                   </button>
                 </div>
               </div>
@@ -1146,9 +1376,20 @@ function AdminDashboardContent() {
                     setNewMedia({ number: '01', title: '', category: 'Academic', image: '', description: '' });
                     setShowAddMedia(false);
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Add New Institutional Image or Facility Asset</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Add Institutional Image or Facility Asset</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddMedia(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div>
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Asset Title</label>
@@ -1158,7 +1399,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Khwopa Central Library Wing"
                         value={newMedia.title}
                         onChange={(e) => setNewMedia({ ...newMedia, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1169,7 +1410,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Library / Campus / Lab"
                         value={newMedia.category}
                         onChange={(e) => setNewMedia({ ...newMedia, category: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1190,12 +1431,24 @@ function AdminDashboardContent() {
                       placeholder="Short description for alt text and gallery caption..."
                       value={newMedia.description}
                       onChange={(e) => setNewMedia({ ...newMedia, description: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save to Media Repository
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddMedia(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save to Media Repository
+                    </button>
+                  </div>
                 </form>
               )}
 
@@ -1209,9 +1462,20 @@ function AdminDashboardContent() {
                     setNewDoc({ title: '', category: 'Syllabus', fileSize: '1.2 MB PDF', fileUrl: '/resources/downloads', academicYear: '2082/2083', description: '' });
                     setShowAddDoc(false);
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Add Downloadable Document or Syllabus</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Add Downloadable Document or Syllabus</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddDoc(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
                     <div className="sm:col-span-2">
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Document Title</label>
@@ -1221,7 +1485,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. NEB Grade 11 Physics Lab Manual 2083"
                         value={newDoc.title}
                         onChange={(e) => setNewDoc({ ...newDoc, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1230,7 +1494,7 @@ function AdminDashboardContent() {
                         type="text"
                         value={newDoc.category}
                         onChange={(e) => setNewDoc({ ...newDoc, category: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                   </div>
@@ -1241,7 +1505,7 @@ function AdminDashboardContent() {
                         type="text"
                         value={newDoc.fileSize}
                         onChange={(e) => setNewDoc({ ...newDoc, fileSize: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1254,9 +1518,21 @@ function AdminDashboardContent() {
                       />
                     </div>
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Save Document
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddDoc(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Save Document
+                    </button>
+                  </div>
                 </form>
               )}
 
@@ -1284,17 +1560,16 @@ function AdminDashboardContent() {
                     }
                     setEditingMedia(null);
                   }}
-                  className="rounded-2xl border-2 border-[#C5A15B] bg-white p-6 shadow-lg space-y-4 text-sm"
+                  className="rounded-2xl border-2 border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-lg space-y-4 text-sm"
                 >
-                  <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3.5">
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3.5">
                     <div>
-                      <span className="text-xs font-bold uppercase tracking-wider text-[#A68238]">Editing Media Asset</span>
-                      <h4 className="font-serif font-bold text-lg text-[#101B2D] mt-0.5">{editingMedia.title}</h4>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Edit Media Asset: {editingMedia.title}</h4>
                     </div>
                     <button
                       type="button"
                       onClick={() => setEditingMedia(null)}
-                      className="px-3.5 py-1.5 rounded-lg bg-[#FAF8F5] border border-[#E3DCCB] text-xs font-bold text-slate-600 hover:text-[#101B2D]"
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
                     >
                       Cancel ✕
                     </button>
@@ -1308,7 +1583,7 @@ function AdminDashboardContent() {
                         required
                         value={editingMedia.title}
                         onChange={(e) => setEditingMedia({ ...editingMedia, title: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1318,7 +1593,7 @@ function AdminDashboardContent() {
                         required
                         value={editingMedia.category || ''}
                         onChange={(e) => setEditingMedia({ ...editingMedia, category: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1339,21 +1614,21 @@ function AdminDashboardContent() {
                       required
                       value={editingMedia.description}
                       onChange={(e) => setEditingMedia({ ...editingMedia, description: e.target.value })}
-                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] leading-relaxed"
+                      className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                     />
                   </div>
 
-                  <div className="flex items-center justify-end gap-2.5">
+                  <div className="flex items-center justify-end gap-2.5 pt-2">
                     <button
                       type="button"
                       onClick={() => setEditingMedia(null)}
-                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold"
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
                     >
                       Discard
                     </button>
                     <button
                       type="submit"
-                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                     >
                       Save Media Changes
                     </button>
@@ -1362,63 +1637,73 @@ function AdminDashboardContent() {
               )}
 
               {/* Media Image Cards Grid */}
-              <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
-                {facilities.map((item, idx) => (
-                  <div key={item._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white overflow-hidden shadow-xs flex flex-col justify-between">
-                    <div>
-                      <div className="h-44 w-full bg-slate-900 overflow-hidden">
-                        <img
-                          src={item.image}
-                          alt={item.title}
-                          className="h-full w-full object-cover"
-                        />
+              {facilities.length === 0 ? (
+                <div className="rounded-2xl border border-dashed border-[#E3DCCB] bg-[#FAF8F5] p-8 text-center">
+                  <p className="font-semibold text-sm text-[#101B2D]">No media assets registered</p>
+                  <p className="text-xs text-slate-500 mt-1 max-w-sm mx-auto">Click "+ Register Media Asset" above to curate institutional photography.</p>
+                </div>
+              ) : (
+                <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-5">
+                  {facilities.map((item, idx) => (
+                    <div key={item._id || idx} className="rounded-2xl border border-[#E3DCCB] bg-white overflow-hidden shadow-xs hover:shadow-md transition-shadow flex flex-col justify-between">
+                      <div>
+                        <div className="h-44 w-full bg-slate-900 overflow-hidden relative">
+                          <img
+                            src={item.image}
+                            alt={item.title}
+                            className="h-full w-full object-cover"
+                          />
+                          <span className="absolute top-3 left-3 text-[10px] font-bold uppercase tracking-wider text-[#101B2D] bg-white/90 backdrop-blur-xs px-2.5 py-1 rounded-md shadow-xs border border-[#E3DCCB]/60">
+                            {item.category || 'Asset'}
+                          </span>
+                        </div>
+                        <div className="p-4">
+                          <h4 className="font-sans font-bold text-base text-[#101B2D] leading-snug">{item.title}</h4>
+                          <p className="text-sm text-slate-600 mt-1.5 line-clamp-2 leading-relaxed">{item.description}</p>
+                        </div>
                       </div>
-                      <div className="p-4">
-                        <span className="text-[11px] font-bold uppercase tracking-wider text-[#A68238]">
-                          {item.category || 'Asset'}
-                        </span>
-                        <h4 className="font-serif font-bold text-base text-[#101B2D] mt-1 leading-snug">{item.title}</h4>
-                        <p className="text-sm text-slate-600 mt-1.5 line-clamp-2 leading-relaxed">{item.description}</p>
+                      <div className="px-4 py-3 bg-[#FAF8F5] border-t border-[#EFECE3] flex items-center justify-between text-xs">
+                        <div className="flex items-center gap-3">
+                          <button
+                            onClick={() => setEditingMedia(item)}
+                            className="px-3 py-1.5 rounded-lg bg-white border border-[#E3DCCB] font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                          <button
+                            onClick={() => {
+                              navigator.clipboard.writeText(item.image);
+                              showToast('Asset image URL copied to clipboard!');
+                            }}
+                            className="font-semibold text-slate-600 hover:text-[#A68238] cursor-pointer"
+                          >
+                            Copy URL
+                          </button>
+                        </div>
+                        {item._id && (
+                          <button
+                            onClick={() => deleteFacility(item._id)}
+                            className="text-rose-600 font-bold hover:underline cursor-pointer"
+                          >
+                            Delete
+                          </button>
+                        )}
                       </div>
                     </div>
-                    <div className="px-4 py-3.5 bg-[#FAF8F5] border-t border-[#EFECE3] flex items-center justify-between text-xs">
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => setEditingMedia(item)}
-                          className="px-3 py-1.5 rounded-lg bg-white border border-[#E3DCCB] font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                        >
-                          Edit Asset
-                        </button>
-                        <button
-                          onClick={() => {
-                            navigator.clipboard.writeText(item.image);
-                            showToast('Asset image URL copied to clipboard!');
-                          }}
-                          className="font-semibold text-slate-600 hover:text-[#A68238]"
-                        >
-                          Copy URL
-                        </button>
-                      </div>
-                      {item._id && (
-                        <button
-                          onClick={() => deleteFacility(item._id)}
-                          className="text-rose-600 font-bold hover:underline"
-                        >
-                          Delete
-                        </button>
-                      )}
-                    </div>
-                  </div>
-                ))}
-              </div>
+                  ))}
+                </div>
+              )}
 
               {/* Editable Documents & Syllabi Section inside Media & Documents */}
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs space-y-4">
                 <div className="flex items-center justify-between">
                   <div>
-                    <h4 className="font-serif font-bold text-lg text-[#101B2D]">Editable Documents & Syllabi Repository</h4>
+                    <h4 className="font-sans font-bold text-lg text-[#101B2D]">Downloadable Documents & Syllabi Archive</h4>
                     <p className="text-sm text-slate-600 mt-0.5">Click Edit on any document below to modify its title, category, size, or download link</p>
                   </div>
+                  <span className="text-xs font-bold text-slate-600 bg-[#FAF8F5] border border-[#E3DCCB] px-3 py-1 rounded-full">
+                    {documents.length} Documents
+                  </span>
                 </div>
 
                 {editingDoc && (
@@ -1447,11 +1732,13 @@ function AdminDashboardContent() {
                     className="rounded-xl border-2 border-[#C5A15B] bg-[#FAF8F5] p-5 space-y-4 text-sm"
                   >
                     <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
-                      <span className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Editing Document: {editingDoc.title}</span>
+                      <div>
+                        <h5 className="font-sans font-bold text-base text-[#101B2D]">Edit Document: {editingDoc.title}</h5>
+                      </div>
                       <button
                         type="button"
                         onClick={() => setEditingDoc(null)}
-                        className="text-xs text-slate-600 hover:text-[#101B2D] font-bold"
+                        className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
                       >
                         Cancel ✕
                       </button>
@@ -1464,7 +1751,7 @@ function AdminDashboardContent() {
                           required
                           value={editingDoc.title}
                           onChange={(e) => setEditingDoc({ ...editingDoc, title: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                         />
                       </div>
                       <div>
@@ -1473,7 +1760,7 @@ function AdminDashboardContent() {
                           type="text"
                           value={editingDoc.category}
                           onChange={(e) => setEditingDoc({ ...editingDoc, category: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                         />
                       </div>
                     </div>
@@ -1484,7 +1771,7 @@ function AdminDashboardContent() {
                           type="text"
                           value={editingDoc.fileSize}
                           onChange={(e) => setEditingDoc({ ...editingDoc, fileSize: e.target.value })}
-                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                          className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                         />
                       </div>
                       <div>
@@ -1497,44 +1784,73 @@ function AdminDashboardContent() {
                         />
                       </div>
                     </div>
-                    <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                      Save Document Changes
-                    </button>
+                    <div className="pt-2 flex items-center justify-end gap-3">
+                      <button
+                        type="button"
+                        onClick={() => setEditingDoc(null)}
+                        className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                      >
+                        Discard
+                      </button>
+                      <button
+                        type="submit"
+                        className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                      >
+                        Save Document Changes
+                      </button>
+                    </div>
                   </form>
                 )}
 
                 <div className="divide-y divide-[#EFECE3] text-sm">
-                  {documents.map(d => ({
-                    _id: d._id,
-                    title: d.title,
-                    fileSize: d.fileSize,
-                    category: d.category,
-                    fileUrl: d.fileUrl,
-                    description: d.description
-                  })).map((doc, idx) => (
-                    <div key={doc._id || idx} className="py-3.5 flex flex-wrap items-center justify-between gap-4">
-                      <div>
-                        <p className="font-bold text-[#101B2D]">{doc.title}</p>
-                        <p className="text-slate-500 text-xs mt-0.5">{doc.fileSize} — {doc.category}</p>
-                      </div>
-                      <div className="flex items-center gap-3">
-                        <button
-                          onClick={() => setEditingDoc(doc)}
-                          className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
-                        >
-                          Edit Document
-                        </button>
-                        {doc._id && (
-                          <button
-                            onClick={() => deleteDocument(doc._id)}
-                            className="text-xs text-rose-600 font-bold hover:underline"
-                          >
-                            Delete
-                          </button>
-                        )}
-                      </div>
+                  {documents.length === 0 ? (
+                    <div className="py-6 text-center text-slate-500 text-xs">
+                      <p className="font-semibold text-[#101B2D]">No documents uploaded to this archive</p>
+                      <p className="text-slate-400 mt-0.5">Click "+ Add Document" above to upload syllabi or forms.</p>
                     </div>
-                  ))}
+                  ) : (
+                    documents.map(d => ({
+                      _id: d._id,
+                      title: d.title,
+                      fileSize: d.fileSize,
+                      category: d.category,
+                      fileUrl: d.fileUrl,
+                      description: d.description
+                    })).map((doc, idx) => (
+                      <div key={doc._id || idx} className="py-3.5 flex flex-wrap items-center justify-between gap-4 hover:bg-[#FAF8F5]/60 px-2 rounded-xl transition">
+                        <div>
+                          <p className="font-bold text-[#101B2D]">{doc.title}</p>
+                          <p className="text-slate-500 font-mono text-xs mt-0.5">{doc.fileSize} — <span className="font-sans font-semibold text-[#A68238]">{doc.category}</span></p>
+                        </div>
+                        <div className="flex items-center gap-3">
+                          {doc.fileUrl && (
+                            <a
+                              href={doc.fileUrl}
+                              target="_blank"
+                              rel="noreferrer"
+                              className="text-xs font-bold text-slate-600 hover:text-[#101B2D] hover:underline"
+                            >
+                              Open Link ↗
+                            </a>
+                          )}
+                          <button
+                            onClick={() => setEditingDoc(doc)}
+                            className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
+                          >
+                            Edit
+                          </button>
+                          {doc._id && (
+                            <button
+                              onClick={() => deleteDocument(doc._id)}
+                              className="text-xs text-rose-600 font-bold hover:underline cursor-pointer"
+                            >
+                              Delete
+                            </button>
+                          )}
+                        </div>
+                      </div>
+                    ))
+                  )}
                 </div>
               </div>
             </div>
@@ -1545,12 +1861,9 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Public Menu & Navigation Architecture</h3>
-                  <p className="text-sm text-slate-600 mt-1">Inspect, test, and configure the primary navigation hierarchy displayed across desktop and mobile headers</p>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Public Menu & Navigation Architecture</h3>
+                  <p className="text-xs text-slate-500 mt-1">Public site map routes, live preview shortcuts, and destination bindings</p>
                 </div>
-                <span className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full">
-                  8 Primary Routes Active
-                </span>
               </div>
 
               <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
@@ -1564,10 +1877,10 @@ function AdminDashboardContent() {
                   { label: 'Resources & Library', to: '/resources/library', sub: 'Central Library & OPAC, Academic Calendar, Online Services' },
                   { label: 'Research (RMC)', to: '/research', sub: 'Research Management Cell, Khwopa Journal (NepJOL), Grants' }
                 ].map((nav) => (
-                  <div key={nav.to} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs flex items-center justify-between gap-4">
+                  <div key={nav.to} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs hover:shadow-md transition-shadow flex items-center justify-between gap-4">
                     <div>
                       <div className="flex items-center gap-2.5">
-                        <h4 className="font-serif font-bold text-base sm:text-lg text-[#101B2D]">{nav.label}</h4>
+                        <h4 className="font-sans font-bold text-base sm:text-lg text-[#101B2D]">{nav.label}</h4>
                         <span className="font-mono text-xs text-[#A68238] bg-[#FAF8F5] px-2.5 py-0.5 rounded border border-[#E3DCCB]">
                           {nav.to}
                         </span>
@@ -1577,7 +1890,7 @@ function AdminDashboardContent() {
                     <div className="flex items-center gap-2 shrink-0">
                       <button
                         onClick={() => setActiveTab('pagebuilder')}
-                        className="px-3.5 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
+                        className="px-3.5 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] transition cursor-pointer"
                       >
                         Edit Page
                       </button>
@@ -1585,7 +1898,7 @@ function AdminDashboardContent() {
                         href={nav.to}
                         target="_blank"
                         rel="noreferrer"
-                        className="px-3.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold hover:bg-[#1B293E]"
+                        className="px-3.5 py-1.5 rounded-lg bg-[#101B2D] text-[#C5A15B] text-xs font-bold hover:bg-[#1B293E] transition shadow-xs"
                       >
                         Visit ↗
                       </a>
@@ -1601,18 +1914,15 @@ function AdminDashboardContent() {
             <div className="space-y-6">
               <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
                 <div>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Team Accounts & Role-Based Access Control (RBAC)</h3>
-                  <p className="text-sm text-slate-600 mt-1">Provision staff administrator accounts and assign granular institutional permissions</p>
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Team Accounts & Role-Based Access Control</h3>
+                  <p className="text-xs text-slate-500 mt-1">Staff administrator provisioning, security privileges, and institutional role governance</p>
                 </div>
                 <div className="flex items-center gap-3">
-                  <span className="text-xs font-bold text-[#A68238] bg-[#C5A15B]/15 px-3.5 py-1.5 rounded-full">
-                    {users.length || 1} Active Accounts
-                  </span>
                   <button
                     onClick={() => setShowAddUser(!showAddUser)}
-                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition"
+                    className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
                   >
-                    {showAddUser ? 'Close Form' : '+ Add Team Member'}
+                    {showAddUser ? 'Close Form ✕' : '+ Add Team Member'}
                   </button>
                 </div>
               </div>
@@ -1624,7 +1934,7 @@ function AdminDashboardContent() {
                     if (!newUser.name || !newUser.email || !newUser.password) return;
                     try {
                       await createUser(newUser);
-                      setNewUser({ name: '', email: '', password: '', role: 'News Editor', department: 'Administration' });
+                      setNewUser({ name: '', email: '', password: '', role: 'News Editor', department: 'Administration', avatar: '' });
                       setShowAddUser(false);
                     } catch (err) {
                       alert({
@@ -1634,9 +1944,20 @@ function AdminDashboardContent() {
                       });
                     }
                   }}
-                  className="rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-md space-y-4 text-sm"
+                  className="rounded-2xl border border-[#C5A15B] bg-[#FAF8F5] p-6 shadow-md space-y-4 text-sm"
                 >
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D]">Provision New Administrator Account</h4>
+                  <div className="flex items-center justify-between border-b border-[#E3DCCB] pb-3">
+                    <div>
+                      <h4 className="font-sans font-bold text-lg text-[#101B2D]">Provision New Administrator Account</h4>
+                    </div>
+                    <button
+                      type="button"
+                      onClick={() => setShowAddUser(false)}
+                      className="text-xs text-slate-600 hover:text-[#101B2D] font-bold px-2 py-1 rounded"
+                    >
+                      Cancel ✕
+                    </button>
+                  </div>
                   <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-4">
                     <div>
                       <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Full Name</label>
@@ -1646,7 +1967,7 @@ function AdminDashboardContent() {
                         placeholder="e.g. Vice Principal"
                         value={newUser.name}
                         onChange={(e) => setNewUser({ ...newUser, name: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1657,7 +1978,7 @@ function AdminDashboardContent() {
                         placeholder="staff@khwopa.edu.np"
                         value={newUser.email}
                         onChange={(e) => setNewUser({ ...newUser, email: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1668,7 +1989,7 @@ function AdminDashboardContent() {
                         placeholder="Min 6 characters"
                         value={newUser.password}
                         onChange={(e) => setNewUser({ ...newUser, password: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       />
                     </div>
                     <div>
@@ -1676,7 +1997,7 @@ function AdminDashboardContent() {
                       <select
                         value={newUser.role}
                         onChange={(e) => setNewUser({ ...newUser, role: e.target.value })}
-                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                        className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] focus:outline-none focus:border-[#C5A15B] focus:ring-1 focus:ring-[#C5A15B]"
                       >
                         <option value="Super Admin">Super Admin</option>
                         <option value="Principal / Approver">Principal / Approver</option>
@@ -1697,22 +2018,46 @@ function AdminDashboardContent() {
                       placeholder="https://... or click Upload on the left"
                     />
                   </div>
-                  <button type="submit" className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold">
-                    Create Administrator Account
-                  </button>
+                  <div className="pt-2 flex items-center justify-end gap-3">
+                    <button
+                      type="button"
+                      onClick={() => setShowAddUser(false)}
+                      className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                    >
+                      Discard
+                    </button>
+                    <button
+                      type="submit"
+                      className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
+                    >
+                      Create Administrator Account
+                    </button>
+                  </div>
                 </form>
               )}
 
               {/* Registered Administrators Table */}
               {users.length > 0 && (
                 <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs">
-                  <h4 className="font-serif font-bold text-lg text-[#101B2D] mb-4">Registered Administrative Accounts</h4>
+                  <div className="flex items-center justify-between mb-4">
+                    <h4 className="font-sans font-bold text-lg text-[#101B2D]">Registered Administrative Accounts</h4>
+                    <span className="text-xs text-slate-500 font-semibold">{users.length} active profiles</span>
+                  </div>
                   <div className="divide-y divide-[#EFECE3] text-sm">
                     {users.map((u) => (
-                      <div key={u._id} className="py-3.5 flex items-center justify-between gap-4">
-                        <div>
-                          <p className="font-bold text-[#101B2D]">{u.name}</p>
-                          <p className="text-slate-500 font-mono text-xs mt-0.5">{u.email}</p>
+                      <div key={u._id} className="py-3.5 flex items-center justify-between gap-4 hover:bg-[#FAF8F5]/60 px-2 rounded-xl transition">
+                        <div className="flex items-center gap-3">
+                          <div className="h-9 w-9 rounded-full bg-[#101B2D] text-[#C5A15B] font-sans font-bold text-sm flex items-center justify-center border border-[#C5A15B]/30 shrink-0">
+                            {u.avatar ? (
+                              <img src={u.avatar} alt={u.name} className="h-full w-full rounded-full object-cover" />
+                            ) : (
+                              u.name?.charAt(0) || 'A'
+                            )}
+                          </div>
+                          <div>
+                            <p className="font-bold text-[#101B2D]">{u.name}</p>
+                            <p className="text-slate-500 font-mono text-xs">{u.email}</p>
+                          </div>
                         </div>
                         <div className="flex items-center gap-3">
                           <span className="px-3 py-1 rounded-md bg-[#FAF8F5] border border-[#E3DCCB] text-xs font-bold text-[#A68238]">
@@ -1721,7 +2066,7 @@ function AdminDashboardContent() {
                           {u.email !== user?.email && (
                             <button
                               onClick={() => deleteUser(u._id)}
-                              className="text-xs text-rose-600 font-bold hover:underline"
+                              className="text-xs text-rose-600 font-bold hover:underline cursor-pointer"
                             >
                               Revoke
                             </button>
@@ -1734,25 +2079,28 @@ function AdminDashboardContent() {
               )}
 
               {/* Role Policy Reference Matrix */}
-              <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
-                {[
-                  { role: 'Super Admin', desc: 'Complete system control & permission grants' },
-                  { role: 'Principal / Approver', desc: 'Review, approve and sign off live releases' },
-                  { role: 'Academic Administrator', desc: 'Programmes, study areas & curricula' },
-                  { role: 'Admission Officer', desc: 'Class 11 intake, eligibility & forms' },
-                  { role: 'Examination Officer', desc: 'NEB board routines & seat allocations' },
-                  { role: 'Faculty Coordinator', desc: 'Educator credentials & departmental staff' },
-                  { role: 'Research Editor', desc: 'RMC monographs & journal publications' },
-                  { role: 'News Editor', desc: 'College circulars, events & media stories' },
-                ].map((r) => (
-                  <div key={r.role} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs space-y-2">
-                    <span className="text-[11px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase">
-                      Policy Active
-                    </span>
-                    <h4 className="font-serif font-bold text-base text-[#101B2D] mt-2 leading-snug">{r.role}</h4>
-                    <p className="text-sm text-slate-600 leading-relaxed">{r.desc}</p>
-                  </div>
-                ))}
+              <div className="space-y-3">
+                <h4 className="font-sans font-bold text-lg text-[#101B2D]">Institutional Role Policy Matrix</h4>
+                <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-4 gap-4">
+                  {[
+                    { role: 'Super Admin', desc: 'Complete system control, institutional settings, Atlas sync, and account grants' },
+                    { role: 'Principal / Approver', desc: 'Review, approve, and authorize circulars and official disclosures' },
+                    { role: 'Academic Administrator', desc: 'Higher secondary programmes, curriculum overviews, and syllabi' },
+                    { role: 'Admission Officer', desc: 'Class 11 intakes, eligibility thresholds, quota verification, and applicant reviews' },
+                    { role: 'Examination Officer', desc: 'NEB Center 104 terminal schedules, board routines, and seat plans' },
+                    { role: 'Faculty Coordinator', desc: 'Departmental staff, educator credentials, and academic bios' },
+                    { role: 'Research Editor', desc: 'RMC research archive, journal papers, and research grant summaries' },
+                    { role: 'News Editor', desc: 'Campus events, student achievements, and circular articles' },
+                  ].map((r) => (
+                    <div key={r.role} className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs hover:shadow-md transition-shadow space-y-2">
+                      <span className="text-[10px] font-bold text-[#A68238] bg-[#C5A15B]/15 px-2.5 py-0.5 rounded-md uppercase tracking-wider">
+                        Policy Active
+                      </span>
+                      <h5 className="font-sans font-bold text-base text-[#101B2D] mt-2 leading-snug">{r.role}</h5>
+                      <p className="text-sm text-slate-600 leading-relaxed">{r.desc}</p>
+                    </div>
+                  ))}
+                </div>
               </div>
             </div>
           )}

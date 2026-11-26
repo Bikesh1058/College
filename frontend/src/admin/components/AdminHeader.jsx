@@ -1,11 +1,10 @@
-import { Search, Plus, Menu, RefreshCw } from 'lucide-react';
+import { Search, Menu, RefreshCw } from 'lucide-react';
 import { useAdminData } from '../context/useAdminData';
 
 export default function AdminHeader({
   globalSearch,
   setGlobalSearch,
-  onOpenMobileMenu,
-  onQuickAction
+  onOpenMobileMenu
 }) {
   const { loading, refreshAll } = useAdminData();
 
@@ -15,7 +14,7 @@ export default function AdminHeader({
       <div className="flex items-center gap-3 flex-1 max-w-xl">
         <button
           onClick={onOpenMobileMenu}
-          className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-[#FAF8F5] border border-[#E3DCCB]"
+          className="lg:hidden p-2 rounded-xl text-slate-600 hover:bg-[#FAF8F5] border border-[#E3DCCB] transition cursor-pointer"
           aria-label="Open navigation menu"
         >
           <Menu className="h-5 w-5" />
@@ -28,18 +27,18 @@ export default function AdminHeader({
             value={globalSearch}
             onChange={(e) => setGlobalSearch(e.target.value)}
             placeholder="Search educators, circulars, streams, or pages..."
-            className="w-full pl-10 pr-4 py-2 text-sm rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-[#101B2D] placeholder-slate-400 outline-none focus:border-[#C5A15B] focus:bg-white transition"
+            className="w-full pl-10 pr-4 py-2 text-xs sm:text-sm rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-[#101B2D] placeholder-slate-400 outline-none focus:border-[#C5A15B] focus:bg-white transition"
           />
         </div>
       </div>
 
-      {/* Right Actions: Sync Status & Quick Action */}
-      <div className="flex items-center gap-2 sm:gap-3">
+      {/* Right Actions: Sync Control */}
+      <div className="flex items-center gap-2.5 sm:gap-3">
         <button
           onClick={refreshAll}
           disabled={loading}
-          title="Refresh data from Atlas"
-          className="p-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-slate-600 hover:text-[#101B2D] hover:bg-white transition disabled:opacity-50 flex items-center"
+          title="Refresh Data"
+          className="p-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-slate-600 hover:text-[#101B2D] hover:bg-white hover:border-[#C5A15B] transition disabled:opacity-50 flex items-center shadow-xs cursor-pointer"
         >
           <RefreshCw className={`h-4 w-4 ${loading ? 'animate-spin text-[#A68238]' : 'text-slate-500'}`} />
         </button>

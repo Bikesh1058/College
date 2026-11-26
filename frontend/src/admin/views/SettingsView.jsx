@@ -2,6 +2,7 @@ import { useState } from 'react';
 import { useAdminData } from '../context/useAdminData';
 import { useAlert } from '../../context/useAlert';
 import ImageUploadInput from '../components/ImageUploadInput';
+import { Shield, Building, Megaphone, Check } from 'lucide-react';
 
 export default function SettingsView() {
   const { settings, updateSettings } = useAdminData();
@@ -46,11 +47,15 @@ export default function SettingsView() {
   return (
     <div className="space-y-6">
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-7 shadow-xs">
-        <div className="border-b border-[#EFECE3] pb-5 mb-6">
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">College Information & Header Banner</h3>
+        <div className="border-b border-[#EFECE3] pb-5 mb-6 flex items-center justify-between">
+          <div>
+            <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">College Information & Header Banner</h3>
+            <p className="text-xs text-slate-500 mt-1">Institutional identity, official contact channels, and global announcement bar</p>
+          </div>
         </div>
 
-        <form onSubmit={handleSubmit} className="space-y-5 text-sm">
+        <form onSubmit={handleSubmit} className="space-y-6 text-sm">
+          {/* Institutional Information */}
           <div className="grid grid-cols-1 sm:grid-cols-2 gap-5">
             <div>
               <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">College Legal Name</label>
@@ -58,16 +63,16 @@ export default function SettingsView() {
                 type="text"
                 value={formData.collegeName || ''}
                 onChange={(e) => setFormData({ ...formData, collegeName: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
               />
             </div>
             <div>
-              <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Tagline</label>
+              <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">Tagline / Motto</label>
               <input
                 type="text"
                 value={formData.tagline || ''}
                 onChange={(e) => setFormData({ ...formData, tagline: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
               />
             </div>
             <div>
@@ -76,7 +81,7 @@ export default function SettingsView() {
                 type="text"
                 value={formData.address || ''}
                 onChange={(e) => setFormData({ ...formData, address: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
               />
             </div>
             <div>
@@ -85,7 +90,7 @@ export default function SettingsView() {
                 type="text"
                 value={formData.phone || ''}
                 onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
               />
             </div>
             <div>
@@ -94,7 +99,7 @@ export default function SettingsView() {
                 type="email"
                 value={formData.email || ''}
                 onChange={(e) => setFormData({ ...formData, email: e.target.value })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
               />
             </div>
             <div>
@@ -103,11 +108,11 @@ export default function SettingsView() {
                 type="url"
                 value={formData.socialLinks?.facebook || ''}
                 onChange={(e) => setFormData({ ...formData, socialLinks: { ...formData.socialLinks, facebook: e.target.value } })}
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
               />
             </div>
             <div className="sm:col-span-2">
-              <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">College Logo</label>
+              <label className="block text-xs font-bold tracking-wider text-slate-700 uppercase mb-1.5">College Logo / Institutional Seal</label>
               <ImageUploadInput
                 value={formData.logoUrl || ''}
                 onChange={(val) => setFormData({ ...formData, logoUrl: val })}
@@ -117,11 +122,14 @@ export default function SettingsView() {
           </div>
 
           {/* Announcement Ribbon */}
-          <div className="p-5 rounded-2xl border border-[#E3DCCB] bg-[#FAF8F5] space-y-3">
+          <div className="p-5 rounded-2xl border border-[#E3DCCB] bg-[#FAF8F5] space-y-3.5">
             <div className="flex items-center justify-between">
               <div>
-                <p className="text-xs font-bold text-[#101B2D] uppercase tracking-wider">Top Notification Ribbon</p>
-                <p className="text-xs text-slate-600 mt-0.5">Displays a prominent gold announcement bar across the top of all public pages</p>
+                <div className="flex items-center gap-2 text-xs font-bold text-[#101B2D] uppercase tracking-wider">
+                  <Megaphone className="h-3.5 w-3.5 text-[#C5A15B]" />
+                  <span>Top Notification Ribbon</span>
+                </div>
+                <p className="text-xs text-slate-500 mt-0.5">Displays a prominent gold announcement banner across the top of all public pages</p>
               </div>
               <label className="flex items-center gap-2 cursor-pointer">
                 <input
@@ -138,53 +146,60 @@ export default function SettingsView() {
                   }
                   className="h-4 w-4 rounded accent-[#C5A15B]"
                 />
-                <span className="text-xs font-bold text-[#A68238]">Enable Top Ribbon</span>
+                <span className="text-xs font-bold text-[#101B2D]">Enable Banner</span>
               </label>
             </div>
 
             {formData.announcementBanner?.enabled && (
-              <div className="grid grid-cols-1 sm:grid-cols-2 gap-3 pt-2">
-                <input
-                  type="text"
-                  value={formData.announcementBanner?.text || ''}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      announcementBanner: {
-                        ...formData.announcementBanner,
-                        text: e.target.value
-                      }
-                    })
-                  }
-                  placeholder="Banner message (e.g. Class 11 Admissions Open for 2083!)"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
-                />
-                <input
-                  type="text"
-                  value={formData.announcementBanner?.link || ''}
-                  onChange={(e) =>
-                    setFormData({
-                      ...formData,
-                      announcementBanner: {
-                        ...formData.announcementBanner,
-                        link: e.target.value
-                      }
-                    })
-                  }
-                  placeholder="Destination link (e.g. /admissions/apply)"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
-                />
+              <div className="grid grid-cols-1 sm:grid-cols-2 gap-4 pt-2">
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Banner Broadcast Text</label>
+                  <input
+                    type="text"
+                    value={formData.announcementBanner?.text || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        announcementBanner: {
+                          ...formData.announcementBanner,
+                          text: e.target.value
+                        }
+                      })
+                    }
+                    placeholder="e.g. Admissions Open for Academic Year 2083/2084!"
+                    className="w-full px-3 py-2 rounded-xl border border-[#E3DCCB] bg-white text-xs sm:text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
+                  />
+                </div>
+                <div>
+                  <label className="block text-xs font-bold text-slate-700 uppercase mb-1">Action Link (Optional)</label>
+                  <input
+                    type="text"
+                    value={formData.announcementBanner?.link || ''}
+                    onChange={(e) =>
+                      setFormData({
+                        ...formData,
+                        announcementBanner: {
+                          ...formData.announcementBanner,
+                          link: e.target.value
+                        }
+                      })
+                    }
+                    placeholder="/admissions/apply"
+                    className="w-full px-3 py-2 rounded-xl border border-[#E3DCCB] bg-white text-xs sm:text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
+                  />
+                </div>
               </div>
             )}
           </div>
 
-          <div className="pt-4 border-t border-[#EFECE3] flex items-center justify-end">
+          <div className="pt-2 flex items-center justify-end">
             <button
               type="submit"
               disabled={saving}
-              className="px-6 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
+              className="flex items-center gap-2 px-6 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs disabled:opacity-50"
             >
-              {saving ? 'Saving...' : 'Save College Information'}
+              <Check className="h-4 w-4" />
+              <span>{saving ? 'Saving Changes...' : 'Save Settings'}</span>
             </button>
           </div>
         </form>

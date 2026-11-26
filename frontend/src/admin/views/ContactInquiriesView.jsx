@@ -1,57 +1,63 @@
-import { useState, useMemo } from 'react';
+import { useState } from 'react';
 import { useQuery, useMutation, useQueryClient } from '@tanstack/react-query';
 import { api } from '../../services/api';
 import { 
-  Mail, 
   Search, 
+  Mail, 
   Trash2, 
-  RefreshCw, 
-  Send, 
   Clock, 
-  Filter, 
-  Phone, 
   User, 
+  Phone, 
   Calendar,
-  MessageSquare,
-  AlertCircle
+  Send,
+  AlertCircle,
+  RefreshCw,
+  Filter,
+  CheckCircle2,
+  Inbox
 } from 'lucide-react';
 
 export default function ContactInquiriesView() {
   const queryClient = useQueryClient();
+
+  // Search and filter state
+  const [search, setSearch] = useState('');
   const [activeCategory, setActiveCategory] = useState('All');
   const [activeStatus, setActiveStatus] = useState('All');
-  const [search, setSearch] = useState('');
   const [selectedMessage, setSelectedMessage] = useState(null);
 
-  // Reply Modal State
+  // Direct Reply State
   const [replyText, setReplyText] = useState('');
   const [replySubject, setReplySubject] = useState('');
   const [isReplying, setIsReplying] = useState(false);
   const [replyNotification, setReplyNotification] = useState(null);
 
-  // Status notes update
+  // Internal Notes State
   const [adminNotes, setAdminNotes] = useState('');
 
-  // Fetch inquiries from backend
-  const { data: response, isLoading, refetch } = useQuery({
+  // Fetch messages from MongoDB
+  const { data: messagesResponse, isLoading, refetch } = useQuery({
     queryKey: ['admin-contact-messages'],
-    queryFn: () => api.getContactMessages({ limit: 100 }),
-    refetchInterval: 30000 // auto-refresh every 30 seconds
+    queryFn: async () => {
+      const res = await api.getContactMessages();
+      return res;
+    }
   });
 
-  const messages = useMemo(() => response?.data || [], [response?.data]);
+  const messages = messagesResponse?.data || [];
 
-  // Mutations
+  // Update Status mutation
   const statusMutation = useMutation({
     mutationFn: ({ id, status, notes }) => api.updateContactStatus(id, { status, notes }),
-    onSuccess: (res) => {
+    onSuccess: (data) => {
       queryClient.invalidateQueries({ queryKey: ['admin-contact-messages'] });
-      if (selectedMessage && selectedMessage._id === res.data._id) {
-        setSelectedMessage(res.data);
+      if (selectedMessage && selectedMessage._id === data.data?._id) {
+        setSelectedMessage(data.data);
       }
     }
   });
 
+  // Delete message mutation
   const deleteMutation = useMutation({
     mutationFn: (id) => api.deleteContactMessage(id),
     onSuccess: () => {
@@ -61,22 +67,25 @@ export default function ContactInquiriesView() {
   });
 
   // Filter messages
-  const filteredMessages = useMemo(() => {
-    return messages.filter(m => {
-      const matchCat = activeCategory === 'All' || m.category === activeCategory;
-      const matchStat = activeStatus === 'All' || m.status === activeStatus;
-      const q = search.trim().toLowerCase();
-      const matchSearch = !q || 
-        `${m.fullName} ${m.email} ${m.phone} ${m.subject} ${m.message}`.toLowerCase().includes(q);
-      return matchCat && matchStat && matchSearch;
-    });
-  }, [messages, activeCategory, activeStatus, search]);
+  const filteredMessages = messages.filter(msg => {
+    const matchesSearch = 
+      msg.fullName?.toLowerCase().includes(search.toLowerCase()) ||
+      msg.email?.toLowerCase().includes(search.toLowerCase()) ||
+      msg.phone?.includes(search) ||
+      msg.message?.toLowerCase().includes(search.toLowerCase()) ||
+      msg.subject?.toLowerCase().includes(search.toLowerCase());
+
+    const matchesCategory = activeCategory === 'All' || msg.category === activeCategory;
+    const matchesStatus = activeStatus === 'All' || msg.status === activeStatus;
+
+    return matchesSearch && matchesCategory && matchesStatus;
+  });
 
   const handleOpenMessage = (msg) => {
     setSelectedMessage(msg);
     setAdminNotes(msg.notes || '');
-    setReplySubject(`Re: ${msg.subject} - Khwopa Secondary School`);
-    setReplyText(`Dear ${msg.fullName},\n\nThank you for reaching out to Khwopa Secondary School.\n\nRegarding your inquiry, \n\nBest regards,\nAdmissions & Inquiry Desk\nKhwopa Secondary School, Dekocha, Bhaktapur`);
+    setReplySubject(`Re: ${msg.subject || 'Your Inquiry to Khwopa Secondary School'}`);
+    setReplyText(`Dear ${msg.fullName},\n\nThank you for reaching out to Khwopa Secondary School (+2).\n\nIn response to your query regarding "${msg.subject}":\n\n[Please enter details here]\n\nIf you have any further questions, feel free to visit our campus at Dekocha, Bhaktapur, or call us at +977-1-6610932.\n\nWarm regards,\nAdministrative Officer\nKhwopa Higher Secondary School`);
     setReplyNotification(null);
   };
 
@@ -141,24 +150,50 @@ export default function ContactInquiriesView() {
   return (
     <div className="space-y-6">
       {/* Top Banner Header */}
-      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
+          <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
             Student & Public Inquiries
           </h3>
+          <p className="text-xs text-slate-500 mt-1">Helpdesk communications, public questions, and admissions guidance registry</p>
         </div>
 
         <div className="flex items-center gap-3">
           <button
             onClick={() => refetch()}
-            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#ded7ca] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] transition"
+            className="inline-flex items-center gap-2 px-3.5 py-2 rounded-xl border border-[#ded7ca] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] hover:bg-white transition shadow-xs cursor-pointer"
           >
             <RefreshCw className={`h-3.5 w-3.5 text-[#92703b] ${isLoading ? 'animate-spin' : ''}`} />
             <span>Refresh</span>
           </button>
-          <span className="rounded-full bg-[#101B2D] px-3.5 py-1.5 text-xs font-bold text-[#C5A15B]">
-            {messages.length} Total Messages
-          </span>
+        </div>
+      </div>
+
+      {/* Structured Inquiries Ledger Strip */}
+      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#EFECE3] -my-1 md:my-0">
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Recorded</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">{messages.length}</p>
+          </div>
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-amber-700">New / Unread</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">
+              {messages.filter(m => m.status === 'New').length}
+            </p>
+          </div>
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-blue-700">Under Review</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">
+              {messages.filter(m => m.status === 'In Review').length}
+            </p>
+          </div>
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-emerald-700">Replied / Resolved</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">
+              {messages.filter(m => m.status === 'Replied').length}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -189,9 +224,9 @@ export default function ContactInquiriesView() {
                   key={st}
                   type="button"
                   onClick={() => setActiveStatus(st)}
-                  className={`rounded-lg px-2.5 py-1 text-[11px] font-bold transition ${
+                  className={`rounded-xl px-2.5 py-1 text-[11px] font-bold transition ${
                     activeStatus === st
-                      ? "bg-[#101B2D] text-[#C5A15B]"
+                      ? "bg-[#101B2D] text-[#C5A15B] shadow-xs"
                       : "bg-[#FAF8F5] text-slate-600 hover:bg-[#eae5d8]"
                   }`}
                 >
@@ -202,11 +237,11 @@ export default function ContactInquiriesView() {
 
             {/* Category Dropdown */}
             <div className="flex items-center gap-2 pt-1 border-t border-[#eee9df]">
-              <Filter className="h-3.5 w-3.5 text-slate-400" />
+              <Filter className="h-3.5 w-3.5 text-slate-400 shrink-0" />
               <select
                 value={activeCategory}
                 onChange={(e) => setActiveCategory(e.target.value)}
-                className="w-full rounded-lg border border-[#ded7ca] bg-[#FAF8F5] px-3 py-1.5 text-xs text-[#101B2D] outline-none"
+                className="w-full rounded-xl border border-[#ded7ca] bg-[#FAF8F5] px-3 py-1.5 text-xs text-[#101B2D] outline-none focus:border-[#C5A15B]"
               >
                 {categories.map(c => (
                   <option key={c} value={c}>Category: {c}</option>
@@ -220,8 +255,7 @@ export default function ContactInquiriesView() {
             <div className="p-3 bg-[#FAF8F5] border-b border-[#eee9df] flex items-center justify-between text-xs text-slate-500 font-medium">
               <span>Showing {filteredMessages.length} inquiries</span>
               {messages.filter(m => m.status === 'New').length > 0 && (
-                <span className="inline-flex items-center gap-1.5 font-bold text-amber-700 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
-                  <span className="h-1.5 w-1.5 rounded-full bg-amber-500 animate-ping" />
+                <span className="font-bold text-amber-800 bg-amber-50 px-2 py-0.5 rounded-md border border-amber-200">
                   {messages.filter(m => m.status === 'New').length} New
                 </span>
               )}
@@ -231,7 +265,7 @@ export default function ContactInquiriesView() {
               {filteredMessages.length === 0 ? (
                 <div className="p-10 text-center text-slate-400 text-xs">
                   <Mail className="h-8 w-8 mx-auto mb-2 text-slate-300" />
-                  <p>No contact inquiries match your filters.</p>
+                  <p>No inquiries match your filters.</p>
                 </div>
               ) : (
                 filteredMessages.map(msg => (
@@ -265,7 +299,7 @@ export default function ContactInquiriesView() {
                     <p className="text-xs font-semibold text-[#92703b] truncate">
                       {msg.subject || 'General Inquiry'}
                     </p>
-                    <p className="text-xs text-slate-500 line-clamp-2 mt-1">
+                    <p className="text-xs text-slate-500 line-clamp-2 mt-1 leading-relaxed">
                       {msg.message}
                     </p>
                     
@@ -291,7 +325,7 @@ export default function ContactInquiriesView() {
                   <span className="text-[10px] font-bold uppercase tracking-[0.2em] text-[#92703b]">
                     Inquiry Reference: {selectedMessage._id.slice(-6)}
                   </span>
-                  <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] mt-0.5">
+                  <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] mt-0.5">
                     {selectedMessage.subject}
                   </h3>
                   <div className="flex items-center gap-3 mt-1.5 text-xs text-slate-500">
@@ -394,11 +428,11 @@ export default function ContactInquiriesView() {
               {/* Official Email Reply Desk */}
               <div className="rounded-2xl border border-[#b99754]/40 bg-gradient-to-b from-[#fbf9f4] to-white p-6 space-y-4">
                 <div className="flex items-center gap-2">
-                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0b2038] text-[#dfbd77]">
+                  <div className="flex h-7 w-7 items-center justify-center rounded-lg bg-[#0b2038] text-[#C5A15B]">
                     <Send className="h-3.5 w-3.5" />
                   </div>
                   <div>
-                    <h4 className="font-serif text-base font-bold text-[#101B2D]">
+                    <h4 className="font-sans text-base font-bold text-[#101B2D]">
                       Direct Email Response Desk
                     </h4>
                     <p className="text-[11px] text-slate-500">
@@ -451,19 +485,10 @@ export default function ContactInquiriesView() {
                     <button
                       type="submit"
                       disabled={isReplying}
-                      className="inline-flex items-center gap-2 rounded-xl bg-[#0b2038] px-5 py-2.5 text-xs font-bold text-[#dfbd77] hover:bg-[#1a3858] transition disabled:opacity-50"
+                      className="inline-flex items-center gap-2 rounded-xl bg-[#101B2D] px-5 py-2.5 text-xs font-bold text-[#C5A15B] transition hover:bg-[#1B293E] disabled:opacity-50 shadow-xs"
                     >
-                      {isReplying ? (
-                        <>
-                          <RefreshCw className="h-3.5 w-3.5 animate-spin" />
-                          <span>Sending Gmail...</span>
-                        </>
-                      ) : (
-                        <>
-                          <Send className="h-3.5 w-3.5" />
-                          <span>Dispatch Email Reply</span>
-                        </>
-                      )}
+                      <Send className="h-3.5 w-3.5" />
+                      <span>{isReplying ? 'Dispatching...' : 'Send Official Reply'}</span>
                     </button>
                   </div>
                 </form>
@@ -471,22 +496,18 @@ export default function ContactInquiriesView() {
 
             </div>
           ) : (
-            <div className="rounded-2xl border border-dashed border-[#ded7ca] bg-white p-16 text-center shadow-xs">
-              <div className="mx-auto flex h-14 w-14 items-center justify-center rounded-full bg-[#FAF8F5] text-slate-400">
-                <MessageSquare className="h-7 w-7 text-[#92703b]" />
-              </div>
-              <h4 className="mt-4 font-serif text-lg font-bold text-[#101B2D]">
-                Select an Inquiry from the Roster
+            <div className="rounded-2xl border border-dashed border-[#ded7ca] bg-[#FAF8F5] p-10 text-center space-y-2">
+              <Mail className="h-7 w-7 text-[#A68238]/60 mx-auto" />
+              <h4 className="font-sans text-base font-bold text-[#101B2D]">
+                No Inquiry Selected
               </h4>
-              <p className="mt-1.5 max-w-sm mx-auto text-xs text-slate-500 leading-relaxed">
-                Click on any student inquiry on the left to inspect detailed submission notes, review phone and email coordinates, or send an official email response.
+              <p className="text-xs text-slate-500 max-w-sm mx-auto leading-relaxed">
+                Select an inquiry from the register on the left to inspect message details, add staff notes, or dispatch an official email reply.
               </p>
             </div>
           )}
         </div>
-
       </div>
     </div>
   );
 }
-

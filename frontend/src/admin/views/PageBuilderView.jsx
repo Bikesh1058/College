@@ -502,12 +502,10 @@ export default function PageBuilderView() {
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs">
         <div className="flex flex-wrap items-start justify-between gap-4">
           <div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
-              Dynamic Page Builder & Live Content Studio
+            <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
+              Page Builder & Content Studio
             </h3>
-            <p className="text-sm text-slate-600 mt-1">
-              Edit text, headlines, and banners for any public page with real-time side-by-side preview
-            </p>
+            <p className="text-xs text-slate-500 mt-1">Live visual editor for homepage hero, vision statement, pillars, and landing pages</p>
           </div>
         </div>
 
@@ -518,10 +516,10 @@ export default function PageBuilderView() {
               <button
                 key={pg.slug}
                 onClick={() => setSelectedPage(pg.slug)}
-                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition ${
+                className={`inline-flex items-center gap-2 px-3.5 py-2 rounded-xl text-xs sm:text-sm font-semibold transition cursor-pointer ${
                   selectedPage === pg.slug
-                    ? 'bg-[#101B2D] text-[#C5A15B] font-bold shadow-sm'
-                    : 'bg-[#FAF8F5] border border-[#E3DCCB] text-slate-700 hover:bg-white hover:text-[#101B2D]'
+                    ? 'bg-[#101B2D] text-[#C5A15B] font-bold shadow-xs'
+                    : 'bg-[#FAF8F5] border border-[#E3DCCB] text-slate-700 hover:bg-white hover:text-[#101B2D] hover:border-[#C5A15B]'
                 }`}
               >
                 <Icon className="h-4 w-4" />
@@ -537,17 +535,9 @@ export default function PageBuilderView() {
         {/* Left: Form Editor (6 cols) */}
         <div className="lg:col-span-6 rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs">
           <div className="flex items-center justify-between border-b border-[#EFECE3] pb-4 mb-5">
-            <div>
-              <span className="text-xs font-bold uppercase tracking-widest text-[#A68238]">
-                Editing Page
-              </span>
-              <h4 className="font-serif text-lg font-bold text-[#101B2D] capitalize mt-0.5">
-                {selectedPage.replace('-', ' ')} Page Content
-              </h4>
-            </div>
-            <span className="px-3 py-1 rounded-xl bg-[#FAF8F5] text-[#A68238] border border-[#E3DCCB] text-xs font-bold">
-              Active Page
-            </span>
+            <h4 className="font-sans text-lg font-bold text-[#101B2D] capitalize">
+              {selectedPage.replace('-', ' ')} Content
+            </h4>
           </div>
 
           {selectedPage === 'home' && (
@@ -1207,19 +1197,13 @@ export default function PageBuilderView() {
           )}
         </div>
 
-        {/* Right: Live Interactive Render Preview (6 cols) */}
+        {/* Right: Preview (6 cols) */}
         <div className="lg:col-span-6">
           <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs sticky top-4">
             <div className="flex items-center justify-between border-b border-[#EFECE3] pb-4 mb-5">
-              <div>
-                <span className="text-xs font-bold uppercase tracking-widest text-[#A68238] flex items-center gap-1.5">
-                  <Eye className="h-3.5 w-3.5 text-[#A68238]" />
-                  <span>Live Interactive Render</span>
-                </span>
-                <h4 className="font-serif text-lg font-bold text-[#101B2D] capitalize mt-0.5">
-                  Preview: {selectedPage === 'home' ? activeSection.replace('_', ' ') : selectedPage.replace('-', ' ')}
-                </h4>
-              </div>
+              <h4 className="font-sans text-lg font-bold text-[#101B2D] capitalize">
+                Preview: {selectedPage === 'home' ? activeSection.replace('_', ' ') : selectedPage.replace('-', ' ')}
+              </h4>
               <a
                 href={
                   selectedPage === 'home' ? '/'
@@ -1254,7 +1238,7 @@ export default function PageBuilderView() {
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">
                     — {homeHero.eyebrow}
                   </p>
-                  <h1 className="font-serif text-3xl font-bold leading-tight">
+                  <h1 className="font-sans text-3xl font-bold leading-tight">
                     <span>{homeHero.line1} </span>
                     <span>{homeHero.line2} </span>
                     <span className="italic text-[#C5A15B] block">{homeHero.line3}</span>
@@ -1276,7 +1260,7 @@ export default function PageBuilderView() {
               {selectedPage === 'home' && activeSection === 'why_khwopa' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] uppercase tracking-widest">— {whyKhwopa.eyebrow}</p>
-                  <h2 className="font-serif text-2xl font-bold">
+                  <h2 className="font-sans text-2xl font-bold">
                     {whyKhwopa.title} <span className="italic text-[#C5A15B]">{whyKhwopa.titleItalic}</span>
                   </h2>
                   <div className="grid grid-cols-2 gap-3 pt-2">
@@ -1295,7 +1279,7 @@ export default function PageBuilderView() {
               {selectedPage === 'home' && activeSection === 'testimonials' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] uppercase tracking-widest">— {testimonials.eyebrow}</p>
-                  <blockquote className="font-serif text-xl italic text-[#C5A15B] border-l-2 border-[#C5A15B] pl-3.5">
+                  <blockquote className="font-sans text-xl italic text-[#C5A15B] border-l-2 border-[#C5A15B] pl-3.5">
                     "{testimonials.quote}"
                   </blockquote>
                   <p className="text-sm text-white/75 leading-relaxed">{testimonials.description}</p>
@@ -1309,7 +1293,7 @@ export default function PageBuilderView() {
               {selectedPage === 'home' && activeSection === 'newsletter' && (
                 <div className="space-y-3.5 text-center py-4">
                   <p className="text-xs font-mono text-[#C5A15B] uppercase tracking-widest">{newsletter.eyebrow}</p>
-                  <h3 className="font-serif text-2xl font-bold text-white">{newsletter.title}</h3>
+                  <h3 className="font-sans text-2xl font-bold text-white">{newsletter.title}</h3>
                   <p className="text-sm text-white/75 max-w-md mx-auto leading-relaxed">{newsletter.description}</p>
                   <div className="inline-block px-4 py-2 rounded-lg bg-[#C5A15B] text-[#101B2D] font-bold text-xs mt-2">
                     Subscribe with Institutional Email
@@ -1320,7 +1304,7 @@ export default function PageBuilderView() {
               {selectedPage === 'about' && (
                 <div className="space-y-4">
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">— {aboutHero.eyebrow}</p>
-                  <h1 className="font-serif text-2xl font-bold leading-tight">{aboutHero.heading}</h1>
+                  <h1 className="font-sans text-2xl font-bold leading-tight">{aboutHero.heading}</h1>
                   <p className="text-sm text-white/75 leading-relaxed">{aboutHero.description}</p>
                   {aboutHero.bannerImage && (
                     <img
@@ -1335,7 +1319,7 @@ export default function PageBuilderView() {
               {selectedPage === 'admissions' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">— {admissionsContent.eyebrow}</p>
-                  <h1 className="font-serif text-2xl font-bold leading-tight">{admissionsContent.heading}</h1>
+                  <h1 className="font-sans text-2xl font-bold leading-tight">{admissionsContent.heading}</h1>
                   <p className="text-sm text-white/75 leading-relaxed">{admissionsContent.subtext}</p>
                   <div className="grid grid-cols-2 gap-3 pt-2 text-xs">
                     <div className="p-2.5 rounded-lg bg-white/5 border border-white/10">
@@ -1353,7 +1337,7 @@ export default function PageBuilderView() {
               {selectedPage === 'vision-mission' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">— {visionMissionContent.eyebrow}</p>
-                  <h2 className="font-serif text-2xl font-bold">{visionMissionContent.heading}</h2>
+                  <h2 className="font-sans text-2xl font-bold">{visionMissionContent.heading}</h2>
                   <div className="p-3.5 rounded-lg bg-white/5 border border-white/10 space-y-1">
                     <span className="text-xs font-bold text-[#C5A15B] uppercase block">Vision:</span>
                     <p className="text-sm text-white/80 leading-relaxed">{visionMissionContent.vision}</p>
@@ -1368,7 +1352,7 @@ export default function PageBuilderView() {
               {selectedPage === 'examinations' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">— {examContent.eyebrow}</p>
-                  <h2 className="font-serif text-2xl font-bold">{examContent.heading}</h2>
+                  <h2 className="font-sans text-2xl font-bold">{examContent.heading}</h2>
                   <p className="text-sm text-white/75 leading-relaxed">{examContent.description}</p>
                   <div className="flex items-center gap-3 pt-2 text-xs">
                     <span className="px-3 py-1 rounded bg-[#C5A15B]/20 text-[#C5A15B] font-mono font-bold">
@@ -1384,7 +1368,7 @@ export default function PageBuilderView() {
               {selectedPage === 'campus-life' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">— {campusLifeContent.eyebrow}</p>
-                  <h2 className="font-serif text-2xl font-bold">{campusLifeContent.heading}</h2>
+                  <h2 className="font-sans text-2xl font-bold">{campusLifeContent.heading}</h2>
                   <p className="text-sm text-white/75 leading-relaxed">{campusLifeContent.subtext}</p>
                   <div className="grid grid-cols-2 gap-3 pt-2">
                     <div className="p-2.5 rounded-lg bg-white/5 border border-white/10 text-center">
@@ -1402,7 +1386,7 @@ export default function PageBuilderView() {
               {selectedPage === 'facilities' && (
                 <div className="space-y-3.5">
                   <p className="text-xs font-mono text-[#C5A15B] tracking-widest uppercase">— {facilitiesContent.eyebrow}</p>
-                  <h2 className="font-serif text-2xl font-bold">{facilitiesContent.heading}</h2>
+                  <h2 className="font-sans text-2xl font-bold">{facilitiesContent.heading}</h2>
                   <p className="text-sm text-white/75 leading-relaxed">{facilitiesContent.subtext}</p>
                   <div className="p-3.5 rounded-lg bg-white/5 border border-white/10 text-xs text-white/80">
                     Physics, Chemistry, Biology & Optic Fiber ICT Suites
@@ -1411,10 +1395,7 @@ export default function PageBuilderView() {
               )}
             </div>
 
-            <div className="text-xs text-slate-600 bg-[#FAF8F5] p-3.5 rounded-xl border border-[#E3DCCB] flex items-center justify-between">
-              <span>Live changes sync directly with MongoDB Atlas collection <code className="text-[#A68238] font-bold">pages</code></span>
-              <span className="font-bold text-[#101B2D]">v2.4 Active</span>
-            </div>
+
           </div>
         </div>
       </div>

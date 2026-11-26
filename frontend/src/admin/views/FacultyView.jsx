@@ -1,11 +1,11 @@
-import { useState, useMemo } from 'react';
-import { Search, Plus, Trash2, X } from 'lucide-react';
+import { useState } from 'react';
+import { Plus, Search, Trash2, X } from 'lucide-react';
 import { useAdminData } from '../context/useAdminData';
 import { useAlert } from '../../context/useAlert';
 import ImageUploadInput from '../components/ImageUploadInput';
 
 export default function FacultyView() {
-  const { faculty, createFaculty, updateFaculty, deleteFaculty, settings, updateSettings } = useAdminData();
+  const { faculty, createFaculty, updateFaculty, deleteFaculty, settings } = useAdminData();
   const { alert, confirm } = useAlert();
 
   const [facultyFilter, setFacultyFilter] = useState('All');
@@ -24,25 +24,27 @@ export default function FacultyView() {
     image: ''
   });
 
-  const filteredFaculty = useMemo(() => {
-    return faculty.filter((f) => {
-      const matchesStream = facultyFilter === 'All' || f.facultyStream === facultyFilter;
-      const matchesSearch =
-        !facultySearch ||
-        `${f.name} ${f.subject} ${f.department} ${f.designation}`
-          .toLowerCase()
-          .includes(facultySearch.toLowerCase());
-      return matchesStream && matchesSearch;
-    });
-  }, [faculty, facultyFilter, facultySearch]);
+  const filteredFaculty = faculty.filter((f) => {
+    const matchesFilter =
+      facultyFilter === 'All' ||
+      f.facultyStream?.toLowerCase() === facultyFilter.toLowerCase() ||
+      (facultyFilter === 'Humanities & Law' && (f.facultyStream?.includes('Humanities') || f.facultyStream?.includes('Law')));
+
+    const matchesSearch =
+      f.name?.toLowerCase().includes(facultySearch.toLowerCase()) ||
+      f.subject?.toLowerCase().includes(facultySearch.toLowerCase()) ||
+      f.department?.toLowerCase().includes(facultySearch.toLowerCase());
+
+    return matchesFilter && matchesSearch;
+  });
 
   const handleCreateSubmit = async (e) => {
     e.preventDefault();
     if (!newFaculty.name || !newFaculty.subject) return;
+
     setIsSubmitting(true);
     try {
       await createFaculty(newFaculty);
-      setShowAddModal(false);
       setNewFaculty({
         name: '',
         designation: 'Lecturer',
@@ -52,9 +54,10 @@ export default function FacultyView() {
         qualification: '',
         image: ''
       });
+      setShowAddModal(false);
     } catch (err) {
       alert({
-        title: 'Profile Registration Error',
+        title: 'Creation Failed',
         message: err.response?.data?.message || err.message,
         type: 'error'
       });
@@ -66,9 +69,9 @@ export default function FacultyView() {
   const handleDeleteClick = async (id) => {
     const shouldDelete = await confirm({
       title: 'Remove Faculty Profile',
-      message: 'Are you sure you want to delete this teacher profile from the faculty registry? This change will be reflected on the public website.',
+      message: 'Are you sure you want to remove this faculty record from the institutional directory?',
       type: 'warning',
-      confirmText: 'Delete Educator',
+      confirmText: 'Remove Profile',
       destructive: true
     });
 
@@ -87,20 +90,50 @@ export default function FacultyView() {
 
   return (
     <div className="space-y-6">
-      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-xs flex flex-wrap items-center justify-between gap-4">
+      {/* View Header */}
+      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-xs flex flex-wrap items-center justify-between gap-4">
         <div>
-          <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
-            Teaching Staff & Faculty Directory ({settings?.moduleBadges?.faculty || faculty.length || '116'} Members)
+          <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">
+            Teaching Staff & Faculty Directory
           </h3>
+          <p className="text-xs text-slate-500 mt-1">Institutional academic directory, department allocations, and teaching staff credentials</p>
         </div>
         <div className="flex flex-wrap items-center gap-3">
           <button
             onClick={() => setShowAddModal(true)}
-            className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
           >
             <Plus className="h-4 w-4" />
-            <span>Add New Educator</span>
+            <span>+ Add New Educator</span>
           </button>
+        </div>
+      </div>
+
+      {/* Structured Faculty Ledger */}
+      <div className="rounded-2xl border border-[#E3DCCB] bg-white p-5 shadow-xs">
+        <div className="grid grid-cols-2 md:grid-cols-4 divide-y md:divide-y-0 md:divide-x divide-[#EFECE3] -my-1 md:my-0">
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-slate-400">Total Teaching Staff</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">{faculty.length}</p>
+          </div>
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#A68238]">Science Stream</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">
+              {faculty.filter(f => f.facultyStream === 'Science').length}
+            </p>
+          </div>
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#A68238]">Management Stream</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">
+              {faculty.filter(f => f.facultyStream === 'Management').length}
+            </p>
+          </div>
+          <div className="px-4 py-2">
+            <span className="text-[11px] font-bold uppercase tracking-wider text-[#A68238]">Humanities & Law</span>
+            <p className="font-sans text-2xl font-bold text-[#101B2D] mt-1">
+              {faculty.filter(f => f.facultyStream?.includes('Humanities') || f.facultyStream?.includes('Law')).length}
+            </p>
+          </div>
         </div>
       </div>
 
@@ -113,7 +146,7 @@ export default function FacultyView() {
             value={facultySearch}
             onChange={(e) => setFacultySearch(e.target.value)}
             placeholder="Search by teacher name, subject, or department..."
-            className="w-full pl-10 pr-3.5 py-2 text-sm rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-[#101B2D] outline-none focus:border-[#C5A15B]"
+            className="w-full pl-10 pr-3.5 py-2 text-xs sm:text-sm rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white transition"
           />
         </div>
 
@@ -122,10 +155,10 @@ export default function FacultyView() {
             <button
               key={s}
               onClick={() => setFacultyFilter(s)}
-              className={`px-3.5 py-1.5 rounded-lg text-xs sm:text-sm font-semibold transition ${
+              className={`px-3.5 py-1.5 rounded-xl text-xs sm:text-sm font-semibold transition ${
                 facultyFilter === s
                   ? 'bg-[#101B2D] text-[#C5A15B] font-bold shadow-xs'
-                  : 'bg-[#FAF8F5] border border-[#E3DCCB] text-slate-600 hover:bg-white'
+                  : 'bg-[#FAF8F5] border border-[#E3DCCB] text-slate-600 hover:bg-white hover:text-[#101B2D]'
               }`}
             >
               {s}
@@ -150,23 +183,23 @@ export default function FacultyView() {
           <tbody className="divide-y divide-[#EFECE3]">
             {filteredFaculty.length === 0 ? (
               <tr>
-                <td colSpan={6} className="py-8 text-center text-slate-500 text-sm">
-                  No teachers found matching your search.
+                <td colSpan={6} className="py-10 text-center text-slate-400 text-sm">
+                  No educators found matching your criteria.
                 </td>
               </tr>
             ) : (
               filteredFaculty.map((f) => (
-                <tr key={f.id || f._id} className="hover:bg-[#FAF8F5]">
+                <tr key={f.id || f._id} className="hover:bg-[#FAF8F5] transition">
                   <td className="py-3.5 px-3">
                     <div className="flex items-center gap-3">
                       {f.image ? (
                         <img
                           src={f.image}
                           alt={f.name}
-                          className="h-8 w-8 rounded-full object-cover shrink-0 border border-[#C5A15B]/30"
+                          className="h-9 w-9 rounded-xl object-cover shrink-0 border border-[#C5A15B]/40 shadow-xs"
                         />
                       ) : (
-                        <div className="h-8 w-8 rounded-full bg-[#101B2D] text-[#C5A15B] font-serif font-bold text-xs flex items-center justify-center shrink-0 border border-[#C5A15B]/30">
+                        <div className="h-9 w-9 rounded-xl bg-[#101B2D] text-[#C5A15B] font-sans font-bold text-xs flex items-center justify-center shrink-0 border border-[#C5A15B]/30 shadow-xs">
                           {f.name ? f.name[0] : 'T'}
                         </div>
                       )}
@@ -185,13 +218,13 @@ export default function FacultyView() {
                     <div className="inline-flex items-center gap-2">
                       <button
                         onClick={() => setEditingTeacher({ ...f })}
-                        className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B]"
+                        className="px-3 py-1.5 rounded-lg border border-[#E3DCCB] bg-[#FAF8F5] text-xs font-bold text-[#101B2D] hover:border-[#C5A15B] hover:bg-white transition"
                       >
                         Edit
                       </button>
                       <button
                         onClick={() => handleDeleteClick(f._id || f.id)}
-                        className="p-1.5 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
                         title="Remove profile"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -208,12 +241,12 @@ export default function FacultyView() {
       {/* Edit Teacher Modal */}
       {editingTeacher && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-[#C5A15B] bg-white p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3">
-              <h4 className="font-serif font-bold text-lg text-[#101B2D]">Edit Educator Profile</h4>
+          <div className="w-full max-w-lg rounded-2xl border border-[#C5A15B] bg-white p-6 sm:p-7 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3.5">
+              <h4 className="font-sans font-bold text-lg text-[#101B2D]">Edit Educator Profile</h4>
               <button
                 onClick={() => setEditingTeacher(null)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-[#FAF8F5]"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -253,7 +286,7 @@ export default function FacultyView() {
                   required
                   value={editingTeacher.name || ''}
                   onChange={(e) => setEditingTeacher({ ...editingTeacher, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                 />
               </div>
 
@@ -265,7 +298,7 @@ export default function FacultyView() {
                     required
                     value={editingTeacher.designation || ''}
                     onChange={(e) => setEditingTeacher({ ...editingTeacher, designation: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   />
                 </div>
                 <div>
@@ -273,7 +306,7 @@ export default function FacultyView() {
                   <select
                     value={editingTeacher.facultyStream || 'Science'}
                     onChange={(e) => setEditingTeacher({ ...editingTeacher, facultyStream: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   >
                     <option value="Science">Science</option>
                     <option value="Management">Management</option>
@@ -291,7 +324,7 @@ export default function FacultyView() {
                     required
                     value={editingTeacher.subject || ''}
                     onChange={(e) => setEditingTeacher({ ...editingTeacher, subject: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   />
                 </div>
                 <div>
@@ -301,7 +334,7 @@ export default function FacultyView() {
                     required
                     value={editingTeacher.department || ''}
                     onChange={(e) => setEditingTeacher({ ...editingTeacher, department: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   />
                 </div>
               </div>
@@ -312,7 +345,7 @@ export default function FacultyView() {
                   type="text"
                   value={editingTeacher.qualification || ''}
                   onChange={(e) => setEditingTeacher({ ...editingTeacher, qualification: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                 />
               </div>
 
@@ -329,14 +362,14 @@ export default function FacultyView() {
                 <button
                   type="button"
                   onClick={() => setEditingTeacher(null)}
-                  className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                  className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5] transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] disabled:opacity-50"
+                  className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] disabled:opacity-50 transition shadow-xs"
                 >
                   {isSubmitting ? 'Saving...' : 'Save Changes'}
                 </button>
@@ -349,12 +382,12 @@ export default function FacultyView() {
       {/* Add Teacher Modal */}
       {showAddModal && (
         <div className="fixed inset-0 z-50 flex items-center justify-center bg-black/60 backdrop-blur-xs p-4">
-          <div className="w-full max-w-lg rounded-2xl border border-[#E3DCCB] bg-white p-6 shadow-2xl space-y-4">
-            <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3">
-              <h4 className="font-serif font-bold text-lg text-[#101B2D]">Add New Educator Profile</h4>
+          <div className="w-full max-w-lg rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-2xl space-y-4">
+            <div className="flex items-center justify-between border-b border-[#EFECE3] pb-3.5">
+              <h4 className="font-sans font-bold text-lg text-[#101B2D]">Add New Educator Profile</h4>
               <button
                 onClick={() => setShowAddModal(false)}
-                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600"
+                className="p-1.5 rounded-lg text-slate-400 hover:text-slate-600 hover:bg-[#FAF8F5]"
               >
                 <X className="h-4 w-4" />
               </button>
@@ -369,7 +402,7 @@ export default function FacultyView() {
                   placeholder="e.g. Prof. Bikesh Prajapati"
                   value={newFaculty.name}
                   onChange={(e) => setNewFaculty({ ...newFaculty, name: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                 />
               </div>
 
@@ -381,7 +414,7 @@ export default function FacultyView() {
                     required
                     value={newFaculty.designation}
                     onChange={(e) => setNewFaculty({ ...newFaculty, designation: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   />
                 </div>
                 <div>
@@ -389,7 +422,7 @@ export default function FacultyView() {
                   <select
                     value={newFaculty.facultyStream}
                     onChange={(e) => setNewFaculty({ ...newFaculty, facultyStream: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   >
                     <option value="Science">Science</option>
                     <option value="Management">Management</option>
@@ -408,7 +441,7 @@ export default function FacultyView() {
                     placeholder="e.g. Physics / Mathematics"
                     value={newFaculty.subject}
                     onChange={(e) => setNewFaculty({ ...newFaculty, subject: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   />
                 </div>
                 <div>
@@ -419,7 +452,7 @@ export default function FacultyView() {
                     placeholder="e.g. Department of Physics"
                     value={newFaculty.department}
                     onChange={(e) => setNewFaculty({ ...newFaculty, department: e.target.value })}
-                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                    className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                   />
                 </div>
               </div>
@@ -431,7 +464,7 @@ export default function FacultyView() {
                   placeholder="e.g. M.Sc. Physics (Tribhuvan University)"
                   value={newFaculty.qualification}
                   onChange={(e) => setNewFaculty({ ...newFaculty, qualification: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-[#FAF8F5] text-sm text-[#101B2D] outline-none focus:border-[#C5A15B] focus:bg-white"
                 />
               </div>
 
@@ -448,14 +481,14 @@ export default function FacultyView() {
                 <button
                   type="button"
                   onClick={() => setShowAddModal(false)}
-                  className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5]"
+                  className="px-4 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-slate-700 text-xs sm:text-sm font-bold hover:bg-[#FAF8F5] transition"
                 >
                   Cancel
                 </button>
                 <button
                   type="submit"
                   disabled={isSubmitting}
-                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] disabled:opacity-50"
+                  className="flex items-center gap-1.5 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] disabled:opacity-50 transition shadow-xs"
                 >
                   <Plus className="h-4 w-4" />
                   <span>{isSubmitting ? 'Saving...' : 'Add Educator Profile'}</span>

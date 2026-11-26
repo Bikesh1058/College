@@ -1,5 +1,5 @@
 import { useState } from 'react';
-import { Trash2 } from 'lucide-react';
+import { Trash2, Plus, Bell, Newspaper, Calendar } from 'lucide-react';
 import { useAdminData } from '../context/useAdminData';
 import { useAlert } from '../../context/useAlert';
 import ImageUploadInput from '../components/ImageUploadInput';
@@ -123,20 +123,22 @@ export default function NoticesView() {
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-xs">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EFECE3] pb-4 mb-5">
           <div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Official Notices & Circulars</h3>
+            <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">Official Notices & News</h3>
+            <p className="text-xs text-slate-500 mt-1">Official circulars, municipal directives, and public website press releases</p>
           </div>
           <button
             type="button"
             onClick={() => setShowAddNotice(!showAddNotice)}
-            className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs cursor-pointer"
           >
-            {showAddNotice ? 'Close Form' : '+ Create New Notice'}
+            <Plus className="h-4 w-4" />
+            <span>{showAddNotice ? 'Close Notice Form ✕' : '+ Create New Notice'}</span>
           </button>
         </div>
 
         {showAddNotice && (
           <form onSubmit={handleNoticeSubmit} className="space-y-4 mb-6 p-5 rounded-2xl border border-[#C5A15B] bg-[#FAF8F5]">
-            <h4 className="font-serif font-bold text-lg text-[#101B2D] mb-1">Draft New Notice</h4>
+            <h4 className="font-sans font-bold text-lg text-[#101B2D] mb-1">Draft New Notice</h4>
             <div className="grid grid-cols-1 sm:grid-cols-3 gap-4">
               <div className="sm:col-span-2">
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Notice Title</label>
@@ -192,7 +194,7 @@ export default function NoticesView() {
               <button
                 type="submit"
                 disabled={isSubmittingNotice}
-                className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
+                className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs disabled:opacity-50"
               >
                 {isSubmittingNotice ? 'Publishing...' : 'Publish Notice Now'}
               </button>
@@ -204,8 +206,8 @@ export default function NoticesView() {
         <div className="overflow-x-auto">
           <div className="flex items-center justify-between mb-4">
             <div>
-              <h4 className="font-serif text-base sm:text-lg font-bold text-[#101B2D]">Currently Published Notices ({notices.length})</h4>
-              <p className="text-sm text-slate-600 mt-0.5">Click any notice to view, or delete outdated announcements</p>
+              <h4 className="font-sans text-base sm:text-lg font-bold text-[#101B2D]">Currently Published Notices ({notices.length})</h4>
+              <p className="text-xs sm:text-sm text-slate-500 mt-0.5">Circulars actively served on the public website</p>
             </div>
           </div>
           <table className="w-full text-left text-sm">
@@ -221,31 +223,34 @@ export default function NoticesView() {
             <tbody className="divide-y divide-[#EFECE3]">
               {notices.length === 0 ? (
                 <tr>
-                  <td colSpan={5} className="py-8 text-center text-slate-400 text-sm">
-                    No notices found. You can click "+ Create New Notice" above to write your first announcement!
+                  <td colSpan={5} className="py-8 text-center text-slate-500 text-sm">
+                    <div className="max-w-xs mx-auto py-2">
+                      <p className="font-semibold text-[#101B2D]">No official notices published yet</p>
+                      <p className="text-xs text-slate-400 mt-1">Use "+ Create New Notice" above to publish your first bulletin.</p>
+                    </div>
                   </td>
                 </tr>
               ) : (
                 notices.map((n) => (
-                  <tr key={n._id} className="hover:bg-[#FAF8F5]">
+                  <tr key={n._id} className="hover:bg-[#FAF8F5] transition">
                     <td className="py-3.5 px-4 font-semibold text-[#101B2D] max-w-md truncate">{n.title}</td>
                     <td className="py-3.5 px-4">
-                      <span className="rounded-lg bg-[#FAF8F5] border border-[#E3DCCB] px-2.5 py-1 text-xs text-[#A68238] font-bold">
+                      <span className="rounded-md bg-[#FAF8F5] border border-[#E3DCCB] px-2.5 py-1 text-xs text-[#A68238] font-bold">
                         {n.category}
                       </span>
                     </td>
-                    <td className="py-3.5 px-4 text-slate-600">
+                    <td className="py-3.5 px-4 text-slate-600 text-xs sm:text-sm">
                       {new Date(n.publishedAt || n.createdAt).toLocaleDateString()}
                     </td>
                     <td className="py-3.5 px-4">
-                      <span className="text-[#A68238] font-bold text-xs uppercase tracking-wider">
-                        Published
+                      <span className="px-2 py-0.5 rounded-md bg-emerald-50 text-emerald-700 text-xs font-bold border border-emerald-200">
+                        Live
                       </span>
                     </td>
                     <td className="py-3.5 px-4 text-right">
                       <button
                         onClick={() => handleDeleteNoticeClick(n._id)}
-                        className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
                         title="Remove notice"
                       >
                         <Trash2 className="h-4 w-4" />
@@ -263,20 +268,25 @@ export default function NoticesView() {
       <div className="rounded-2xl border border-[#E3DCCB] bg-white p-6 sm:p-7 shadow-xs space-y-5">
         <div className="flex flex-wrap items-center justify-between gap-4 border-b border-[#EFECE3] pb-4">
           <div>
-            <h3 className="font-serif text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">College News & Highlights</h3>
+            <div className="flex items-center gap-2 mb-1 text-[11px] font-bold uppercase tracking-[0.18em] text-[#A68238]">
+              <Newspaper className="h-3.5 w-3.5" />
+              <span>Institutional Stories</span>
+            </div>
+            <h3 className="font-sans text-xl sm:text-2xl font-bold text-[#101B2D] tracking-tight">College News & Highlights</h3>
           </div>
           <button
             type="button"
             onClick={() => setShowAddNews(!showAddNews)}
-            className="px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md"
+            className="flex items-center gap-2 px-4 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs"
           >
-            {showAddNews ? 'Close Form' : '+ Write News Article'}
+            <Plus className="h-4 w-4" />
+            <span>{showAddNews ? 'Close Form' : 'Write News Article'}</span>
           </button>
         </div>
 
         {showAddNews && (
           <form onSubmit={handleNewsSubmit} className="space-y-4 p-5 rounded-2xl border border-[#C5A15B] bg-[#FAF8F5]">
-            <h4 className="font-serif font-bold text-lg text-[#101B2D] mb-1">Compose News Article</h4>
+            <h4 className="font-sans font-bold text-lg text-[#101B2D] mb-1">Compose News Article</h4>
             <div className="grid grid-cols-1 sm:grid-cols-2 gap-4">
               <div>
                 <label className="block text-xs font-bold uppercase tracking-wider text-slate-700 mb-1.5">Headline</label>
@@ -286,7 +296,7 @@ export default function NoticesView() {
                   onChange={(e) => setNewArticle({ ...newArticle, title: e.target.value })}
                   required
                   placeholder="e.g. Khwopa +2 Science Students Win National Robotics Expo"
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
                 />
               </div>
               <div>
@@ -294,7 +304,7 @@ export default function NoticesView() {
                 <select
                   value={newArticle.category}
                   onChange={(e) => setNewArticle({ ...newArticle, category: e.target.value })}
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
                 >
                   <option value="Institutional">Campus Milestone</option>
                   <option value="Achievement">Student Achievement</option>
@@ -313,7 +323,7 @@ export default function NoticesView() {
                   onChange={(e) => setNewArticle({ ...newArticle, excerpt: e.target.value })}
                   required
                   placeholder="One or two sentences summarizing the story for the homepage highlight..."
-                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D]"
+                  className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] outline-none focus:border-[#C5A15B]"
                 />
               </div>
               <div>
@@ -334,14 +344,14 @@ export default function NoticesView() {
                 onChange={(e) => setNewArticle({ ...newArticle, content: e.target.value })}
                 required
                 placeholder="Write the full story details..."
-                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed"
+                className="w-full px-3.5 py-2.5 rounded-xl border border-[#E3DCCB] bg-white text-sm text-[#101B2D] leading-relaxed outline-none focus:border-[#C5A15B]"
               />
             </div>
 
             <button
               type="submit"
               disabled={isSubmittingNews}
-              className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-md disabled:opacity-50"
+              className="px-5 py-2.5 rounded-xl bg-[#101B2D] text-[#C5A15B] text-xs sm:text-sm font-bold hover:bg-[#1B293E] transition shadow-xs disabled:opacity-50"
             >
               {isSubmittingNews ? 'Publishing...' : 'Publish Story'}
             </button>
@@ -350,7 +360,7 @@ export default function NoticesView() {
 
         {/* Published News Table */}
         <div className="pt-2">
-          <h4 className="font-serif font-bold text-base sm:text-lg text-[#101B2D] mb-3">Published Articles ({news.length})</h4>
+          <h4 className="font-sans font-bold text-base sm:text-lg text-[#101B2D] mb-3">Published Articles ({news.length})</h4>
           <div className="overflow-x-auto">
             <table className="w-full text-left text-sm">
               <thead className="border-b border-[#EFECE3] text-xs font-bold uppercase tracking-wider text-slate-500">
@@ -363,14 +373,14 @@ export default function NoticesView() {
               </thead>
               <tbody className="divide-y divide-[#EFECE3]">
                 {news.map((item) => (
-                  <tr key={item._id} className="hover:bg-[#FAF8F5]">
+                  <tr key={item._id} className="hover:bg-[#FAF8F5] transition">
                     <td className="py-3.5 px-4 font-semibold text-[#101B2D] max-w-md truncate">{item.title}</td>
                     <td className="py-3.5 px-4 text-[#A68238] font-medium">{item.category}</td>
-                    <td className="py-3.5 px-4 text-slate-600">{item.date}</td>
+                    <td className="py-3.5 px-4 text-slate-600 text-xs sm:text-sm">{item.date}</td>
                     <td className="py-3.5 px-4 text-right">
                       <button
                         onClick={() => handleDeleteNewsClick(item._id)}
-                        className="p-2 rounded-lg text-slate-400 hover:text-red-600 hover:bg-red-50 transition"
+                        className="p-1.5 rounded-lg text-slate-400 hover:text-rose-600 hover:bg-rose-50 transition"
                         title="Delete article"
                       >
                         <Trash2 className="h-4 w-4" />
